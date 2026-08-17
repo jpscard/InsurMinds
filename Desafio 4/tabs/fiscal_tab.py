@@ -81,55 +81,55 @@ def analisar_cfop(df):
 
 # --- FUNÇÃO PRINCIPAL DE RENDERIZAÇÃO DA ABA ---
 def render(df):
-    st.header("✅ Painel de Auditoria e Análise Fiscal")
-    st.write("Visualizações e análises automáticas de conformidade baseadas nas colunas identificadas.")
+    st.header("Auditoria e Conformidade Fiscal")
+    st.write("Verificações automáticas de integridade contábil e conformidade regulatória sobre os registros fiscais.")
     
     # Análise 1: Consistência de Valores
     st.markdown("---")
-    st.subheader("1. Consistência de Valores (Total Declarado da Nota vs. Soma dos Itens)")
+    st.subheader("1. Consistência de Valores (Valor Declarado vs. Soma dos Itens)")
     inconsistencias_df = analisar_consistencia(df)
     if inconsistencias_df is not None:
         if inconsistencias_df.empty:
-            st.success("✅ Nenhuma inconsistência encontrada. Todas as somas de itens batem com os totais declarados!")
+            st.success("Nenhuma inconsistência identificada. Os valores declarados conferem integralmente com o somatório dos itens.")
         else:
-            st.warning(f"🚨 Encontradas {len(inconsistencias_df)} notas com divergência de valor!")
+            st.warning(f"Identificada(s) {len(inconsistencias_df)} nota(s) fiscal(is) com divergência de valores.")
             st.dataframe(inconsistencias_df)
-            if st.button("📌 Adicionar Tabela de Inconsistências ao Relatório", key="pin_inconsistencias"):
+            if st.button("Adicionar Tabela de Inconsistências ao Relatório", key="pin_inconsistencias"):
                 item = {
                     "type": "dataframe", 
                     "category": "fiscal", 
-                    "title": "Tabela: Inconsistências de Valor", 
+                    "title": "Tabela: Inconsistências de Valor Fiscal", 
                     "content": {"titulo": "Notas com Divergência entre Valor Declarado e Soma dos Itens", "dados": inconsistencias_df}
                 }
                 st.session_state.report_items.append(item)
-                st.success("Adicionado!")
+                st.success("Tabela de inconsistências adicionada com sucesso.")
                 st.rerun()
     else:
-        st.info("ℹ️ Análise de consistência indisponível (colunas de valor da nota e valor do item não encontradas).")
+        st.info("Análise de consistência indisponível (colunas de valor da nota e valor do item não identificadas).")
 
     # Análise 2: Natureza das Operações
     st.markdown("---")
-    st.subheader("2. Análise de Operações Geográficas (Internas vs. Interestaduais)")
+    st.subheader("2. Distribuição Geográfica de Operações (Internas vs. Interestaduais)")
     operacoes_df = analisar_operacoes_geo(df)
     if operacoes_df is not None and not operacoes_df.empty:
-        fig_operacoes = px.pie(operacoes_df, names=operacoes_df.index, values=operacoes_df.values, title='Proporção de Faturamento por Tipo de Operação', hole=0.3)
+        fig_operacoes = px.pie(operacoes_df, names=operacoes_df.index, values=operacoes_df.values, title='Distribuição de Faturamento por Tipo de Operação', hole=0.3)
         st.plotly_chart(fig_operacoes, use_container_width=True)
-        if st.button("📌 Adicionar Gráfico de Operações ao Relatório", key="pin_operacoes_chart"):
+        if st.button("Adicionar Gráfico Geográfico ao Relatório", key="pin_operacoes_chart"):
             item = {
                 "type": "chart", 
                 "category": "fiscal", 
-                "title": "Gráfico: Proporção por Tipo de Operação", 
-                "content": {"titulo": "Proporção de Faturamento por Tipo de Operação", "fig": fig_operacoes}
+                "title": "Gráfico: Distribuição por Tipo de Operação", 
+                "content": {"titulo": "Distribuição de Faturamento por Tipo de Operação", "fig": fig_operacoes}
             }
             st.session_state.report_items.append(item)
-            st.success("Adicionado!")
+            st.success("Gráfico adicionado ao relatório com sucesso.")
             st.rerun()
     else:
-        st.info("ℹ️ Análise geográfica indisponível (colunas de UF do emitente e destinatário não encontradas).")
+        st.info("Análise geográfica indisponível (colunas de UF do emitente e destinatário não identificadas).")
         
     # Análise 3: Análise por CFOP
     st.markdown("---")
-    st.subheader("3. Análise por Código Fiscal de Operações (CFOP)")
+    st.subheader("3. Análise por Código Fiscal de Operações e Prestações (CFOP)")
     cfop_df = analisar_cfop(df)
     if cfop_df is not None and not cfop_df.empty:
         fig_cfop = px.bar(
@@ -139,17 +139,17 @@ def render(df):
         fig_cfop.update_layout(yaxis={'categoryorder':'total ascending'}, legend_title_text='Categoria')
         st.plotly_chart(fig_cfop, use_container_width=True)
         
-        if st.button("📌 Adicionar Gráfico de CFOP ao Relatório", key="pin_cfop_chart"):
+        if st.button("Adicionar Gráfico de CFOP ao Relatório", key="pin_cfop_chart"):
             item = {
                 "type": "chart", 
                 "category": "fiscal", 
-                "title": "Gráfico: Top 15 CFOPs", 
+                "title": "Gráfico: Top 15 Operações CFOP", 
                 "content": {"titulo": "Top 15 Operações (CFOPs) por Valor Total", "fig": fig_cfop}
             }
             st.session_state.report_items.append(item)
-            st.success("Adicionado!")
+            st.success("Gráfico de CFOP adicionado ao relatório com sucesso.")
             st.rerun()
-        with st.expander("Ver tabela detalhada por CFOP"):
+        with st.expander("Visualizar Tabela Analítica por CFOP"):
             st.dataframe(cfop_df)
     else:
-        st.info("ℹ️ Análise de CFOP indisponível (coluna 'cfop' não encontrada no conjunto de dados).")
+        st.info("Análise de CFOP indisponível (coluna CFOP não identificada na base de dados).")

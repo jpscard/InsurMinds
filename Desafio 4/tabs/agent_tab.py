@@ -7,18 +7,18 @@ from utils.agent_utils import invocar_agente_com_fallback
 
 def render(df, google_api_key, data_dict=None):
     """
-    Renderiza a aba do Agente de Q&A (Perguntas e Respostas em Linguagem Natural).
+    Renderiza a aba de Consulta em Linguagem Natural.
     """
-    st.header("💬 Converse com seus Dados")
-    st.write("Faça perguntas em linguagem natural sobre o conjunto de dados carregado. O agente utilizará ferramentas de análise e Python para responder com precisão.")
+    st.header("Consulta em Linguagem Natural")
+    st.write("Realize consultas em linguagem natural sobre a base de dados consolidada. O agente processará as requisições gerando análises precisas.")
 
     # Se houver dicionário de dados disponível, exibe para referência
     if data_dict:
-        with st.expander("📖 Visualizar Dicionário de Dados do Arquivo"):
+        with st.expander("Visualizar Dicionário de Dados do Arquivo"):
             st.markdown(f"```\n{data_dict}\n```")
 
     # Sugestões de perguntas rápidas para facilitar o teste
-    with st.expander("💡 Sugestões de perguntas para testar"):
+    with st.expander("Exemplos de Consultas Analíticas"):
         col_s1, col_s2 = st.columns(2)
         with col_s1:
             st.markdown("- *Qual foi o faturamento total e o total de notas fiscais emitidas?*")
@@ -30,18 +30,18 @@ def render(df, google_api_key, data_dict=None):
     # Formulário para o usuário inserir a pergunta
     with st.form(key="qa_form"):
         pergunta_usuario = st.text_input(
-            "Sua pergunta sobre os dados:",
+            "Digite a sua consulta analítica:",
             placeholder="Ex: Quais são os 5 principais produtos vendidos em valor total? Apresente em formato de tabela.",
             key="pergunta_input"
         )
-        submitted = st.form_submit_button("Perguntar ao Agente 🤖", type="primary")
+        submitted = st.form_submit_button("Submeter Consulta", type="primary")
 
     # Lógica executada quando o formulário é enviado
     if submitted and pergunta_usuario:
         if not google_api_key:
-            st.warning("⚠️ A chave de API do Google é necessária para executar o agente.")
+            st.warning("A chave de API do Google Gemini é necessária para execução da consulta.")
         else:
-            with st.spinner("O Agente Inteligente está analisando os dados... 🧠 (Acompanhe o raciocínio no terminal)"):
+            with st.spinner("Processando consulta e analisando dados..."):
                 
                 # Monta o prefixo do prompt com o dicionário de dados (se houver)
                 prefix_dict_info = ""
@@ -82,29 +82,29 @@ def render(df, google_api_key, data_dict=None):
                     st.rerun()
 
                 except Exception as e:
-                    st.error(f"Ocorreu um erro ao executar o agente: {e}")
+                    st.error(f"Falha ao executar a consulta: {e}")
 
     st.markdown("---")
 
     # Exibe o histórico de conversas da sessão atual
     if st.session_state.chat_history:
-        st.subheader("Histórico de Perguntas & Respostas")
+        st.subheader("Histórico de Consultas e Respostas")
         for i, conversa in enumerate(st.session_state.chat_history):
             with st.container(border=True):
-                st.markdown(f"**🙋 Você perguntou:** {conversa['pergunta']}")
-                st.markdown(f"**🤖 Resposta do Agente:**\n\n{conversa['resposta']}")
+                st.markdown(f"**Pergunta do Usuário:** {conversa['pergunta']}")
+                st.markdown(f"**Resposta da Análise:**\n\n{conversa['resposta']}")
                 
                 # Botão para adicionar a conversa ao relatório final
-                if st.button("📌 Adicionar ao Relatório", key=f"pin_qa_{i}"):
+                if st.button("Adicionar ao Relatório Executivo", key=f"pin_qa_{i}"):
                     item_para_adicionar = {
                         "type": "qa", 
                         "category": "q&a",
-                        "title": f"Pergunta: {conversa['pergunta'][:50]}...",
+                        "title": f"Consulta: {conversa['pergunta'][:50]}...",
                         "content": conversa
                     }
                     if item_para_adicionar not in st.session_state.report_items:
                         st.session_state.report_items.append(item_para_adicionar)
-                        st.success("Adicionado ao relatório! Veja na barra lateral.")
+                        st.success("Item adicionado ao relatório com sucesso.")
                         st.rerun()
                     else:
-                        st.warning("Este item já foi adicionado ao relatório.")
+                        st.warning("Este item já consta no relatório.")

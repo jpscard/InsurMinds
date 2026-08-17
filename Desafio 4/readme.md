@@ -1,46 +1,46 @@
-# 🧠 Desafio 4: Interface Inteligente para Consulta de Arquivos CSV
+# Desafio 4: Interface Inteligente para Consulta e Auditoria de Arquivos CSV
 **Equipe First Class Agents**  
 
-Solução completa e inteligente para interpretação de perguntas em linguagem natural sobre conjuntos de dados armazenados em arquivos CSV e notas fiscais eletrônicas (NF-e).
+Solução computacional para interpretação de consultas em linguagem natural sobre conjuntos de dados fiscais e arquivos CSV estruturados.
 
 ---
 
-## 🚀 Visão Geral da Solução
+## 1. Visão Geral da Solução
 
-Esta plataforma combina **Agentes Inteligentes**, **LLMs (Google Gemini)** e **LangChain** para transformar arquivos CSV brutos e compactados em informações estruturadas, visualizações gráficas e relatórios executivos sob demanda.
+A plataforma integra **Agentes Autônomos**, **Modelos de Linguagem (Google Gemini)** e o framework **LangChain** para converter bases de dados e arquivos compactados em análises quantitativas, representações gráficas e relatórios executivos.
 
-### 🌟 Destaques do Projeto
-1. **Interface A (Carga de Dados):**
-   - Upload de arquivos compactados (`.ZIP`) contendo um ou múltiplos arquivos `.CSV` (ex: `202401_NFs.zip` e `202505_NFe.zip`) **OU** seleção direta de múltiplos arquivos `.CSV` simultaneamente (ex: Cabeçalho e Itens juntos).
-   - Detecção automática de formato, delimitadores (`,` ou `;`), casas decimais (`.` ou `,`) e encodings (`UTF-8`, `Latin-1`).
-   - Leitura e ingestão automática de **Dicionários de Dados** (`.txt`, `.md`, `.json`, `.csv`) para enriquecimento contextual do agente.
-   - Cruzamento inteligente (*merge*) automático entre tabelas mestre (Cabeçalho/NotaFiscal) e detalhes (Itens/NotaFiscalItem).
+### Recursos Principais
+1. **Interface A (Carga e Integração de Dados):**
+   - Suporte ao envio de arquivos compactados (`.ZIP`) contendo múltiplos arquivos `.CSV` (ex: `202401_NFs.zip` e `202505_NFe.zip`) ou seleção direta de múltiplos arquivos `.CSV` simultâneos.
+   - Identificação automática de delimitadores (`,` ou `;`), formatação decimal (`.` ou `,`) e codificações (`UTF-8`, `Latin-1`).
+   - Ingestão de Dicionários de Dados complementares (`.txt`, `.md`, `.json`, `.csv`) para fornecimento de contexto semântico ao agente.
+   - Consolidação relacional automática (*merge*) entre registros de cabeçalho e itens detalhados.
 
-2. **Interface B (Consulta em Linguagem Natural):**
-   - **💬 Agente Q&A:** Chat com agente autônomo baseado em LangChain DataFrame Agent capaz de interpretar consultas complexas, executar código Python em segundo plano e retornar respostas explicadas e tabelas formatadas em Markdown.
-   - **💡 Insights Automáticos da IA:** Bateria automatizada de 10 perguntas analíticas de negócio com política de retentativas (*retry/tenacity*).
-   - **📊 Dashboard Interativo:** KPIs dinâmicos, ranking Top 10 Clientes e Produtos, análise temporal e ferramenta *Deep Dive* com gráficos Plotly.
-   - **✅ Auditoria Fiscal:** Verificação automática de consistência de valores (cabeçalho vs. itens), distribuição geográfica e análise de CFOPs.
-   - **📄 Montador de Relatório:** Sistema de "pinagem" de itens gerados (tabelas, gráficos e respostas do agente) com sumário executivo gerado por IA e exportação para `.docx`.
+2. **Interface B (Consulta e Análise Analítica):**
+   - **Consulta em Linguagem Natural:** Agente conversacional baseado em ReAct capaz de formular e executar rotinas em Python (Pandas) para retornar dados estruturados e tabelas Markdown.
+   - **Insights Automáticos de Negócio:** Execução automatizada de indicadores fundamentais com controle de contingência e retentativas.
+   - **Painel Gerencial / Dashboard:** Indicadores-chave (KPIs), classificações Top 10, evolução temporal e módulo de análise multidimensional com Plotly.
+   - **Auditoria Fiscal:** Verificação de consistência entre valores declarados e somatórios de itens, segregação geográfica e análise por CFOP.
+   - **Montador de Relatório Executivo:** Consolidação de tópicos selecionados com síntese executiva por IA e exportação em formato Microsoft Word (`.docx`).
 
 ---
 
-## 🛠️ Stack Tecnológica
+## 2. Tecnologias Utilizadas
 
 | Componente | Tecnologia | Finalidade |
 | :--- | :--- | :--- |
-| **Linguagem** | Python 3.10+ | Desenvolvimento principal |
-| **Framework de Agentes** | **LangChain** (`langchain`, `langchain-experimental`) | Orquestração do agente autônomo e ferramentas |
-| **LLM** | **Google Gemini 1.5 Flash / Pro** (`langchain-google-genai`) | Modelo de linguagem para raciocínio e geração de código |
-| **Interface Web** | **Streamlit** | Interface reativa para Carga e Consulta |
-| **Manipulação de Dados** | **Pandas & NumPy** | Ingestão, limpeza e agregação de dados |
-| **Visualização** | **Plotly Express** | Gráficos interativos |
-| **Geração de Documentos** | **python-docx & Kaleido** | Exportação profissional do relatório |
-| **Resiliência** | **Tenacity** | Política de retentativas em chamadas de IA |
+| **Linguagem** | Python 3.10+ | Desenvolvimento e processamento de dados |
+| **Orquestração de Agentes** | LangChain (`langchain`, `langchain-experimental`) | Gerenciamento do ciclo de raciocínio e ferramentas |
+| **Modelos de Linguagem** | Google Gemini (2.0-flash / 1.5-flash / Pro) | Raciocínio, geração de rotinas e síntese textual |
+| **Interface Web** | Streamlit | Interface para operação e visualização |
+| **Manipulação de Dados** | Pandas & NumPy | Carga, transformação e agregação estruturada |
+| **Visualização Gráfica** | Plotly Express | Gráficos interativos e dinâmicos |
+| **Geração de Documentos** | python-docx | Compilação e exportação do relatório formal |
+| **Resiliência** | Tenacity | Controle de retentativas em chamadas de API |
 
 ---
 
-## 📂 Estrutura de Diretórios
+## 3. Estrutura de Diretórios
 
 ```bash
 .
@@ -50,52 +50,53 @@ Esta plataforma combina **Agentes Inteligentes**, **LLMs (Google Gemini)** e **L
 │
 ├── tabs/
 │   ├── __init__.py
-│   ├── agent_tab.py            # Aba de Chat Q&A com Agente LangChain
-│   ├── insights_tab.py         # Aba de Bateria de Insights Automáticos
-│   ├── dashboard_tab.py        # Aba do Painel Visual e KPIs
+│   ├── agent_tab.py            # Aba de Consulta em Linguagem Natural
+│   ├── insights_tab.py         # Aba de Insights Automáticos de Negócio
+│   ├── dashboard_tab.py        # Aba do Painel Gerencial e KPIs
 │   ├── fiscal_tab.py           # Aba de Auditoria Fiscal e CFOP
-│   └── report_tab.py           # Aba do Montador e Exportador de Relatório
+│   └── report_tab.py           # Aba do Montador de Relatório Executivo
 │
 ├── utils/
 │   ├── __init__.py
-│   ├── callbacks.py            # Log semântico de raciocínio (Thought/Action/Observation)
-│   └── processing.py           # Processamento universal de ZIP, CSVs e DOCX
+│   ├── agent_utils.py          # Mecanismo de failover e execução resiliente
+│   ├── callbacks.py            # Monitoramento e registro de raciocínio no terminal
+│   └── processing.py           # Ingestão de arquivos e geração de relatórios
 │
-├── app.py                      # Ponto de entrada principal da aplicação Streamlit
+├── app.py                      # Aplicação principal
 ├── requirements.txt            # Dependências do projeto
-└── README.md                   # Documentação da solução
+└── README.md                   # Documentação técnica
 ```
 
 ---
 
-## ⚙️ Como Executar a Aplicação
+## 4. Instruções de Execução
 
-### 1. Instalação das Dependências
-Clone o repositório ou descompacte o arquivo e instale os pacotes necessários:
+### 4.1 Instalação das Dependências
+Instale os pacotes requeridos através do gerenciador `pip`:
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Configuração da Chave de API Google Gemini
-Você pode configurar a chave de duas formas:
-- **Opção A (Recomendada):** Criar o arquivo `.streamlit/secrets.toml` com:
+### 4.2 Configuração da Chave de API
+A credencial de acesso ao Google Gemini pode ser configurada:
+- No arquivo `.streamlit/secrets.toml`:
   ```toml
   GOOGLE_API_KEY = "sua_chave_aqui"
   ```
-- **Opção B:** Inserir a chave diretamente no campo de texto da barra lateral da aplicação.
+- Ou informada diretamente no painel lateral da aplicação web.
 
-### 3. Execução da Aplicação
-Execute o Streamlit:
+### 4.3 Inicialização do Servidor
+Inicie a aplicação com o comando:
 ```bash
 streamlit run app.py
 ```
 
 ---
 
-## 🧠 Explicabilidade do Agente
+## 5. Rastreabilidade e Auditoria do Agente
 
-Ao realizar perguntas na aba **Agente Q&A**, o agente utiliza a metodologia ReAct (*Reasoning + Acting*). Seu fluxo de raciocínio é registrado em tempo real no console/terminal com cores semânticas:
-- **🤔 PENSAMENTO:** Raciocínio formulado pelo modelo sobre como abordar o problema.
-- **⚡ AÇÃO / FERRAMENTA:** Código Python gerado e executado contra o DataFrame.
-- **📝 OBSERVAÇÃO:** Dados brutos retornados pela execução do código.
-- **✅ RESPOSTA FINAL:** Síntese final estruturada entregue ao usuário na interface.
+As consultas realizadas são processadas sob o padrão ReAct (*Reasoning + Acting*). O fluxo de resolução é registrado em tempo real no console de execução:
+- **[RACIOCINIO]:** Hipótese e plano de execução formulado pelo modelo.
+- **[ACAO]:** Rotina Python gerada para execução sobre os dados.
+- **[OBSERVACAO]:** Retorno bruto resultante da execução.
+- **[RESPOSTA FINAL]:** Conclusão estruturada apresentada ao usuário.

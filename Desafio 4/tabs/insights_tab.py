@@ -20,22 +20,22 @@ PERGUNTAS_RELEVANTES = [
 ]
 
 def render(df, google_api_key, data_dict=None):
-    st.header("💡 Insights Automáticos Gerados por IA")
-    st.write("Clique no botão abaixo para que o agente de IA execute uma bateria de análises fundamentais de negócio sobre os dados carregados.")
+    st.header("Insights Automáticos de Negócio")
+    st.write("Execute uma bateria padronizada de análises de negócio sobre os dados fiscais consolidados.")
 
     if data_dict:
-        with st.expander("📖 Dicionário de Dados Carregado"):
+        with st.expander("Dicionário de Dados Carregado"):
             st.markdown(f"```\n{data_dict}\n```")
 
-    if st.button("🚀 Gerar Relatório de Insights Automáticos", type="primary", use_container_width=True):
+    if st.button("Gerar Análise Automática de Negócios", type="primary", use_container_width=True):
         if 'insights_gerados' in st.session_state:
             del st.session_state['insights_gerados']
         
         if not google_api_key:
-            st.warning("⚠️ A chave de API do Google é necessária para executar o agente.")
+            st.warning("A chave de API do Google Gemini é necessária para execução da análise.")
             return
 
-        with st.spinner("O agente está analisando os dados... Isso pode levar alguns instantes."):
+        with st.spinner("Processando bateria analítica..."):
             try:
                 dict_context = f"\n\nContexto do Dicionário de Dados:\n{data_dict}\n" if data_dict else ""
                 AGENT_PREFIX = (
@@ -51,7 +51,7 @@ def render(df, google_api_key, data_dict=None):
                 progress_bar = st.progress(0, text="Iniciando análise dos dados...")
 
                 for i, pergunta in enumerate(PERGUNTAS_RELEVANTES):
-                    progresso_texto = f"Analisando ({i+1}/{len(PERGUNTAS_RELEVANTES)}): {pergunta[:45]}..."
+                    progresso_texto = f"Processando ({i+1}/{len(PERGUNTAS_RELEVANTES)}): {pergunta[:45]}..."
                     progress_bar.progress((i + 1) / len(PERGUNTAS_RELEVANTES), text=progresso_texto)
                     
                     handler = PolishedCallbackHandler(agent_name=f"Analista Automático #{i+1}")
@@ -72,7 +72,7 @@ def render(df, google_api_key, data_dict=None):
                 st.rerun()
 
             except Exception as e:
-                st.error(f"Ocorreu um erro durante a geração dos insights: {e}")
+                st.error(f"Falha na geração dos insights: {e}")
                 st.session_state.insights_gerados = None
 
     if 'insights_gerados' in st.session_state and st.session_state.insights_gerados is not None:
@@ -81,18 +81,18 @@ def render(df, google_api_key, data_dict=None):
         
         for i, resultado in enumerate(st.session_state.insights_gerados):
             with st.expander(f"**{i+1}. {resultado['pergunta']}**", expanded=(i < 3)):
-                st.markdown(f"**Resposta do Agente:**\n\n{resultado['resposta']}")
+                st.markdown(f"**Resposta da Análise:**\n\n{resultado['resposta']}")
                 
-                if st.button("📌 Adicionar Insight ao Relatório", key=f"pin_insight_{i}"):
+                if st.button("Adicionar Insight ao Relatório", key=f"pin_insight_{i}"):
                     item = {
                         "type": "qa", 
                         "category": "insight_ia", 
-                        "title": f"Insight IA: {resultado['pergunta'][:40]}...", 
+                        "title": f"Insight: {resultado['pergunta'][:40]}...", 
                         "content": resultado
                     }
                     if item not in st.session_state.report_items:
                         st.session_state.report_items.append(item)
-                        st.success("Insight adicionado ao relatório!")
+                        st.success("Insight adicionado ao relatório com sucesso.")
                         st.rerun()
                     else:
-                        st.warning("Este insight já foi adicionado ao relatório.")
+                        st.warning("Este insight já consta no relatório.")

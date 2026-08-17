@@ -63,7 +63,7 @@ class PolishedCallbackHandler(BaseCallbackHandler):
     def __init__(self, agent_name="Analista de Dados"):
         super().__init__()
         self.agent_name = agent_name
-        safe_print(f"\n{BColors.BOLD}{BColors.OKCYAN}🚀 Iniciando nova execução para o agente: {self.agent_name}{BColors.ENDC}")
+        safe_print(f"\n{BColors.BOLD}{BColors.OKCYAN}[EXECUCAO] Iniciando agente: {self.agent_name}{BColors.ENDC}")
         safe_print("─" * 80)
 
     def on_agent_action(self, action: AgentAction, **kwargs: Any) -> Any:
@@ -75,20 +75,20 @@ class PolishedCallbackHandler(BaseCallbackHandler):
         except Exception:
             thought = action.log
         
-        safe_print(f"{BColors.BOLD}{BColors.OKBLUE}🤔 PENSAMENTO{BColors.ENDC}")
+        safe_print(f"{BColors.BOLD}{BColors.OKBLUE}[RACIOCINIO]{BColors.ENDC}")
         safe_print(thought)
         
-        safe_print(f"\n{BColors.BOLD}{BColors.OKGREEN}⚡ AÇÃO{BColors.ENDC}")
+        safe_print(f"\n{BColors.BOLD}{BColors.OKGREEN}[ACAO]{BColors.ENDC}")
         safe_print(f"   - Ferramenta: {BColors.BOLD}{action.tool}{BColors.ENDC}")
         
         clean_input = action.tool_input.strip().strip("```python").strip("```").strip() if isinstance(action.tool_input, str) else str(action.tool_input)
-        safe_print(f"   - Código a executar:\n{BColors.WARNING}```python\n{clean_input}\n```{BColors.ENDC}")
+        safe_print(f"   - Codigo executado:\n{BColors.WARNING}```python\n{clean_input}\n```{BColors.ENDC}")
 
     def on_tool_end(self, output: str, **kwargs: Any) -> Any:
         """
         Formata a Observação (Magenta).
         """
-        safe_print(f"\n{BColors.BOLD}{BColors.HEADER}📝 OBSERVAÇÃO{BColors.ENDC}")
+        safe_print(f"\n{BColors.BOLD}{BColors.HEADER}[OBSERVACAO]{BColors.ENDC}")
         safe_print(output)
         safe_print("─" * 80)
 
@@ -97,6 +97,6 @@ class PolishedCallbackHandler(BaseCallbackHandler):
         Formata a Resposta Final (Ciano, igual ao cabeçalho).
         """
         final_answer = finish.return_values.get('output', 'N/A')
-        safe_print(f"\n{BColors.BOLD}{BColors.OKCYAN}✅ RESPOSTA FINAL{BColors.ENDC}")
+        safe_print(f"\n{BColors.BOLD}{BColors.OKCYAN}[RESPOSTA FINAL]{BColors.ENDC}")
         safe_print(final_answer)
         safe_print("\n" + "="*80 + "\n")

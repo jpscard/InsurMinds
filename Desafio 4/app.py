@@ -21,13 +21,12 @@ from tabs import agent_tab, insights_tab, dashboard_tab, report_tab, fiscal_tab
 
 # Configuração da página
 st.set_page_config(
-    page_title="Agente Inteligente - Análise de CSVs e Notas Fiscais",
-    page_icon="🧠",
+    page_title="Agente de Análise de Dados e Auditoria Fiscal",
     layout="wide"
 )
 
-st.title("🧠 Interface Inteligente para Análise de Dados e Notas Fiscais")
-st.caption("Desafio 4 - Agente inteligente com capacidade de interpretar e responder perguntas em linguagem natural sobre arquivos CSV.")
+st.title("Interface para Análise de Dados e Auditoria Fiscal")
+st.caption("Desafio 4 - Sistema de processamento, análise e consulta em linguagem natural sobre conjuntos de dados fiscais e arquivos CSV.")
 
 # --- ESTADO DA SESSÃO ---
 if 'report_items' not in st.session_state:
@@ -45,7 +44,7 @@ if 'insights_gerados' not in st.session_state:
 
 # --- BARRA LATERAL (SIDEBAR) ---
 with st.sidebar:
-    st.header("⚙️ Configurações & Credenciais")
+    st.header("Configurações e Credenciais")
     
     # Tenta carregar a chave de API dos secrets ou permite digitar na interface
     google_api_key = None
@@ -56,16 +55,16 @@ with st.sidebar:
 
     if not google_api_key:
         google_api_key = st.text_input(
-            "Google Gemini API Key:",
+            "Chave de API do Google Gemini:",
             type="password",
-            help="Obtenha sua chave gratuita em: https://aistudio.google.com/app/apikey"
+            help="Insira sua chave de API gerada no Google AI Studio."
         )
         if google_api_key:
             google_api_key = google_api_key.strip().strip('"').strip("'")
-            st.success("Chave de API configurada!")
+            st.success("Chave de API configurada com sucesso.")
     else:
         google_api_key = str(google_api_key).strip().strip('"').strip("'")
-        st.success("Chave de API do Google carregada dos segredos!")
+        st.success("Chave de API carregada das configurações.")
 
     # Seleção de Modelo Gemini
     modelos_opcoes = [
@@ -80,14 +79,14 @@ with st.sidebar:
         st.session_state.selected_model = "gemini-2.0-flash"
 
     st.session_state.selected_model = st.selectbox(
-        "Modelo Gemini:",
+        "Modelo de Linguagem:",
         options=modelos_opcoes,
         index=modelos_opcoes.index(st.session_state.selected_model) if st.session_state.selected_model in modelos_opcoes else 0,
-        help="Selecione o modelo do Gemini desejado. Caso o modelo escolhido retorne 404, o sistema tentará os demais automaticamente."
+        help="Selecione o modelo desejado para processamento das consultas."
     )
 
     st.markdown("---")
-    st.header("🛒 Itens para o Relatório")
+    st.header("Itens do Relatório")
     if st.session_state.report_items:
         for i, item in enumerate(st.session_state.report_items):
             st.info(f"Item {i+1}: {item['title']}")
@@ -95,11 +94,11 @@ with st.sidebar:
             st.session_state.report_items = []
             st.rerun()
     else:
-        st.info("Nenhum item adicionado ao relatório ainda.")
+        st.info("Nenhum item adicionado ao relatório.")
 
     if st.session_state.df is not None:
         st.markdown("---")
-        if st.button("🔄 Carregar Novo Arquivo", use_container_width=True):
+        if st.button("Carregar Nova Base de Dados", use_container_width=True):
             st.session_state.df = None
             st.session_state.data_dict = None
             st.session_state.files_loaded = []
@@ -111,19 +110,19 @@ with st.sidebar:
 if st.session_state.df is None:
     upload_container = st.container(border=True)
     with upload_container:
-        st.subheader("📁 Interface A – Carga dos Dados")
-        st.write("Envie seus dados para análise. Você pode:")
+        st.subheader("Interface A – Carga e Integração de Dados")
+        st.write("Envie os arquivos de dados para inicialização do sistema:")
         st.markdown("""
-        - 📦 **Enviar um arquivo compactado (`.ZIP`)** contendo um ou múltiplos arquivos `.CSV` (ex: `202401_NFs.zip` ou `202505_NFe.zip`).
-        - 📄 **Selecionar múltiplos arquivos `.CSV` diretamente** (ex: selecionar Cabeçalho e Itens juntos).
-        - 📖 **Incluir opcionalmente um Dicionário de Dados** (`.txt`, `.md`, `.json`, `.csv`).
+        - **Arquivo compactado (.ZIP):** Contendo um ou múltiplos arquivos `.CSV` (ex: `202401_NFs.zip` ou `202505_NFe.zip`).
+        - **Arquivos CSV individuais:** Selecione simultaneamente os arquivos de Cabeçalho e Itens.
+        - **Dicionário de Dados (Opcional):** Arquivo complementar em formato `.txt`, `.md`, `.json` ou `.csv`.
         """)
         
         uploaded_files = st.file_uploader(
-            "Selecione o arquivo .ZIP ou os arquivos .CSV:",
+            "Selecione o arquivo .ZIP ou os arquivos .CSV correspondentes:",
             type=["zip", "csv", "txt", "md", "json"],
             accept_multiple_files=True,
-            help="Você pode selecionar um arquivo .ZIP ou segurar Ctrl/Shift para selecionar múltiplos arquivos CSV ao mesmo tempo."
+            help="Selecione o arquivo compactado ou utilize Ctrl/Shift para selecionar múltiplos arquivos simultaneamente."
         )
 
         if uploaded_files:
@@ -134,11 +133,11 @@ if st.session_state.df is None:
                     st.session_state.data_dict = data_dict_extraido
                     st.session_state.files_loaded = files_extraidos
 
-                st.success(f"✅ Sucesso! {len(df_carregado):,} registros carregados a partir de {len(files_extraidos)} arquivo(s).")
+                st.success(f"Dados carregados com sucesso: {len(df_carregado):,} registros consolidados a partir de {len(files_extraidos)} arquivo(s).")
                 st.rerun()
 
             except Exception as e:
-                st.error(f"Falha ao processar o(s) arquivo(s): {e}")
+                st.error(f"Falha no processamento dos arquivos: {e}")
                 st.session_state.df = None
 
 # --- INTERFACE B: CONSULTA & ANÁLISE COM AGENTES ---
@@ -148,11 +147,10 @@ if st.session_state.df is not None:
     # Exibe badge de metadados da carga
     info_cols = st.columns([3, 1])
     with info_cols[0]:
-        dict_status = "✅ Dicionário de Dados Identificado" if st.session_state.data_dict else "ℹ️ Sem dicionário de dados específico no ZIP"
-        st.markdown(f"**Base Carregada:** `{', '.join(st.session_state.files_loaded)}` | **{len(df_original):,} linhas** | **{len(df_original.columns)} colunas** | *{dict_status}*")
+        dict_status = "Dicionário de Dados Carregado" if st.session_state.data_dict else "Sem dicionário específico anexado"
+        st.markdown(f"**Base Consolidada:** `{', '.join(st.session_state.files_loaded)}` | **{len(df_original):,} registros** | **{len(df_original.columns)} colunas** | *{dict_status}*")
     
     # --- SEÇÃO DE FILTROS GLOBAIS RESILIENTES ---
-    # Identifica colunas de UF e Data se existirem
     col_uf = None
     for cand in ['uf_destinatario', 'uf_destinatario_x', 'uf', 'uf_emitente', 'estado']:
         if cand in df_original.columns:
@@ -168,7 +166,7 @@ if st.session_state.df is not None:
     df_filtrado = df_original.copy()
 
     if col_uf or col_data:
-        with st.expander("🔍 Filtros Globais (Opcional)", expanded=False):
+        with st.expander("Filtros Globais (Opcional)", expanded=False):
             c_f1, c_f2 = st.columns([1, 2])
             
             ufs_selecionadas = None
@@ -206,17 +204,17 @@ if st.session_state.df is not None:
                     (df_filtrado[col_data].dt.date <= data_selecionada[1])
                 ]
 
-            st.caption(f"Exibindo {len(df_filtrado):,} de {len(df_original):,} registros após filtros.")
+            st.caption(f"Exibindo {len(df_filtrado):,} de {len(df_original):,} registros após aplicação dos filtros.")
 
     st.markdown("---")
 
     # --- ABAS DA APLICAÇÃO ---
     tab_agent, tab_insights, tab_dashboard, tab_fiscal, tab_report = st.tabs([
-        "💬 Agente Q&A (Linguagem Natural)", 
-        "💡 Insights Automáticos da IA",
-        "📊 Painel / Dashboard", 
-        "✅ Auditoria & Análise Fiscal", 
-        "📄 Montador de Relatório"
+        "Consulta em Linguagem Natural", 
+        "Insights Automáticos de Negócio",
+        "Painel Gerencial / Dashboard", 
+        "Auditoria e Análise Fiscal", 
+        "Montador de Relatório Executivo"
     ])
 
     # 1. Agente Q&A
