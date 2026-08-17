@@ -8,7 +8,7 @@ Repositório oficial dos projetos e soluções desenvolvidas para os desafios da
 
 | Diretório | Descrição do Desafio | Tecnologias Principais |
 | :--- | :--- | :--- |
-| **[Desafio 4 / Desafio_4](./Desafio_4/)** | **Agente Inteligente para Interpretação e Auditoria de Notas Fiscais e CSVs** | LangChain, Google Gemini, Streamlit, Pandas, Plotly |
+| **[Desafio_4](./Desafio_4/)** | **Agente Inteligente para Interpretação e Auditoria de Notas Fiscais e CSVs** | LangChain, Google Gemini, Streamlit, Pandas, Plotly |
 | **[Desafio 3](./Desafio%203/)** | **Modelo Preditivo e Análise de Dados** | Python, Jupyter Notebook, Pandas, Scikit-Learn |
 
 ---
