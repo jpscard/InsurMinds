@@ -1,0 +1,18 @@
+# Ignorar ambiente virtual
+.venv/
+
+# Arquivos Python compilados
+__pycache__/
+*.py[cod]
+*.so
+
+# Dados sensíveis
+*.toml
+*.env
+secrets.toml
+
+# Outros arquivos temporários
+~$*
+*.zip
+*.log
+.DS_Store
