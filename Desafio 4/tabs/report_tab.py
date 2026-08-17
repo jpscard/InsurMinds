@@ -27,6 +27,9 @@ def render(df, google_api_key):
                         st.info(f"**[Consulta Analítica]** - {item['title']}")
                         st.write(f"**Pergunta:** {item['content']['pergunta']}")
                         st.write(f"**Resposta:** {item['content']['resposta']}")
+                        if item['content'].get('imagens'):
+                            for img_data in item['content']['imagens']:
+                                st.image(img_data, caption="Gráfico associado", use_container_width=True)
 
                     elif item['type'] == 'dataframe':
                         st.info(f"**[Tabela de Dados]** - {item['content']['titulo']}")

@@ -340,6 +340,11 @@ def criar_documento_word(report_items):
             if item['type'] == 'qa' or item.get('category') == 'insight_ia':
                 document.add_paragraph(f"Pergunta: {content['pergunta']}", style='Intense Quote')
                 document.add_paragraph(f"Resposta: {content['resposta']}")
+                if content.get('imagens'):
+                    for img_bytes in content['imagens']:
+                        img_buf = io.BytesIO(img_bytes)
+                        document.add_picture(img_buf, width=Inches(6.0))
+                        document.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
 
             elif item['type'] == 'summary':
                 document.add_paragraph(content.get('texto', ''))

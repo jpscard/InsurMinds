@@ -18,20 +18,20 @@ def render(df, google_api_key, data_dict=None):
             st.markdown(f"```\n{data_dict}\n```")
 
     # Sugestões de perguntas rápidas para facilitar o teste
-    with st.expander("Exemplos de Consultas Analíticas"):
+    with st.expander("Exemplos de Consultas Analíticas (Tabelas e Gráficos)"):
         col_s1, col_s2 = st.columns(2)
         with col_s1:
-            st.markdown("- *Qual foi o faturamento total e o total de notas fiscais emitidas?*")
-            st.markdown("- *Quais foram os 5 maiores clientes em valor total de compras? Formate em tabela.*")
+            st.markdown("- *Apresente uma tabela com os 5 maiores clientes em valor total de compras.*")
+            st.markdown("- *Gere um gráfico de barras com os 5 principais estados (UFs) por faturamento.*")
         with col_s2:
-            st.markdown("- *Qual produto apresentou o maior volume de vendas em quantidade?*")
-            st.markdown("- *Quais são os 3 estados (UFs) com maior volume financeiro?*")
+            st.markdown("- *Monte uma tabela dos 10 produtos mais vendidos ordenados por quantidade.*")
+            st.markdown("- *Gere um gráfico de pizza mostrando a proporção de vendas por tipo de operação.*")
 
     # Formulário para o usuário inserir a pergunta
     with st.form(key="qa_form"):
         pergunta_usuario = st.text_input(
-            "Digite a sua consulta analítica:",
-            placeholder="Ex: Quais são os 5 principais produtos vendidos em valor total? Apresente em formato de tabela.",
+            "Digite a sua consulta analítica (solicite tabelas ou gráficos):",
+            placeholder="Ex: Gere um gráfico de barras e uma tabela dos 5 principais produtos por faturamento.",
             key="pergunta_input"
         )
         submitted = st.form_submit_button("Submeter Consulta", type="primary")
@@ -41,7 +41,7 @@ def render(df, google_api_key, data_dict=None):
         if not google_api_key:
             st.warning("A chave de API do Google Gemini é necessária para execução da consulta.")
         else:
-            with st.spinner("Processando consulta e analisando dados..."):
+            with st.spinner("Processando consulta e gerando análises..."):
                 
                 # Monta o prefixo do prompt com o dicionário de dados (se houver)
                 prefix_dict_info = ""
@@ -49,13 +49,14 @@ def render(df, google_api_key, data_dict=None):
                     prefix_dict_info = f"\n\nContexto adicional do Dicionário de Dados:\n{data_dict}\n"
 
                 AGENT_PREFIX = (
-                    "Você é um especialista em análise de dados e auditoria fiscal de arquivos CSV. "
+                    "Você é um especialista sênior em análise de dados e auditoria fiscal de arquivos CSV. "
                     "Sua missão é interpretar rigorosamente as perguntas do usuário e consultar o DataFrame `df` fornecido. "
                     "Regras essenciais:\n"
                     "1. Sempre execute consultas precisas em Python (usando pandas) sobre o DataFrame `df`.\n"
                     "2. Quando a resposta contiver rankings, comparações ou múltiplos itens/valores, apresente-a formatada em uma TABELA MARKDOWN clara e legível.\n"
-                    "3. Formate valores monetários no padrão brasileiro (ex: R$ 1.234,56).\n"
-                    "4. Baseie-se estritamente nas colunas e valores existentes nos dados, sem fazer suposições.\n"
+                    "3. Se o usuário pedir um gráfico, plotagem ou visualização, crie a figura utilizando matplotlib.pyplot ou seaborn com layout elegante, títulos e eixos identificados (sem chamar plt.show()).\n"
+                    "4. Formate valores monetários no padrão brasileiro (ex: R$ 1.234,56).\n"
+                    "5. Baseie-se estritamente nas colunas e valores existentes nos dados, sem fazer suposições.\n"
                     + prefix_dict_info
                 )
                 
@@ -77,7 +78,8 @@ def render(df, google_api_key, data_dict=None):
                     st.session_state.chat_history.insert(0, {
                         "pergunta": pergunta_usuario, 
                         "resposta": resposta.get('output', 'Sem resposta gerada.'),
-                        "modelo": modelo_utilizado
+                        "modelo": modelo_utilizado,
+                        "imagens": resposta.get('imagens', [])
                     })
                     st.rerun()
 
@@ -93,6 +95,11 @@ def render(df, google_api_key, data_dict=None):
             with st.container(border=True):
                 st.markdown(f"**Pergunta do Usuário:** {conversa['pergunta']}")
                 st.markdown(f"**Resposta da Análise:**\n\n{conversa['resposta']}")
+                
+                # Exibe imagens/gráficos gerados pelo agente (se houver)
+                if conversa.get("imagens"):
+                    for img_bytes in conversa["imagens"]:
+                        st.image(img_bytes, caption="Gráfico gerado pela análise", use_container_width=True)
                 
                 # Botão para adicionar a conversa ao relatório final
                 if st.button("Adicionar ao Relatório Executivo", key=f"pin_qa_{i}"):
