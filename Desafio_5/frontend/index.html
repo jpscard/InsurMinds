@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="InsureAlert — Sistema inteligente de comunicação proativa com segurados. Proteja seus clientes antes que sinistros aconteçam com IA e monitoramento climático em tempo real.">
+    <title>InsureAlert — Comunicação Proativa com Segurados</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/landing.css">
+</head>
+<body class="landing-body">
+
+    <!-- ═══ NAVBAR ═══ -->
+    <nav class="landing-nav" id="landingNav">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <div class="nav-logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <span class="nav-logo-text">InsureAlert</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="#features" class="nav-link">Recursos</a>
+                <a href="#how-it-works" class="nav-link">Como Funciona</a>
+                <a href="#pricing" class="nav-link">Planos</a>
+                <a href="#testimonials" class="nav-link">Depoimentos</a>
+            </div>
+            <div class="nav-actions">
+                <a href="/login" class="nav-btn-ghost">Entrar</a>
+                <a href="/register" class="nav-btn-primary">Começar Grátis</a>
+            </div>
+            <button class="nav-mobile-toggle" id="mobileToggle" onclick="toggleMobileMenu()">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ═══ HERO ═══ -->
+    <section class="hero" id="hero">
+        <div class="hero-bg-effects">
+            <div class="hero-orb hero-orb-1"></div>
+            <div class="hero-orb hero-orb-2"></div>
+            <div class="hero-orb hero-orb-3"></div>
+            <div class="hero-grid"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                IA + Monitoramento Climático em Tempo Real
+            </div>
+            <h1 class="hero-title">
+                Proteja seus segurados
+                <span class="hero-gradient-text">antes que o sinistro aconteça</span>
+            </h1>
+            <p class="hero-subtitle">
+                Comunicação proativa e inteligente com segurados baseada em monitoramento de eventos climáticos, 
+                análise por IA e geração automatizada de alertas personalizados.
+            </p>
+            <div class="hero-actions">
+                <a href="/register" class="hero-btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                        <polygon points="5 3 19 12 5 21 5 3"/>
+                    </svg>
+                    Começar Agora — Grátis
+                </a>
+                <a href="#how-it-works" class="hero-btn-secondary">
+                    Como Funciona
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="hero-stats-bar">
+                <div class="hero-stat">
+                    <span class="hero-stat-value">4</span>
+                    <span class="hero-stat-label">Agentes de IA</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="hero-stat-value">27</span>
+                    <span class="hero-stat-label">Estados Cobertos</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="hero-stat-value">&lt;5s</span>
+                    <span class="hero-stat-label">Tempo de Resposta</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="hero-stat-value">24/7</span>
+                    <span class="hero-stat-label">Monitoramento</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ FEATURES ═══ -->
+    <section class="section features-section" id="features">
+        <div class="section-container">
+            <div class="section-heading">
+                <span class="section-tag">Recursos</span>
+                <h2 class="section-title">4 Agentes Inteligentes<br><span class="gradient-text">trabalhando para você</span></h2>
+                <p class="section-description">Pipeline automatizado de coleta, análise, cruzamento de dados e geração de mensagens personalizadas com IA.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card" data-animate>
+                    <div class="feature-icon feature-icon-collector">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M2 12h20"/>
+                            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Agente Coletor</h3>
+                    <p class="feature-description">Coleta dados em tempo real do INMET e OpenWeatherMap, monitorando alertas meteorológicos ativos em todo o Brasil.</p>
+                    <div class="feature-tags">
+                        <span>INMET API</span>
+                        <span>OpenWeatherMap</span>
+                        <span>Tempo Real</span>
+                    </div>
+                </div>
+                <div class="feature-card" data-animate>
+                    <div class="feature-icon feature-icon-analyzer">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Agente Analisador</h3>
+                    <p class="feature-description">Classifica eventos por tipo (chuva, granizo, vento, tempestade) e severidade, filtrando apenas os relevantes.</p>
+                    <div class="feature-tags">
+                        <span>Classificação</span>
+                        <span>Severidade</span>
+                        <span>Análise</span>
+                    </div>
+                </div>
+                <div class="feature-card" data-animate>
+                    <div class="feature-icon feature-icon-rules">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Agente de Regras</h3>
+                    <p class="feature-description">Cruza eventos climáticos com a base de segurados, aplicando regras de negócio por localização e tipo de apólice.</p>
+                    <div class="feature-tags">
+                        <span>Regras</span>
+                        <span>Matching</span>
+                        <span>Apólices</span>
+                    </div>
+                </div>
+                <div class="feature-card" data-animate>
+                    <div class="feature-icon feature-icon-communicator">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Agente Comunicador</h3>
+                    <p class="feature-description">Gera mensagens personalizadas com Google Gemini AI, adaptadas ao perfil do segurado e tipo de seguro.</p>
+                    <div class="feature-tags">
+                        <span>Google Gemini</span>
+                        <span>Personalização</span>
+                        <span>Multi-canal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ HOW IT WORKS ═══ -->
+    <section class="section how-section" id="how-it-works">
+        <div class="section-container">
+            <div class="section-heading">
+                <span class="section-tag">Como Funciona</span>
+                <h2 class="section-title">Do alerta climático à<br><span class="gradient-text">notificação personalizada</span></h2>
+                <p class="section-description">Em segundos, nosso pipeline automatizado transforma dados meteorológicos em comunicação preventiva.</p>
+            </div>
+            <div class="how-pipeline">
+                <div class="how-step" data-animate>
+                    <div class="how-step-number">01</div>
+                    <div class="how-step-content">
+                        <h3>Monitoramento Contínuo</h3>
+                        <p>APIs do INMET e OpenWeatherMap são consultadas automaticamente para detectar alertas meteorológicos ativos.</p>
+                    </div>
+                    <div class="how-step-line"></div>
+                </div>
+                <div class="how-step" data-animate>
+                    <div class="how-step-number">02</div>
+                    <div class="how-step-content">
+                        <h3>Análise Inteligente</h3>
+                        <p>Eventos são classificados por tipo e severidade. Apenas eventos com potencial de impacto real são selecionados.</p>
+                    </div>
+                    <div class="how-step-line"></div>
+                </div>
+                <div class="how-step" data-animate>
+                    <div class="how-step-number">03</div>
+                    <div class="how-step-content">
+                        <h3>Cruzamento de Dados</h3>
+                        <p>Segurados em regiões afetadas são identificados automaticamente, considerando tipo de seguro e exposição ao risco.</p>
+                    </div>
+                    <div class="how-step-line"></div>
+                </div>
+                <div class="how-step" data-animate>
+                    <div class="how-step-number">04</div>
+                    <div class="how-step-content">
+                        <h3>Comunicação Proativa</h3>
+                        <p>Mensagens personalizadas são geradas com IA e enviadas pelo canal preferido: SMS, email, push ou WhatsApp.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ STATS SECTION ═══ -->
+    <section class="section stats-highlight-section">
+        <div class="section-container">
+            <div class="stats-highlight-grid">
+                <div class="stat-highlight-card" data-animate>
+                    <div class="stat-highlight-value">6</div>
+                    <div class="stat-highlight-label">Tipos de Evento</div>
+                    <div class="stat-highlight-desc">Chuva, granizo, vento, tempestade, calor e geada</div>
+                </div>
+                <div class="stat-highlight-card" data-animate>
+                    <div class="stat-highlight-value">5</div>
+                    <div class="stat-highlight-label">Tipos de Seguro</div>
+                    <div class="stat-highlight-desc">Residencial, automóvel, empresarial, vida e agro</div>
+                </div>
+                <div class="stat-highlight-card" data-animate>
+                    <div class="stat-highlight-value">4</div>
+                    <div class="stat-highlight-label">Canais de Envio</div>
+                    <div class="stat-highlight-desc">SMS, email, push notification e WhatsApp</div>
+                </div>
+                <div class="stat-highlight-card" data-animate>
+                    <div class="stat-highlight-value">100%</div>
+                    <div class="stat-highlight-label">Automatizado</div>
+                    <div class="stat-highlight-desc">Do alerta à notificação, sem intervenção humana</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ TESTIMONIALS ═══ -->
+    <section class="section testimonials-section" id="testimonials">
+        <div class="section-container">
+            <div class="section-heading">
+                <span class="section-tag">Depoimentos</span>
+                <h2 class="section-title">O que dizem nossos<br><span class="gradient-text">segurados e parceiros</span></h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card" data-animate>
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"Recebi o alerta de granizo 2 horas antes e consegui guardar meu carro na garagem. Sem o InsureAlert, teria sido um sinistro certo."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">M</div>
+                        <div>
+                            <div class="testimonial-name">Maria Silva</div>
+                            <div class="testimonial-role">Segurada — Automóvel • Curitiba/PR</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card" data-animate>
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"A integração com IA torna as mensagens muito mais humanas e relevantes. Nossos segurados se sentem realmente cuidados pela seguradora."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">R</div>
+                        <div>
+                            <div class="testimonial-name">Roberto Mendes</div>
+                            <div class="testimonial-role">Gerente de Operações • Seguradora Nacional</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card" data-animate>
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"Protegemos nossa lavoura graças ao alerta de geada. A comunicação chegou no momento certo, pelo canal certo. Impressionante."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">J</div>
+                        <div>
+                            <div class="testimonial-name">João Ferreira</div>
+                            <div class="testimonial-role">Segurado — Agro • Londrina/PR</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ PRICING ═══ -->
+    <section class="section pricing-section" id="pricing">
+        <div class="section-container">
+            <div class="section-heading">
+                <span class="section-tag">Planos</span>
+                <h2 class="section-title">Escolha o plano ideal<br><span class="gradient-text">para sua seguradora</span></h2>
+                <p class="section-description">Comece gratuitamente e escale conforme sua operação cresce.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card" data-animate>
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Starter</h3>
+                        <div class="pricing-price">
+                            <span class="pricing-currency">R$</span>
+                            <span class="pricing-amount">0</span>
+                            <span class="pricing-period">/mês</span>
+                        </div>
+                        <p class="pricing-desc">Ideal para testar e explorar a plataforma</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>Até 50 segurados</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>Alertas do INMET</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>Mensagens por template</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>Canal: Email</li>
+                        <li class="disabled"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>IA Generativa</li>
+                        <li class="disabled"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Suporte prioritário</li>
+                    </ul>
+                    <a href="/register" class="pricing-btn pricing-btn-ghost">Começar Grátis</a>
+                </div>
+                <div class="pricing-card pricing-card-featured" data-animate>
+                    <div class="pricing-popular-badge">Mais Popular</div>
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Pro</h3>
+                        <div class="pricing-price">
+                            <span class="pricing-currency">R$</span>
+                            <span class="pricing-amount">297</span>
+                            <span class="pricing-period">/mês</span>
+                        </div>
+                        <p class="pricing-desc">Para seguradoras de médio porte</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>Até 5.000 segurados</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>INMET + OpenWeatherMap</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>IA Generativa (Gemini)</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>Multi-canal (SMS, Email, Push)</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>Dashboard analítico</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>Suporte prioritário</li>
+                    </ul>
+                    <a href="/register" class="pricing-btn pricing-btn-primary">Assinar Pro</a>
+                </div>
+                <div class="pricing-card" data-animate>
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Enterprise</h3>
+                        <div class="pricing-price">
+                            <span class="pricing-currency"></span>
+                            <span class="pricing-amount">Custom</span>
+                            <span class="pricing-period"></span>
+                        </div>
+                        <p class="pricing-desc">Para grandes seguradoras e operações críticas</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>Segurados ilimitados</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>Fontes de dados customizadas</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>IA personalizada (fine-tuning)</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>Todos os canais + WhatsApp</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>SLA garantido</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>Suporte 24/7 dedicado</li>
+                    </ul>
+                    <a href="/register" class="pricing-btn pricing-btn-ghost">Falar com Vendas</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ CTA FINAL ═══ -->
+    <section class="section cta-section">
+        <div class="section-container">
+            <div class="cta-box">
+                <div class="cta-bg-orb"></div>
+                <h2 class="cta-title">Pronto para proteger seus segurados<br><span class="gradient-text">de forma proativa?</span></h2>
+                <p class="cta-subtitle">Comece gratuitamente. Sem cartão de crédito. Configure em minutos.</p>
+                <div class="cta-actions">
+                    <a href="/register" class="hero-btn-primary">
+                        Criar Conta Gratuita
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                            <polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer class="landing-footer">
+        <div class="section-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="nav-logo" style="margin-bottom: 1rem;">
+                        <div class="nav-logo-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <span class="nav-logo-text">InsureAlert</span>
+                    </div>
+                    <p class="footer-brand-desc">Sistema inteligente para comunicação proativa com segurados baseado em eventos climáticos e IA.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Produto</h4>
+                    <a href="#features">Recursos</a>
+                    <a href="#pricing">Planos</a>
+                    <a href="#how-it-works">Como Funciona</a>
+                    <a href="/login">Dashboard</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Tecnologia</h4>
+                    <a href="#">FastAPI</a>
+                    <a href="#">Google Gemini</a>
+                    <a href="#">INMET API</a>
+                    <a href="#">OpenWeatherMap</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Projeto</h4>
+                    <a href="#">Desafio 5</a>
+                    <a href="#">Licença MIT</a>
+                    <a href="#">GitHub</a>
+                    <a href="#">Documentação</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 InsureAlert — Desafio 5: Comunicação Proativa com Segurados</p>
+                <p>Powered by INMET API • Google Gemini AI • FastAPI • Python</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ═══ NAVBAR SCROLL EFFECT ═══
+        const nav = document.getElementById('landingNav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ═══ MOBILE MENU ═══
+        function toggleMobileMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+            document.getElementById('mobileToggle').classList.toggle('active');
+        }
+
+        // ═══ SMOOTH SCROLL ═══
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Close mobile menu
+                    document.getElementById('navLinks').classList.remove('active');
+                    document.getElementById('mobileToggle').classList.remove('active');
+                }
+            });
+        });
+
+        // ═══ SCROLL ANIMATIONS ═══
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+
+        // ═══ COUNTER ANIMATION ═══
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const text = el.textContent;
+                    const numMatch = text.match(/\d+/);
+                    if (numMatch) {
+                        const target = parseInt(numMatch[0]);
+                        const prefix = text.substring(0, text.indexOf(numMatch[0]));
+                        const suffix = text.substring(text.indexOf(numMatch[0]) + numMatch[0].length);
+                        let current = 0;
+                        const duration = 1500;
+                        const startTime = performance.now();
+                        function update(now) {
+                            const elapsed = now - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            const eased = 1 - Math.pow(1 - progress, 3);
+                            current = Math.round(target * eased);
+                            el.textContent = prefix + current + suffix;
+                            if (progress < 1) requestAnimationFrame(update);
+                        }
+                        requestAnimationFrame(update);
+                    }
+                    statObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.hero-stat-value, .stat-highlight-value').forEach(el => statObserver.observe(el));
+
+        // ═══ REDIRECT IF ALREADY LOGGED IN ═══
+        // Optional: auto-redirect to dashboard if already logged in
+        // const session = localStorage.getItem('insureAlert_session');
+        // if (session) window.location.href = '/dashboard';
+    </script>
+</body>
+</html>
