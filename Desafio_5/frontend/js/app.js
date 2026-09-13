@@ -44,6 +44,7 @@ function setGlobalProgress(percent) {
 // ═══════════════════════════════════════════════════════════
 
 document.addEventListener("DOMContentLoaded", async () => {
+  initTheme();
   initUserSession();
   updateClock();
   setInterval(updateClock, 1000);
@@ -874,3 +875,39 @@ function escapeHtml(str) {
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+// ═══════════════════════════════════════════════════════════
+// THEME MANAGEMENT (DARK / LIGHT)
+// ═══════════════════════════════════════════════════════════
+
+function initTheme() {
+  const savedTheme = localStorage.getItem("insureAlert_theme") || "dark";
+  document.documentElement.setAttribute("data-theme", savedTheme);
+  updateThemeToggleUI(savedTheme);
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+  const newTheme = currentTheme === "light" ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", newTheme);
+  localStorage.setItem("insureAlert_theme", newTheme);
+  updateThemeToggleUI(newTheme);
+  showToast(newTheme === "light" ? "☀️ Modo Claro ativado" : "🌙 Modo Escuro ativado");
+}
+
+function updateThemeToggleUI(theme) {
+  const btn = document.getElementById("themeToggleBtn");
+  if (!btn) return;
+  const textEl = btn.querySelector(".theme-toggle-text");
+  if (theme === "light") {
+    btn.setAttribute("title", "Mudar para Tema Escuro");
+    if (textEl) textEl.textContent = "Claro";
+  } else {
+    btn.setAttribute("title", "Mudar para Tema Claro");
+    if (textEl) textEl.textContent = "Escuro";
+  }
+}
+
+window.toggleTheme = toggleTheme;
+window.initTheme = initTheme;
+

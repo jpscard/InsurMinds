@@ -8,8 +8,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <link rel="stylesheet" href="/static/css/auth.css">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('insureAlert_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <link rel="stylesheet" href="/static/css/styles.css?v=3.0">
+    <link rel="stylesheet" href="/static/css/auth.css?v=3.0">
 </head>
 <body class="auth-body">
     <!-- Redirect if already logged in -->
@@ -62,6 +68,24 @@
         <!-- Right form panel -->
         <div class="auth-form-panel">
             <div class="auth-card">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+                    <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" type="button" title="Alternar entre tema Claro e Escuro" aria-label="Alternar tema">
+                        <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                        <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                </div>
                 <div class="auth-card-header">
                     <h1>Bem-vindo de volta</h1>
                     <p>Entre com sua conta para acessar o dashboard</p>
@@ -158,5 +182,13 @@
     </div>
 
     <script src="/static/js/auth.js"></script>
+    <script>
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            const next = current === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('insureAlert_theme', next);
+        }
+    </script>
 </body>
 </html>
