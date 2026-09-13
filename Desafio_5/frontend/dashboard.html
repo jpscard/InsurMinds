@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css?v=2.5">
     <style>
         /* ── Progress bar global ── */
         #globalProgress {
@@ -227,15 +227,105 @@
             </div>
         </section>
 
-        <!-- ═══ CONTENT GRID ═══ -->
-        <div class="content-grid">
-            <!-- ── Alertas Ativos ── -->
-            <section class="card events-card">
+        <!-- ═══ DASHBOARD TABS ═══ -->
+        <div class="dash-tabs" id="dashTabs">
+            <button class="dash-tab-btn active" onclick="switchDashTab('whatsapp')" id="tabBtnWhatsapp">
+                <span>💬 Central de Comunicação (WhatsApp & Multicanal)</span>
+                <span class="dash-tab-badge" id="tabBadgeWhatsapp">0</span>
+            </button>
+            <button class="dash-tab-btn" onclick="switchDashTab('events')" id="tabBtnEvents">
+                <span>⚡ Alertas Climáticos (INMET)</span>
+                <span class="dash-tab-badge" id="tabBadgeEvents">0</span>
+            </button>
+            <button class="dash-tab-btn" onclick="switchDashTab('policyholders')" id="tabBtnPolicyholders">
+                <span>👥 Base de Segurados</span>
+                <span class="dash-tab-badge" id="tabBadgePolicyholders">0</span>
+            </button>
+        </div>
+
+        <!-- ═══ PANE 1: WHATSAPP / MULTICHANNEL COMMUNICATIONS ═══ -->
+        <div class="dash-view-pane active" id="paneWhatsapp">
+            <div class="wa-container">
+                <!-- Left Sidebar: Contact list -->
+                <aside class="wa-sidebar">
+                    <div class="wa-sidebar-header">
+                        <div class="wa-sidebar-title">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" color="#25d366"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
+                            <span>Conversas com Segurados</span>
+                        </div>
+                        <span class="dash-tab-badge" id="waSidebarCount">0</span>
+                    </div>
+                    
+                    <div class="wa-sidebar-search-box">
+                        <div class="wa-search-input-wrap">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:12px;width:16px;height:16px;color:#8696a0;pointer-events:none;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" id="waSearchInput" placeholder="Pesquisar segurado ou evento..." class="wa-search-input" oninput="filterWhatsAppList()">
+                        </div>
+                    </div>
+
+                    <div class="wa-filter-chips">
+                        <button class="wa-filter-chip active" onclick="filterByChannel('all', this)">Todos</button>
+                        <button class="wa-filter-chip" onclick="filterByChannel('whatsapp', this)">💬 WhatsApp</button>
+                        <button class="wa-filter-chip" onclick="filterByChannel('sms', this)">📱 SMS</button>
+                        <button class="wa-filter-chip" onclick="filterByChannel('email', this)">📧 E-mail</button>
+                        <button class="wa-filter-chip" onclick="filterByChannel('push', this)">🔔 Push</button>
+                    </div>
+
+                    <div class="wa-chat-list" id="waChatList">
+                        <div class="wa-empty-chat" style="padding: 20px;">
+                            <p style="font-size:0.8rem;color:#8696a0;">Nenhuma notificação gerada ainda.<br>Clique em <strong>Executar Pipeline</strong> acima.</p>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Right Main Pane: Active Chat / Preview -->
+                <section class="wa-chat-pane" id="waChatPane">
+                    <div class="wa-chat-pane-header" id="waChatHeader">
+                        <div class="wa-chat-header-user">
+                            <div class="wa-chat-avatar" id="waActiveAvatar">IA</div>
+                            <div class="wa-chat-header-info">
+                                <h3 id="waActiveName">Selecione um segurado</h3>
+                                <p id="waActiveSubtitle">Visualização em tempo real de mensagens proativas</p>
+                            </div>
+                        </div>
+
+                        <div class="wa-format-switcher">
+                            <button class="wa-format-btn active" id="btnFmtWhatsapp" onclick="switchChannelPreview('whatsapp')">💬 WhatsApp</button>
+                            <button class="wa-format-btn" id="btnFmtSms" onclick="switchChannelPreview('sms')">📱 SMS</button>
+                            <button class="wa-format-btn" id="btnFmtEmail" onclick="switchChannelPreview('email')">📧 E-mail</button>
+                            <button class="wa-format-btn" id="btnFmtPush" onclick="switchChannelPreview('push')">🔔 Push</button>
+                        </div>
+                    </div>
+
+                    <div class="wa-chat-body" id="waChatBody">
+                        <div class="wa-empty-chat">
+                            <div class="wa-empty-chat-icon">💬</div>
+                            <h4>Central de Disparos Proativos</h4>
+                            <p>Envie alertas meteorológicos proativos e personalizados com Inteligência Artificial para proteger vidas e patrimônios dos segurados.</p>
+                        </div>
+                    </div>
+
+                    <div class="wa-chat-pane-footer" id="waChatFooter" style="display:none;">
+                        <div class="wa-footer-status" style="font-size:0.75rem;color:#8696a0;display:flex;align-items:center;gap:6px;">
+                            <span style="color:#00a884;font-weight:700;">✓✓</span> Mensagem disparada preventivamente antes do sinistro
+                        </div>
+                        <div class="wa-footer-actions">
+                            <button class="wa-tool-btn" onclick="copyActiveMessage()">📋 Copiar Mensagem</button>
+                            <button class="wa-tool-btn" onclick="resendSimulation()">🔄 Reenviar Alerta</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- ═══ PANE 2: CLIMATE EVENTS ═══ -->
+        <div class="dash-view-pane" id="paneEvents">
+            <section class="card events-card" style="margin-bottom: 1.5rem;">
                 <div class="card-header">
-                    <h2>⚡ Eventos Climáticos Detectados</h2>
+                    <h2>⚡ Eventos Climáticos Detectados (INMET)</h2>
                     <span class="badge" id="eventsBadge">0</span>
                 </div>
-                <div class="card-body" id="eventsList">
+                <div class="card-body" id="eventsList" style="max-height: none;">
                     <div class="empty-state-guided">
                         <div class="empty-icon">⚡</div>
                         <p>Nenhum evento detectado ainda.</p>
@@ -246,65 +336,38 @@
                     </div>
                 </div>
             </section>
+        </div>
 
-            <!-- ── Notificações Geradas ── -->
-            <section class="card notifications-card">
+        <!-- ═══ PANE 3: POLICYHOLDERS ═══ -->
+        <div class="dash-view-pane" id="panePolicyholders">
+            <section class="card policyholders-card" style="margin-bottom: 1.5rem;">
                 <div class="card-header">
-                    <h2>📨 Notificações Geradas</h2>
-                    <span class="badge" id="notificationsBadge">0</span>
+                    <h2>👥 Base de Segurados</h2>
+                    <div class="card-header-actions">
+                        <input type="text" id="phSearchInput" placeholder="🔍 Filtrar por nome, cidade ou seguro..." class="table-search-input" oninput="filterPolicyholders()">
+                        <span class="badge" id="phBadge">0</span>
+                    </div>
                 </div>
-                <div class="card-body" id="notificationsList">
-                    <div class="empty-state-guided">
-                        <div class="empty-icon">📨</div>
-                        <p>Nenhuma notificação gerada ainda.</p>
-                        <div class="guide-arrow">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-                            Clique em <strong style="color:#fff;margin:0 4px">Executar Pipeline</strong> acima para começar
-                        </div>
+                <div class="card-body" style="max-height: none;">
+                    <div class="table-wrapper">
+                        <table class="data-table" id="policyholdersTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Cidade/UF</th>
+                                    <th>Seguros</th>
+                                    <th>Canal</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="policyholdersBody">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
         </div>
-
-        <!-- ═══ NOTIFICATION DETAIL MODAL ═══ -->
-        <div class="modal-overlay" id="notificationModal">
-            <div class="modal">
-                <div class="modal-header">
-                    <h3 id="modalTitle">Detalhes da Notificação</h3>
-                    <button class="modal-close" onclick="closeModal()">&times;</button>
-                </div>
-                <div class="modal-body" id="modalBody"></div>
-            </div>
-        </div>
-
-        <!-- ═══ SEGURADOS SECTION ═══ -->
-        <section class="card policyholders-card">
-            <div class="card-header">
-                <h2>👥 Base de Segurados</h2>
-                <div class="card-header-actions">
-                    <input type="text" id="phSearchInput" placeholder="🔍 Filtrar por nome, cidade ou seguro..." class="table-search-input" oninput="filterPolicyholders()">
-                    <span class="badge" id="phBadge">0</span>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="table-wrapper">
-                    <table class="data-table" id="policyholdersTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nome</th>
-                                <th>Cidade/UF</th>
-                                <th>Seguros</th>
-                                <th>Canal</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="policyholdersBody">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- ═══ FOOTER ═══ -->
@@ -314,6 +377,6 @@
     </footer>
 
     <script src="/static/js/auth.js"></script>
-    <script src="/static/js/app.js"></script>
+    <script src="/static/js/app.js?v=2.5"></script>
 </body>
 </html>

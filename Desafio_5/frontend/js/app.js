@@ -14,6 +14,11 @@ const API_BASE = "";
 let isRunning = false;
 let lastResult = null;
 let allPolicyholders = [];
+let allNotifications = [];
+let filteredNotifications = [];
+let currentChannelFilter = 'all';
+let activeNotificationIndex = 0;
+let currentFormat = 'whatsapp';
 
 function setGlobalProgress(percent) {
   const bar = document.getElementById("globalProgress");
@@ -120,9 +125,10 @@ async function runPipeline() {
 
   setGlobalProgress(15);
 
-  // Set visual loading states in events and notifications cards
+  // Set visual loading states in events and WhatsApp pane
   const eventsContainer = document.getElementById("eventsList");
-  const notifsContainer = document.getElementById("notificationsList");
+  const waChatList = document.getElementById("waChatList");
+  const waChatBody = document.getElementById("waChatBody");
   if (eventsContainer) {
     eventsContainer.innerHTML = `
       <div class="empty-state-guided" style="opacity: 0.9">
@@ -131,11 +137,20 @@ async function runPipeline() {
       </div>
     `;
   }
-  if (notifsContainer) {
-    notifsContainer.innerHTML = `
-      <div class="empty-state-guided" style="opacity: 0.9">
-        <div class="spinner" style="width:28px;height:28px;border-width:3px;border-color:rgba(123,47,247,0.2);border-top-color:#7b2ff7;margin-bottom:8px"></div>
-        <p>Cruzando apólices e acionando IA para recomendações...</p>
+  if (waChatList) {
+    waChatList.innerHTML = `
+      <div class="wa-empty-chat" style="padding: 24px;">
+        <div class="spinner" style="width:28px;height:28px;border-width:3px;border-color:rgba(0,168,132,0.2);border-top-color:#00a884;margin-bottom:12px;"></div>
+        <p style="font-size:0.82rem;color:#8696a0;">Cruzando apólices e acionando IA...</p>
+      </div>
+    `;
+  }
+  if (waChatBody) {
+    waChatBody.innerHTML = `
+      <div class="wa-empty-chat">
+        <div class="spinner" style="width:36px;height:36px;border-width:3px;border-color:rgba(0,168,132,0.2);border-top-color:#00a884;margin-bottom:16px;"></div>
+        <h4>Gerando Mensagens Personalizadas</h4>
+        <p>Aguarde enquanto os agentes inteligentes redigem orientações de proteção para cada segurado...</p>
       </div>
     `;
   }
@@ -250,7 +265,10 @@ async function loadPolicyholders() {
     if (data.success) {
       allPolicyholders = data.policyholders || [];
       renderPolicyholders(allPolicyholders);
-      document.getElementById("phBadge").textContent = data.count;
+      const phBadge = document.getElementById("phBadge");
+      if (phBadge) phBadge.textContent = data.count;
+      const tabBadge = document.getElementById("tabBadgePolicyholders");
+      if (tabBadge) tabBadge.textContent = data.count;
     }
   } catch (err) {
     console.error("Error loading policyholders:", err);
@@ -292,6 +310,7 @@ function updateStats(summary) {
 
 function animateCounter(elementId, targetValue) {
   const el = document.getElementById(elementId);
+  if (!el) return;
   const start = parseInt(el.textContent) || 0;
   const duration = 800;
   const startTime = performance.now();
@@ -311,10 +330,22 @@ function animateCounter(elementId, targetValue) {
   requestAnimationFrame(update);
 }
 
+function switchDashTab(tab) {
+  const tabs = ['whatsapp', 'events', 'policyholders'];
+  tabs.forEach(t => {
+    const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
+    const pane = document.getElementById(`pane${t.charAt(0).toUpperCase() + t.slice(1)}`);
+    if (btn) btn.classList.toggle('active', t === tab);
+    if (pane) pane.classList.toggle('active', t === tab);
+  });
+}
+
 function renderEvents(events) {
   const container = document.getElementById("eventsList");
   const badge = document.getElementById("eventsBadge");
-  badge.textContent = events.length;
+  if (badge) badge.textContent = events.length;
+  const tabBadge = document.getElementById("tabBadgeEvents");
+  if (tabBadge) tabBadge.textContent = events.length;
 
   if (!events.length) {
     container.innerHTML = '<div class="empty-state"><p>Nenhum evento detectado</p></div>';
@@ -348,45 +379,319 @@ function renderEvents(events) {
     .join("");
 }
 
-function renderNotifications(notifications) {
-  const container = document.getElementById("notificationsList");
-  const badge = document.getElementById("notificationsBadge");
-  badge.textContent = notifications.length;
+// ═══════════════════════════════════════════════════════════
+// WHATSAPP / CENTRAL DE COMUNICAÇÕES MULTICANAL
+// ═══════════════════════════════════════════════════════════
 
-  if (!notifications.length) {
-    container.innerHTML =
-      '<div class="empty-state"><p>Nenhuma notificação gerada</p></div>';
+function renderNotifications(notifications) {
+  allNotifications = notifications || [];
+  
+  const tabBadge = document.getElementById("tabBadgeWhatsapp");
+  if (tabBadge) tabBadge.textContent = allNotifications.length;
+
+  filterWhatsAppList();
+
+  if (allNotifications.length > 0) {
+    selectWhatsAppChat(0);
+  } else {
+    const chatBody = document.getElementById("waChatBody");
+    if (chatBody) {
+      chatBody.innerHTML = `
+        <div class="wa-empty-chat">
+          <div class="wa-empty-chat-icon">💬</div>
+          <h4>Nenhuma conversa gerada ainda</h4>
+          <p>Clique em <strong>Executar Pipeline</strong> acima para acionar a IA e gerar comunicados preventivos personalizados.</p>
+        </div>
+      `;
+    }
+    const footer = document.getElementById("waChatFooter");
+    if (footer) footer.style.display = "none";
+  }
+}
+
+function filterByChannel(channel, btnEl) {
+  currentChannelFilter = channel;
+  document.querySelectorAll('.wa-filter-chip').forEach(c => c.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+  filterWhatsAppList();
+}
+
+function filterWhatsAppList() {
+  const input = document.getElementById("waSearchInput");
+  const query = (input ? input.value : "").toLowerCase().trim();
+
+  filteredNotifications = allNotifications.filter(n => {
+    const matchesChannel = currentChannelFilter === 'all' || (n.channel || '').toLowerCase() === currentChannelFilter;
+    const name = (n.policyholder_name || '').toLowerCase();
+    const city = (n.city || '').toLowerCase();
+    const eventType = (n.event_type || '').toLowerCase();
+    const matchesQuery = !query || name.includes(query) || city.includes(query) || eventType.includes(query);
+    return matchesChannel && matchesQuery;
+  });
+
+  const countBadge = document.getElementById("waSidebarCount");
+  if (countBadge) countBadge.textContent = filteredNotifications.length;
+
+  renderWhatsAppList(filteredNotifications);
+
+  if (filteredNotifications.length > 0) {
+    if (activeNotificationIndex >= filteredNotifications.length) {
+      activeNotificationIndex = 0;
+    }
+    selectWhatsAppChat(activeNotificationIndex);
+  } else {
+    const chatBody = document.getElementById("waChatBody");
+    if (chatBody) {
+      chatBody.innerHTML = `
+        <div class="wa-empty-chat">
+          <div class="wa-empty-chat-icon">🔍</div>
+          <h4>Nenhum resultado encontrado</h4>
+          <p>Nenhuma mensagem corresponde ao filtro pesquisado.</p>
+        </div>
+      `;
+    }
+    const footer = document.getElementById("waChatFooter");
+    if (footer) footer.style.display = "none";
+  }
+}
+
+function renderWhatsAppList(items) {
+  const container = document.getElementById("waChatList");
+  if (!container) return;
+
+  if (!items || items.length === 0) {
+    container.innerHTML = `
+      <div class="wa-empty-chat" style="padding: 24px;">
+        <p style="font-size:0.82rem;color:#8696a0;">Nenhum segurado encontrado para este filtro.</p>
+      </div>
+    `;
     return;
   }
 
-  container.innerHTML = notifications
-    .map((n, i) => {
-      const channelIcons = {
-        sms: "📱",
-        email: "📧",
-        push: "🔔",
-        whatsapp: "💬",
-      };
-      const channelIcon = channelIcons[n.channel] || "📨";
-      const preview = n.short_message || n.message || "";
+  const channelIcons = {
+    whatsapp: '💬 WhatsApp',
+    sms: '📱 SMS',
+    email: '📧 E-mail',
+    push: '🔔 Push'
+  };
 
-      return `
-        <div class="notification-item" onclick='showNotificationDetail(${JSON.stringify(n).replace(/'/g, "&#39;")})'
-             style="animation-delay: ${i * 80}ms">
-          <div class="notification-header">
-            <span class="notification-name">${escapeHtml(n.policyholder_name)}</span>
-            <span class="channel-badge">${channelIcon} ${(n.channel || "").toUpperCase()}</span>
+  container.innerHTML = items.map((n, idx) => {
+    const initial = (n.policyholder_name ? n.policyholder_name[0] : 'S').toUpperCase();
+    const insType = (n.insurance_type || 'residencial').toLowerCase().replace(/_/g, '');
+    const severity = (n.severity || 'media').toLowerCase();
+    const isActive = idx === activeNotificationIndex;
+    const preview = n.short_message || n.message || '';
+
+    return `
+      <div class="wa-chat-item ${isActive ? 'active' : ''}" onclick="selectWhatsAppChat(${idx})" id="waChat_${idx}">
+        <div class="wa-chat-avatar ${insType}">
+          ${escapeHtml(initial)}
+          <span class="wa-severity-indicator ${severity}"></span>
+        </div>
+        <div class="wa-chat-info">
+          <div class="wa-chat-top-row">
+            <span class="wa-chat-name">${escapeHtml(n.policyholder_name)}</span>
+            <span class="wa-chat-time">Hoje</span>
           </div>
-          <div class="notification-subject">${escapeHtml(n.subject || "")}</div>
-          <div class="notification-preview">${escapeHtml(preview).substring(0, 120)}${preview.length > 120 ? "..." : ""}</div>
-          <div class="notification-footer">
-            <span>📍 ${escapeHtml(n.city || "")}/${escapeHtml(n.state || "")}</span>
-            <span class="sent-badge">✓ Enviada (simulação)</span>
+          <div class="wa-chat-bottom-row">
+            <span class="wa-chat-snippet">
+              <span class="wa-checkmarks">✓✓</span> ${escapeHtml(preview).substring(0, 40)}...
+            </span>
+            <span class="wa-chat-meta-tag">${channelIcons[n.channel] || n.channel}</span>
           </div>
         </div>
-      `;
-    })
-    .join("");
+      </div>
+    `;
+  }).join('');
+}
+
+function selectWhatsAppChat(index) {
+  activeNotificationIndex = index;
+  document.querySelectorAll('.wa-chat-item').forEach((el, i) => {
+    el.classList.toggle('active', i === index);
+  });
+
+  const n = filteredNotifications[index] || allNotifications[0];
+  if (!n) return;
+
+  const initial = (n.policyholder_name ? n.policyholder_name[0] : 'S').toUpperCase();
+  const insType = (n.insurance_type || 'residencial').toLowerCase().replace(/_/g, '');
+
+  const avatarEl = document.getElementById("waActiveAvatar");
+  if (avatarEl) {
+    avatarEl.textContent = initial;
+    avatarEl.className = `wa-chat-avatar ${insType}`;
+  }
+
+  const nameEl = document.getElementById("waActiveName");
+  if (nameEl) nameEl.textContent = n.policyholder_name;
+
+  const subEl = document.getElementById("waActiveSubtitle");
+  if (subEl) {
+    const formattedIns = (n.insurance_type || 'Residencial').replace(/_/g, ' ');
+    subEl.innerHTML = `📍 ${escapeHtml(n.city || '')}/${escapeHtml(n.state || '')} &bull; <span style="color:#00a884;font-weight:600;">Seguro ${escapeHtml(formattedIns)}</span> &bull; online agora`;
+  }
+
+  const footer = document.getElementById("waChatFooter");
+  if (footer) footer.style.display = 'flex';
+
+  renderActiveMessage();
+}
+
+function switchChannelPreview(format) {
+  currentFormat = format;
+  const formats = ['whatsapp', 'sms', 'email', 'push'];
+  formats.forEach(f => {
+    const btn = document.getElementById(`btnFmt${f.charAt(0).toUpperCase() + f.slice(1)}`);
+    if (btn) btn.classList.toggle('active', f === format);
+  });
+  renderActiveMessage();
+}
+
+function renderActiveMessage() {
+  const container = document.getElementById("waChatBody");
+  if (!container) return;
+
+  const n = filteredNotifications[activeNotificationIndex] || allNotifications[0];
+  if (!n) {
+    container.innerHTML = `
+      <div class="wa-empty-chat">
+        <div class="wa-empty-chat-icon">💬</div>
+        <h4>Nenhuma conversa selecionada</h4>
+      </div>
+    `;
+    return;
+  }
+
+  const severity = (n.severity || 'media').toLowerCase();
+  const eventName = (n.event_type || 'Climático').replace(/_/g, ' ').toUpperCase();
+  const recommendations = (n.recommendations || []);
+
+  if (currentFormat === 'whatsapp') {
+    const recsHtml = recommendations.length ? `
+      <div class="wa-checklist-card">
+        <div class="wa-checklist-title">📋 Ações Preventivas Recomendadas:</div>
+        ${recommendations.map(r => `<div class="wa-checklist-item">${escapeHtml(r)}</div>`).join('')}
+      </div>
+    ` : '';
+
+    container.innerHTML = `
+      <div class="wa-date-pill">Hoje &bull; Alerta Preventivo Automatizado por IA</div>
+      <div class="wa-bubble">
+        <div class="wa-bubble-header">
+          <span class="wa-bubble-title">⛈️ ${escapeHtml(n.subject || `Alerta de ${eventName}`)}</span>
+          <span class="wa-bubble-badge severity-${severity}">${severity.toUpperCase()}</span>
+        </div>
+        <div class="wa-bubble-text">${escapeHtml(n.message || '')}</div>
+        ${recsHtml}
+        <div class="wa-action-buttons">
+          <button class="wa-action-btn" onclick="showToast('Ligando para a Defesa Civil (199)...')">📞 Ligar para Defesa Civil (199)</button>
+          <button class="wa-action-btn" onclick="showToast('Acionando Central 24h da Seguradora (0800)...')">🛡️ Assistência 24h Seguradora (0800)</button>
+          <button class="wa-action-btn" onclick="showToast('Confirmação de recebimento registrada com sucesso!')">✅ Confirmar Recebimento do Alerta</button>
+        </div>
+        <div class="wa-bubble-footer">
+          <span>14:22</span>
+          <span class="wa-checkmarks">✓✓</span>
+        </div>
+      </div>
+    `;
+  } else if (currentFormat === 'sms') {
+    const text = n.short_message || n.message || '';
+    const count = text.length;
+
+    container.innerHTML = `
+      <div class="channel-preview-pane">
+        <div class="phone-mockup-frame">
+          <div class="phone-mockup-header">
+            📱 Mensagem de Texto (SMS Gateway) &bull; Claro/Vivo/TIM
+          </div>
+          <div class="sms-bubble">
+            ${escapeHtml(text)}
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
+            <span class="sms-char-badge">${count} / 160 caracteres</span>
+            <span style="font-size:0.75rem;color:#00a884;font-weight:600;">✓ Entregue via SMS</span>
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (currentFormat === 'email') {
+    const recsList = recommendations.length ? `
+      <ul style="margin:10px 0;padding-left:20px;color:#d1d7db;">
+        ${recommendations.map(r => `<li>${escapeHtml(r)}</li>`).join('')}
+      </ul>
+    ` : '';
+
+    container.innerHTML = `
+      <div class="channel-preview-pane">
+        <div class="email-mockup-frame">
+          <div class="email-meta-header">
+            <div><strong>De:</strong> InsureAlert Alertas &lt;alertas@insurealert.com.br&gt;</div>
+            <div><strong>Para:</strong> ${escapeHtml(n.policyholder_name)} &lt;segurado@exemplo.com.br&gt;</div>
+            <div><strong>Assunto:</strong> ${escapeHtml(n.subject || `Alerta Preventivo de ${eventName}`)}</div>
+          </div>
+          <div class="email-body-content">
+            <p>${escapeHtml(n.message || '').replace(/\n/g, '<br>')}</p>
+            ${recsList}
+            <div style="margin-top:16px;padding:12px;background:rgba(59,130,246,0.1);border-left:3px solid #3b82f6;border-radius:4px;font-size:0.8rem;color:#93c5fd;">
+              🚨 <strong>Central de Emergência da Seguradora:</strong> Ligue 0800 700 9000 ou acione o canal direto da Defesa Civil pelo 199.
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (currentFormat === 'push') {
+    container.innerHTML = `
+      <div class="channel-preview-pane">
+        <div style="background:#182229;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,0.5);">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <div style="width:24px;height:24px;background:var(--gradient-blue);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:#fff;font-weight:700;">IA</div>
+            <span style="font-size:0.78rem;font-weight:700;color:#e9edef;">INSUREALERT &bull; AGORA</span>
+          </div>
+          <div style="font-size:0.88rem;font-weight:700;color:#fff;margin-bottom:4px;">
+            ${escapeHtml(n.subject || 'Alerta Meteorológico Preventivo')}
+          </div>
+          <div style="font-size:0.82rem;color:#8696a0;line-height:1.4;">
+            ${escapeHtml(n.short_message || n.message || '').substring(0, 130)}...
+          </div>
+          <div style="margin-top:10px;font-size:0.75rem;color:#00a884;font-weight:600;">
+            Toque para abrir medidas de proteção da apólice &rarr;
+          </div>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function copyActiveMessage() {
+  const n = filteredNotifications[activeNotificationIndex] || allNotifications[0];
+  if (!n) return;
+  const text = currentFormat === 'sms' ? (n.short_message || n.message) : n.message;
+  navigator.clipboard.writeText(text || '').then(() => {
+    showToast('📋 Mensagem copiada para a área de transferência!');
+  }).catch(() => {
+    showToast('📋 Mensagem copiada!');
+  });
+}
+
+function resendSimulation() {
+  showToast('🔄 Notificação reenviada com sucesso para o segurado!');
+}
+
+function showToast(message) {
+  const existing = document.querySelector('.wa-toast');
+  if (existing) existing.remove();
+
+  const toast = document.createElement('div');
+  toast.className = 'wa-toast';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transition = 'opacity 0.3s ease';
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
 }
 
 function renderPolicyholders(policyholders) {
