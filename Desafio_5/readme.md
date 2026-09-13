@@ -1,215 +1,215 @@
 # InsureAlert — Ferramenta Inteligente para Comunicação Proativa com Segurados
 
-> Sistema baseado em IA para comunicação proativa com segurados de seguros, monitorando eventos climáticos em tempo real e gerando alertas personalizados antes que sinistros ocorram.
+> Sistema corporativo baseado em Inteligência Artificial para comunicação proativa com segurados, monitorando eventos climáticos em tempo real (INMET) e orquestrando alertas multicanal personalizados antes que sinistros ocorram.
 
 ![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-brightgreen.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688.svg)
 
-## 📋 Sobre o Projeto
+---
 
-Este projeto foi desenvolvido como parte do **Desafio 5** do curso, com o objetivo de criar uma solução baseada em **Inteligência Artificial** capaz de realizar comunicação proativa com segurados a partir da análise de eventos climáticos externos.
+## Sobre o Projeto
+
+Este projeto foi desenvolvido como parte do **Desafio 5 — InsurMinds**, com o objetivo de criar uma solução baseada em **Inteligência Artificial** capaz de realizar comunicação proativa com segurados a partir da análise de eventos climáticos externos.
 
 ### O Problema
-Grande parte das interações entre seguradoras e clientes acontece **apenas após** a ocorrência de um sinistro.
+Historicamente, grande parte das interações entre seguradoras e segurados ocorre **apenas após** a ocorrência e consolidação do sinistro, gerando elevados custos operacionais de indenização e desgaste na experiência do cliente.
 
 ### A Solução
-O **InsureAlert** transforma o modelo reativo em uma abordagem **preventiva**, monitorando eventos climáticos e enviando orientações personalizadas **antes** que um problema aconteça.
+O **InsureAlert** transforma o modelo reativo em uma abordagem **preventiva e orientativa**, monitorando eventos climáticos em tempo real, cruzando dados geoespaciais com a carteira de apólices e enviando orientações claras de mitigação de danos através de canais prioritários (**WhatsApp, SMS, E-mail e Push**).
 
-## 🏗️ Arquitetura da Solução
+---
 
-O sistema utiliza uma **arquitetura multi-agente** com 4 agentes especializados que trabalham em pipeline:
+## Demonstração Visual das Telas
 
+| Central de Mensagens (WhatsApp Web Hub - Dark) | Modo Claro Corporativo (Light Mode) |
+| :---: | :---: |
+| ![Central de Mensagens](docs/images/03_central_mensagens_dark.png) | ![Modo Claro](docs/images/04_central_mensagens_light.png) |
+
+| Tela de Login Corporativo Centralizada | Mockup de E-mail Institucional |
+| :---: | :---: |
+| ![Login](docs/images/01_login_dark.png) | ![Email Mockup](docs/images/05_email_preview.png) |
+
+| Eventos Climáticos (INMET) | Base Cadastral de Segurados | Esteira dos 4 Agentes Autônomos |
+| :---: | :---: | :---: |
+| ![Eventos Climáticos](docs/images/06_eventos_climaticos.png) | ![Base de Segurados](docs/images/07_base_segurados.png) | ![Esteira de Agentes](docs/images/08_esteira_agentes.png) |
+
+---
+
+## Arquitetura da Solução & Esteira Multi-Agente
+
+A solução utiliza uma **arquitetura em camadas desacoplada** com uma esteira sequencial de **4 agentes autônomos especializados**:
+
+```mermaid
+graph TD
+    subgraph Apresentacao["CAMADA DE APRESENTAÇÃO (Frontend SPA)"]
+        LP["Landing Page Institucional (/)"]
+        Auth["Login & Registro (/login, /register)"]
+        Dash["Dashboard Operacional (/dashboard)"]
+        subgraph ModulosDash["Módulos do Menu Lateral"]
+            M1["Central de Mensagens (WhatsApp Hub)"]
+            M2["Eventos Climáticos"]
+            M3["Base de Segurados"]
+            M4["Esteira de Agentes"]
+        end
+        Dash --> ModulosDash
+    end
+
+    subgraph Orquestracao["CAMADA DE ORQUESTRAÇÃO (FastAPI REST API)"]
+        API["FastAPI App (backend/main.py)"]
+        AuthSvc["Serviço de Autenticação"]
+        PipeState["Gerenciador de Estado do Pipeline"]
+        API --> AuthSvc
+        API --> PipeState
+    end
+
+    subgraph Agentes["CAMADA DE AGENTES AUTÔNOMOS (backend/agents/)"]
+        direction LR
+        A1["Agente 1: Coletor Climático<br/>(weather_collector.py)"]
+        A2["Agente 2: Analisador de Eventos<br/>(event_analyzer.py)"]
+        A3["Agente 3: Motor de Regras<br/>(rules_engine.py)"]
+        A4["Agente 4: Gerador de Mensagens<br/>(message_generator.py)"]
+        
+        A1 -->|WeatherEvent list| A2
+        A2 -->|Relevant WeatherEvents| A3
+        A3 -->|NotificationMatch list| A4
+    end
+
+    subgraph IntegracoesExternas["INTEGRAÇÕES EXTERNAS & DADOS"]
+        INMET["API Pública INMET (Avisos Ativos)"]
+        OWM["OpenWeatherMap API"]
+        GEMINI["Google Gemini 2.0 Flash"]
+        DB[("Base de Segurados (JSON / Memória)")]
+    end
+
+    Apresentacao -->|Requisições HTTP REST / JSON| Orquestracao
+    Orquestracao -->|Dispara / Monitora| Agentes
+
+    A1 -.->|Consulta Avisos| INMET
+    A1 -.->|Previsão 5 dias| OWM
+    A3 -.->|Cruza Apólices| DB
+    A4 -.->|Gera Mensagens com IA| GEMINI
 ```
-┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
-│  📡 Agente       │───▶│  🔍 Agente       │───▶│  📋 Agente de    │───▶│  ✍️ Agente       │
-│  Coletor         │    │  Analisador      │    │  Regras          │    │  Comunicador     │
-│                  │    │                  │    │                  │    │                  │
-│  Coleta dados    │    │  Classifica      │    │  Cruza eventos   │    │  Gera mensagens  │
-│  do INMET e      │    │  eventos por     │    │  com segurados   │    │  personalizadas  │
-│  OpenWeatherMap  │    │  tipo e          │    │  aplicando       │    │  com IA          │
-│                  │    │  severidade      │    │  regras de       │    │  (Google Gemini) │
-│                  │    │                  │    │  negócio         │    │                  │
-└──────────────────┘    └──────────────────┘    └──────────────────┘    └──────────────────┘
+
+---
+
+## Fluxograma Procedural do Pipeline
+
+```mermaid
+flowchart TD
+    Start(["Início: Operador clica em 'Executar Pipeline'"]) --> Req["POST /api/pipeline/run"]
+    
+    subgraph Etapa1["Etapa 1: Coleta Meteorológica (Agente 1)"]
+        Req --> FetchINMET{"Consulta API INMET<br/>/avisos/ativos?"}
+        FetchINMET -->|Sucesso| ParseAlerts["Parseia Avisos Ativos (Hoje / Amanhã)"]
+        FetchINMET -->|Falha / Sem Alertas| DemoEvents["Gera 3 Eventos Realistas de Contingência"]
+        ParseAlerts --> NormEvents["Normaliza para modelos WeatherEvent"]
+        DemoEvents --> NormEvents
+    end
+
+    subgraph Etapa2["Etapa 2: Análise & Severidade (Agente 2)"]
+        NormEvents --> ClassifyType["Identifica Tipo: Chuva, Granizo, Tempestade, Geada"]
+        ClassifyType --> ClassifySev["Mapeia Severidade: Baixa, Média, Alta, Crítica"]
+        ClassifySev --> FilterRelev{"Severidade >= Média<br/>OU Granizo/Tempestade?"}
+        FilterRelev -->|Não| Discard["Descarta evento de baixo risco"]
+        FilterRelev -->|Sim| RelevantEvents["Gera lista de Eventos Relevantes"]
+    end
+
+    subgraph Etapa3["Etapa 3: Regras & Cruzamento Atuarial (Agente 3)"]
+        RelevantEvents --> LoadPolicyholders["Carrega Carteira de Segurados Ativos"]
+        LoadPolicyholders --> GeoMatch{"Segurado na área<br/>geográfica afetada?"}
+        GeoMatch -->|Não| SkipPh["Ignora segurado para este alerta"]
+        GeoMatch -->|Sim| PolicyMatch{"Apólice coberta<br/>pelo tipo de evento?"}
+        PolicyMatch -->|Não| SkipPh
+        PolicyMatch -->|Sim| CalcScore["Calcula Score de Prioridade Atuarial"]
+        CalcScore --> Dedup["Deduplica matches (ID_Segurado + ID_Evento)"]
+        Dedup --> MatchList["Ordena lista de NotificationMatch por criticidade"]
+    end
+
+    subgraph Etapa4["Etapa 4: Geração Multicanal com IA (Agente 4)"]
+        MatchList --> CheckGemini{"Google Gemini 2.0<br/>configurada?"}
+        CheckGemini -->|Sim| PromptAI["Gera mensagem personalizada via Prompt:<br/>Assunto, Mensagem Empática, SMS 160 chars, Checklist"]
+        CheckGemini -->|Não| FallbackTpl["Aplica template corporativo parametrizado de contingência"]
+        PromptAI --> SelectChannel["Identifica canal preferido: WhatsApp, SMS, E-mail, Push"]
+        FallbackTpl --> SelectChannel
+        SelectChannel --> DispatchSim["Simula entrega com status ENVIADA e carimbo de data/hora"]
+    end
+
+    DispatchSim --> ResultState["Atualiza estado global do servidor"]
+    ResultState --> EndNode(["Dashboard exibe KPIs, Chat WhatsApp e Notificações"])
 ```
 
-### Agentes Inteligentes
+---
 
-| Agente | Responsabilidade |
-|--------|-----------------|
-| **Agente Coletor** | Consulta APIs externas (INMET, OpenWeatherMap) e normaliza os dados |
-| **Agente Analisador** | Classifica eventos por tipo (chuva, granizo, vento, etc.) e severidade |
-| **Agente de Regras** | Cruza eventos com segurados por localização e tipo de apólice |
-| **Agente Comunicador** | Gera mensagens personalizadas usando IA Generativa (Google Gemini) |
+## Stack Tecnológica
 
-## 🛠️ Tecnologias Utilizadas
+| Componente | Tecnologia | Papel |
+|---|---|---|
+| Backend | **FastAPI + Uvicorn** | API REST assíncrona de alta performance |
+| Modelo de IA | **Google Gemini 2.0 Flash** | Síntese de comunicações empáticas e acionáveis |
+| Coleta de Dados | **INMET API + OpenWeatherMap** | Monitoramento contínuo de dados meteorológicos |
+| Validação | **Pydantic v2** | Tipagem e validação declarativa de contratos |
+| Cliente HTTP | **HTTPX** | Requisições assíncronas com tratamento de timeouts |
+| Frontend | **HTML5 / CSS3 / Vanilla JS** | SPA com Side Menu, WhatsApp Hub e Tema Dark/Light |
 
-| Tecnologia | Uso |
-|-----------|-----|
-| **Python 3.10+** | Linguagem principal |
-| **FastAPI** | Framework web para a API REST |
-| **Google Gemini API** | IA Generativa para personalização de mensagens |
-| **INMET API** | Fonte de dados de alertas meteorológicos do Brasil |
-| **OpenWeatherMap API** | Previsão do tempo por cidade (opcional) |
-| **HTML/CSS/JS** | Dashboard web interativo |
-| **Pydantic** | Validação e modelagem de dados |
-| **HTTPX** | Cliente HTTP assíncrono |
+---
 
-## 📦 Instalação e Execução
+## Instalação e Execução
 
-### Pré-requisitos
-
-- **Python 3.10** ou superior
-- **pip** (gerenciador de pacotes Python)
-
-### 1. Clone o repositório
-
+### 1. Clonar o Repositório
 ```bash
-git clone <url-do-repositorio>
-cd insure-alert
+git clone https://github.com/jpscard/InsurMinds.git
+cd InsurMinds/Desafio_5
 ```
 
-### 2. Crie um ambiente virtual (recomendado)
-
+### 2. Criar Ambiente Virtual e Instalar Dependências
 ```bash
 python -m venv venv
-
-# Windows
-venv\Scripts\activate
-
-# Linux/Mac
-source venv/bin/activate
-```
-
-### 3. Instale as dependências
-
-```bash
+venv\Scripts\activate      # Windows
+# source venv/bin/activate # Linux / macOS
 pip install -r requirements.txt
 ```
 
-### 4. Configure as variáveis de ambiente
-
+### 3. Configurar Variáveis de Ambiente (Opcional)
 ```bash
-# Copie o arquivo de exemplo
 cp .env.example .env
-
-# Edite o arquivo .env com suas chaves
-# GEMINI_API_KEY é recomendada (obtenha em https://aistudio.google.com/apikey)
-# OPENWEATHERMAP_API_KEY é opcional
+# Configure GEMINI_API_KEY (opcional, fallback por templates ativo)
 ```
 
-> **Nota:** O sistema funciona sem API keys — usará templates de mensagem em vez de IA generativa, e apenas dados do INMET.
-
-### 5. Execute o servidor
-
+### 4. Iniciar o Servidor
 ```bash
-uvicorn backend.main:app --reload --port 8000
+python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-### 6. Acesse o dashboard
+Acesse o sistema em: **http://localhost:8000** (ou **/login** com as credenciais de demonstração `admin@insure.com` / `admin123`).
 
-Abra o navegador em: **http://localhost:8000**
+---
 
-## 🎮 Como Usar
-
-1. **Acesse o dashboard** no navegador
-2. **Clique em "Executar Pipeline"** para iniciar o fluxo completo
-3. **Acompanhe** a execução passo-a-passo com as animações dos agentes
-4. **Visualize** os eventos detectados e as notificações geradas
-5. **Clique em uma notificação** para ver os detalhes completos da mensagem
-
-## 📏 Regras de Negócio
-
-### Mapeamento Evento → Tipo de Seguro
-
-| Evento Climático | Seguros Afetados |
-|-----------------|-----------------|
-| Chuva Intensa (>20mm/h) | Residencial, Automóvel, Empresarial |
-| Granizo | Automóvel, Residencial, Agro |
-| Ventos Fortes (>50km/h) | Residencial, Empresarial, Agro |
-| Tempestade | Todos os tipos |
-| Onda de Calor (>38°C) | Vida, Agro |
-| Geada (<3°C) | Agro, Residencial |
-
-### Critérios de Notificação
-
-1. O segurado deve estar em um **estado/cidade afetado** pelo evento
-2. O segurado deve ter uma **apólice do tipo afetado**
-3. Eventos com severidade **média ou superior** geram notificação
-4. Eventos de **granizo e tempestade** sempre geram notificação
-5. Notificações são **priorizadas** por severidade e tipo de exposição
-
-## 💬 Exemplos de Mensagens Geradas
-
-### Alerta de Tempestade — Segurado Residencial (Email)
+## Estrutura de Diretórios
 
 ```
-Prezado(a) Maria,
-
-O Instituto Nacional de Meteorologia (INMET) emitiu um alerta de tempestade
-para a região de Curitiba/PR.
-
-Como titular de um seguro residencial, recomendamos:
-• Busque abrigo seguro imediatamente
-• Desligue aparelhos eletrônicos da tomada
-• Feche janelas e portas com segurança
-• Em caso de emergência: Bombeiros (193), Defesa Civil (199)
-
-Estamos aqui para ajudar. Sua segurança é nossa prioridade.
-
-Atenciosamente,
-Sua Seguradora
-```
-
-### Alerta de Granizo — Segurado Automóvel (SMS)
-
-```
-🧊 Alerta: Granizo previsto em Florianópolis. Proteja seu veículo em local
-coberto. Evite áreas externas.
-```
-
-## 📡 APIs Externas Utilizadas
-
-### INMET (Instituto Nacional de Meteorologia)
-- **Endpoint:** `https://apiprevmet3.inmet.gov.br/avisos/ativos`
-- **Tipo:** API pública sem autenticação
-- **Dados:** Alertas meteorológicos ativos em todo o Brasil
-
-### OpenWeatherMap (opcional)
-- **Endpoint:** `https://api.openweathermap.org/data/2.5/forecast`
-- **Tipo:** API com free tier (1.000 chamadas/dia)
-- **Dados:** Previsão do tempo por cidade
-
-## 📁 Estrutura do Projeto
-
-```
-├── README.md                    # Este arquivo
-├── LICENSE                      # Licença MIT
-├── .env.example                 # Template de variáveis de ambiente
-├── .gitignore                   # Arquivos ignorados pelo Git
-├── requirements.txt             # Dependências Python
-│
+├── README.md                      # Documentação principal
+├── relatorio_sistema.md           # Relatório técnico completo para avaliação
+├── InsurMinds – Desafio 5.docx    # Relatório formal em formato Word DOCX
+├── requirements.txt               # Dependências do projeto
+├── docs/
+│   └── images/                    # Screenshots oficiais em alta resolução
 ├── backend/
-│   ├── main.py                  # FastAPI app + rotas
-│   ├── config.py                # Configurações e constantes
-│   ├── agents/
-│   │   ├── weather_collector.py # Agente 1: Coleta de dados
-│   │   ├── event_analyzer.py    # Agente 2: Análise de eventos
-│   │   ├── rules_engine.py      # Agente 3: Regras de negócio
-│   │   └── message_generator.py # Agente 4: Geração de mensagens
-│   ├── models/
-│   │   ├── weather.py           # Modelos de dados meteorológicos
-│   │   ├── policyholder.py      # Modelos de segurados
-│   │   └── notification.py      # Modelos de notificações
-│   └── data/
-│       └── policyholders.json   # Base de segurados simulada
-│
+│   ├── main.py                    # Servidor FastAPI e rotas REST
+│   ├── agents/                    # 4 Agentes autônomos (Coletor, Analisador, Regras, Mensagens)
+│   ├── models/                    # Modelos de dados Pydantic
+│   └── data/                      # Base de segurados cadastrada
 └── frontend/
-    ├── index.html               # Dashboard principal
-    ├── css/styles.css            # Estilos premium
-    └── js/app.js                # Lógica do frontend
+    ├── index.html                 # Landing Page institucional
+    ├── login.html                 # Tela de Login corporativo centralizada
+    ├── register.html              # Tela de Cadastro
+    ├── dashboard.html             # Painel operacional com Side Menu
+    ├── css/                       # Estilos globais, tema Claro/Escuro e animações
+    └── js/                        # Lógica da interface e chamadas à API
 ```
 
-## 📄 Licença
+---
 
-Este projeto está licenciado sob a licença **MIT** — consulte o arquivo [LICENSE](LICENSE) para detalhes.
+## Licença
+
+Este projeto está licenciado sob a licença **MIT** — consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
