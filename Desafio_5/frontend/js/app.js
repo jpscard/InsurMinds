@@ -13,6 +13,26 @@ const API_BASE = "";
 
 let isRunning = false;
 let lastResult = null;
+let allPolicyholders = [];
+
+function setGlobalProgress(percent) {
+  const bar = document.getElementById("globalProgress");
+  if (!bar) return;
+  if (percent <= 0) {
+    bar.style.display = "block";
+    bar.style.width = "0%";
+  } else if (percent >= 100) {
+    bar.style.display = "block";
+    bar.style.width = "100%";
+    setTimeout(() => {
+      bar.style.display = "none";
+      bar.style.width = "0%";
+    }, 600);
+  } else {
+    bar.style.display = "block";
+    bar.style.width = `${percent}%`;
+  }
+}
 
 // ═══════════════════════════════════════════════════════════
 // INITIALIZATION
@@ -98,11 +118,34 @@ async function runPipeline() {
   btn.classList.add("running");
   btn.innerHTML = '<span class="spinner"></span> Executando Pipeline...';
 
+  setGlobalProgress(15);
+
+  // Set visual loading states in events and notifications cards
+  const eventsContainer = document.getElementById("eventsList");
+  const notifsContainer = document.getElementById("notificationsList");
+  if (eventsContainer) {
+    eventsContainer.innerHTML = `
+      <div class="empty-state-guided" style="opacity: 0.9">
+        <div class="spinner" style="width:28px;height:28px;border-width:3px;border-color:rgba(0,210,255,0.2);border-top-color:#00d2ff;margin-bottom:8px"></div>
+        <p>Consultando INMET e classificando eventos meteorológicos...</p>
+      </div>
+    `;
+  }
+  if (notifsContainer) {
+    notifsContainer.innerHTML = `
+      <div class="empty-state-guided" style="opacity: 0.9">
+        <div class="spinner" style="width:28px;height:28px;border-width:3px;border-color:rgba(123,47,247,0.2);border-top-color:#7b2ff7;margin-bottom:8px"></div>
+        <p>Cruzando apólices e acionando IA para recomendações...</p>
+      </div>
+    `;
+  }
+
   // Reset steps
   resetPipelineSteps();
 
   // Animate steps sequentially
   await animateStep(1, "Consultando API do INMET...");
+  setGlobalProgress(25);
 
   try {
     const response = await fetch(`${API_BASE}/api/pipeline/run`, {
@@ -115,12 +158,16 @@ async function runPipeline() {
     lastResult = data;
 
     // Animate completed steps
-    for (const step of data.steps) {
+    const stepProgress = [35, 60, 80, 95];
+    for (let i = 0; i < data.steps.length; i++) {
+      const step = data.steps[i];
       await sleep(600);
       completeStep(step.step, step.status, step.detail);
+      setGlobalProgress(stepProgress[i] || 90);
     }
 
     await sleep(400);
+    setGlobalProgress(100);
 
     // Update stats
     updateStats(data.summary);
@@ -131,6 +178,7 @@ async function runPipeline() {
 
   } catch (err) {
     console.error("Pipeline error:", err);
+    setGlobalProgress(100);
     for (let i = 1; i <= 4; i++) {
       const el = document.getElementById(`step${i}`);
       if (!el.classList.contains("completed")) {
@@ -200,7 +248,8 @@ async function loadPolicyholders() {
     const data = await res.json();
 
     if (data.success) {
-      renderPolicyholders(data.policyholders);
+      allPolicyholders = data.policyholders || [];
+      renderPolicyholders(allPolicyholders);
       document.getElementById("phBadge").textContent = data.count;
     }
   } catch (err) {
@@ -234,6 +283,7 @@ async function loadLastResult() {
 // ═══════════════════════════════════════════════════════════
 
 function updateStats(summary) {
+  document.querySelectorAll(".stat-value.init").forEach((el) => el.classList.remove("init"));
   animateCounter("statAlertsValue", summary.events_collected);
   animateCounter("statEventsValue", summary.events_relevant);
   animateCounter("statPolicyholdersValue", summary.policyholders_matched);
@@ -342,6 +392,17 @@ function renderNotifications(notifications) {
 function renderPolicyholders(policyholders) {
   const tbody = document.getElementById("policyholdersBody");
 
+  if (!policyholders || policyholders.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align: center; padding: 2.5rem 1rem; color: var(--text-muted); font-size: 0.9rem;">
+          🔍 Nenhum segurado encontrado para o filtro atual.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
   tbody.innerHTML = policyholders
     .map((ph) => {
       const tags = (ph.policies || [])
@@ -370,6 +431,31 @@ function renderPolicyholders(policyholders) {
       `;
     })
     .join("");
+}
+
+function filterPolicyholders() {
+  const input = document.getElementById("phSearchInput");
+  const term = (input ? input.value : "").toLowerCase().trim();
+
+  if (!term) {
+    renderPolicyholders(allPolicyholders);
+    const badge = document.getElementById("phBadge");
+    if (badge) badge.textContent = allPolicyholders.length;
+    return;
+  }
+
+  const filtered = allPolicyholders.filter((ph) => {
+    const name = (ph.name || "").toLowerCase();
+    const city = (ph.city || "").toLowerCase();
+    const state = (ph.state || "").toLowerCase();
+    const id = (ph.id || "").toLowerCase();
+    const policies = (ph.policies || []).map((p) => (p.type || "").toLowerCase()).join(" ");
+    return name.includes(term) || city.includes(term) || state.includes(term) || id.includes(term) || policies.includes(term);
+  });
+
+  renderPolicyholders(filtered);
+  const badge = document.getElementById("phBadge");
+  if (badge) badge.textContent = filtered.length;
 }
 
 // ═══════════════════════════════════════════════════════════

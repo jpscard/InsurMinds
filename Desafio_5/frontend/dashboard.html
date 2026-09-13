@@ -9,8 +9,69 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        /* ── Progress bar global ── */
+        #globalProgress {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            width: 0%;
+            background: linear-gradient(90deg, #00d2ff, #7b2ff7, #00d2ff);
+            background-size: 200% 100%;
+            z-index: 9999;
+            transition: width 0.4s ease;
+            animation: progressShimmer 1.5s linear infinite;
+            display: none;
+        }
+        @keyframes progressShimmer {
+            0%   { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+        /* ── Guided empty state ── */
+        .empty-state-guided {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 32px 16px;
+            color: #94a3b8;
+            text-align: center;
+        }
+        .empty-state-guided .empty-icon {
+            font-size: 2.5rem;
+            opacity: 0.5;
+        }
+        .empty-state-guided p {
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        .empty-state-guided .guide-arrow {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            color: #00d2ff;
+            opacity: 0.85;
+            animation: arrowPulse 1.6s ease-in-out infinite;
+        }
+        .empty-state-guided .guide-arrow svg {
+            animation: arrowBounce 1.6s ease-in-out infinite;
+        }
+        @keyframes arrowBounce {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-5px); }
+        }
+        @keyframes arrowPulse {
+            0%, 100% { opacity: 0.85; }
+            50%       { opacity: 1; }
+        }
+        /* ── Stat card init state ── */
+        .stat-value.init { color: #94a3b8; font-size: 1.4rem; }
+    </style>
 </head>
 <body>
+    <!-- Global progress bar -->
+    <div id="globalProgress"></div>
     <!-- Session protection -->
     <script>
         (function() {
@@ -73,7 +134,7 @@
                     </svg>
                 </div>
                 <div class="stat-info">
-                    <span class="stat-value" id="statAlertsValue">—</span>
+                    <span class="stat-value init" id="statAlertsValue" title="Execute o pipeline para atualizar">0</span>
                     <span class="stat-label">Alertas Ativos</span>
                 </div>
             </div>
@@ -84,7 +145,7 @@
                     </svg>
                 </div>
                 <div class="stat-info">
-                    <span class="stat-value" id="statEventsValue">—</span>
+                    <span class="stat-value init" id="statEventsValue" title="Execute o pipeline para atualizar">0</span>
                     <span class="stat-label">Eventos Relevantes</span>
                 </div>
             </div>
@@ -98,7 +159,7 @@
                     </svg>
                 </div>
                 <div class="stat-info">
-                    <span class="stat-value" id="statPolicyholdersValue">—</span>
+                    <span class="stat-value init" id="statPolicyholdersValue" title="Execute o pipeline para atualizar">0</span>
                     <span class="stat-label">Segurados Notificados</span>
                 </div>
             </div>
@@ -109,7 +170,7 @@
                     </svg>
                 </div>
                 <div class="stat-info">
-                    <span class="stat-value" id="statNotificationsValue">—</span>
+                    <span class="stat-value init" id="statNotificationsValue" title="Execute o pipeline para atualizar">0</span>
                     <span class="stat-label">Notificações Geradas</span>
                 </div>
             </div>
@@ -175,8 +236,13 @@
                     <span class="badge" id="eventsBadge">0</span>
                 </div>
                 <div class="card-body" id="eventsList">
-                    <div class="empty-state">
-                        <p>Execute o pipeline para detectar eventos</p>
+                    <div class="empty-state-guided">
+                        <div class="empty-icon">⚡</div>
+                        <p>Nenhum evento detectado ainda.</p>
+                        <div class="guide-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+                            Clique em <strong style="color:#fff;margin:0 4px">Executar Pipeline</strong> acima para começar
+                        </div>
                     </div>
                 </div>
             </section>
@@ -188,8 +254,13 @@
                     <span class="badge" id="notificationsBadge">0</span>
                 </div>
                 <div class="card-body" id="notificationsList">
-                    <div class="empty-state">
-                        <p>Execute o pipeline para gerar notificações</p>
+                    <div class="empty-state-guided">
+                        <div class="empty-icon">📨</div>
+                        <p>Nenhuma notificação gerada ainda.</p>
+                        <div class="guide-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+                            Clique em <strong style="color:#fff;margin:0 4px">Executar Pipeline</strong> acima para começar
+                        </div>
                     </div>
                 </div>
             </section>
@@ -210,7 +281,10 @@
         <section class="card policyholders-card">
             <div class="card-header">
                 <h2>👥 Base de Segurados</h2>
-                <span class="badge" id="phBadge">0</span>
+                <div class="card-header-actions">
+                    <input type="text" id="phSearchInput" placeholder="🔍 Filtrar por nome, cidade ou seguro..." class="table-search-input" oninput="filterPolicyholders()">
+                    <span class="badge" id="phBadge">0</span>
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-wrapper">

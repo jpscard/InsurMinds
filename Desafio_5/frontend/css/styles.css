@@ -879,6 +879,35 @@ body {
     margin-top: 0;
 }
 
+.card-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.table-search-input {
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    outline: none;
+    transition: all var(--transition-fast);
+    width: 250px;
+    font-family: var(--font-family);
+}
+
+.table-search-input::placeholder {
+    color: var(--text-muted);
+}
+
+.table-search-input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 12px var(--accent-blue-glow);
+    background: rgba(255, 255, 255, 0.05);
+}
+
 .table-wrapper {
     overflow-x: auto;
 }
