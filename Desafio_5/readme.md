@@ -210,6 +210,29 @@ Acesse o sistema em: **http://localhost:8000** (ou **/login** com as credenciais
 
 ---
 
+## Deploy em Produção (Nuvem)
+
+A aplicação está totalmente configurada e pronta para deploy em nuvem através de plataformas como **Render**, **Railway** ou **Docker**.
+
+### Deploy no Render.com (Recomendado)
+1. Crie uma conta gratuita em [render.com](https://render.com).
+2. Clique em **New +** > **Web Service** e conecte o repositório GitHub (`jpscard/InsurMinds`).
+3. Configure os parâmetros:
+   - **Root Directory**: `Desafio_5`
+   - **Environment**: `Python 3`
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
+4. *(Opcional)* Em **Environment Variables**, adicione a variável `GEMINI_API_KEY` com a sua chave do Google Gemini.
+5. Clique em **Deploy Web Service**. O Render gerará uma URL pública segura (HTTPS) para teste imediato pela banca avaliadora.
+
+### Deploy via Docker
+```bash
+docker build -t insurealert .
+docker run -p 8000:8000 insurealert
+```
+
+---
+
 ## Licença
 
 Este projeto está licenciado sob a licença **MIT** — consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
