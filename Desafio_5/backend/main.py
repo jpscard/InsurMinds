@@ -84,8 +84,8 @@ def _load_policyholders() -> list[Policyholder]:
 async def startup():
     global _policyholders
     _policyholders = _load_policyholders()
-    logger.info(f"✅ {len(_policyholders)} segurados carregados")
-    logger.info(f"✅ Frontend servido de: {FRONTEND_DIR}")
+    logger.info(f"[Startup] {len(_policyholders)} segurados carregados")
+    logger.info(f"[Startup] Frontend servido de: {FRONTEND_DIR}")
 
 
 @app.on_event("shutdown")
@@ -325,7 +325,7 @@ async def run_pipeline():
             "demo_mode": demo_mode,
             "duration_ms": (datetime.now() - step1_start).total_seconds() * 1000,
         })
-        logger.info(f"[Etapa 1] ✅ {detail_msg}")
+        logger.info(f"[Etapa 1] Sucesso: {detail_msg}")
     except Exception as e:
         # Em caso de erro na API, ainda usar dados de demonstração
         raw_events = collector_agent.generate_demo_events()
@@ -340,7 +340,7 @@ async def run_pipeline():
             "demo_mode": True,
             "duration_ms": (datetime.now() - step1_start).total_seconds() * 1000,
         })
-        logger.warning(f"[Etapa 1] ⚠️ {error_msg}")
+        logger.warning(f"[Etapa 1] Aviso: {error_msg}")
 
     # ── Etapa 2: Análise ────────────────────────────────────
     step2_start = datetime.now()
@@ -354,7 +354,7 @@ async def run_pipeline():
             "detail": f"{len(analyzed_events)} eventos relevantes identificados",
             "duration_ms": (datetime.now() - step2_start).total_seconds() * 1000,
         })
-        logger.info(f"[Etapa 2] ✅ {len(analyzed_events)} eventos relevantes")
+        logger.info(f"[Etapa 2] Sucesso: {len(analyzed_events)} eventos relevantes")
     except Exception as e:
         error_msg = f"Erro na análise: {str(e)}"
         errors.append(error_msg)
@@ -366,7 +366,7 @@ async def run_pipeline():
             "detail": error_msg,
             "duration_ms": (datetime.now() - step2_start).total_seconds() * 1000,
         })
-        logger.error(f"[Etapa 2] ❌ {error_msg}")
+        logger.error(f"[Etapa 2] Erro: {error_msg}")
         analyzed_events = []
 
     # ── Etapa 3: Regras de negócio ──────────────────────────
@@ -386,7 +386,7 @@ async def run_pipeline():
             "duration_ms": (datetime.now() - step3_start).total_seconds() * 1000,
         })
         logger.info(
-            f"[Etapa 3] ✅ {len(matches)} matches, "
+            f"[Etapa 3] Sucesso: {len(matches)} matches, "
             f"{unique_policyholders} segurados"
         )
     except Exception as e:
@@ -400,7 +400,7 @@ async def run_pipeline():
             "detail": error_msg,
             "duration_ms": (datetime.now() - step3_start).total_seconds() * 1000,
         })
-        logger.error(f"[Etapa 3] ❌ {error_msg}")
+        logger.error(f"[Etapa 3] Erro: {error_msg}")
         matches = []
 
     # ── Etapa 4: Geração de mensagens ───────────────────────
@@ -415,7 +415,7 @@ async def run_pipeline():
             "detail": f"{len(notifications)} notificações geradas e enviadas (simulação)",
             "duration_ms": (datetime.now() - step4_start).total_seconds() * 1000,
         })
-        logger.info(f"[Etapa 4] ✅ {len(notifications)} notificações geradas")
+        logger.info(f"[Etapa 4] Sucesso: {len(notifications)} notificações geradas")
     except Exception as e:
         error_msg = f"Erro na geração: {str(e)}"
         errors.append(error_msg)
@@ -427,7 +427,7 @@ async def run_pipeline():
             "detail": error_msg,
             "duration_ms": (datetime.now() - step4_start).total_seconds() * 1000,
         })
-        logger.error(f"[Etapa 4] ❌ {error_msg}")
+        logger.error(f"[Etapa 4] Erro: {error_msg}")
         notifications = []
 
     # ── Resultado final ─────────────────────────────────────

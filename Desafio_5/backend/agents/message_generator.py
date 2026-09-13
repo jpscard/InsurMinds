@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 # ─── Templates de fallback (quando IA não está disponível) ──
 FALLBACK_TEMPLATES: dict[EventType, dict[str, str]] = {
     EventType.CHUVA_INTENSA: {
-        "subject": "⚠️ Alerta de Chuva Intensa na sua região",
+        "subject": "Alerta: Chuva Intensa na sua região",
         "message": (
             "Prezado(a) {name},\n\n"
             "O Instituto Nacional de Meteorologia (INMET) emitiu um alerta de "
@@ -37,10 +37,10 @@ FALLBACK_TEMPLATES: dict[EventType, dict[str, str]] = {
             "Estamos aqui para ajudar. Sua segurança é nossa prioridade.\n\n"
             "Atenciosamente,\nSua Seguradora"
         ),
-        "short": "⚠️ Alerta: Chuva intensa prevista em {city}. Proteja seu {insurance_type}. Evite áreas de alagamento. Defesa Civil: 199",
+        "short": "Alerta: Chuva intensa prevista em {city}. Proteja seu {insurance_type}. Evite áreas de alagamento. Defesa Civil: 199",
     },
     EventType.GRANIZO: {
-        "subject": "🧊 Alerta de Granizo — Proteja seu patrimônio",
+        "subject": "Alerta: Granizo — Proteja seu patrimônio",
         "message": (
             "Prezado(a) {name},\n\n"
             "Há previsão de granizo para a região de {city}/{state}.\n\n"
@@ -52,10 +52,10 @@ FALLBACK_TEMPLATES: dict[EventType, dict[str, str]] = {
             "Sua segurança é nossa prioridade.\n\n"
             "Atenciosamente,\nSua Seguradora"
         ),
-        "short": "🧊 Alerta: Granizo previsto em {city}. Proteja seu veículo em local coberto. Evite áreas externas.",
+        "short": "Alerta: Granizo previsto em {city}. Proteja seu veículo em local coberto. Evite áreas externas.",
     },
     EventType.VENTO_FORTE: {
-        "subject": "💨 Alerta de Ventos Fortes na sua região",
+        "subject": "Alerta: Ventos Fortes na sua região",
         "message": (
             "Prezado(a) {name},\n\n"
             "Ventos fortes são esperados para a região de {city}/{state}.\n\n"
@@ -66,10 +66,10 @@ FALLBACK_TEMPLATES: dict[EventType, dict[str, str]] = {
             "• Evite uso de aparelhos eletrônicos ligados à tomada\n\n"
             "Atenciosamente,\nSua Seguradora"
         ),
-        "short": "💨 Alerta: Ventos fortes em {city}. Feche janelas, recolha objetos externos. Defesa Civil: 199",
+        "short": "Alerta: Ventos fortes em {city}. Feche janelas, recolha objetos externos. Defesa Civil: 199",
     },
     EventType.TEMPESTADE: {
-        "subject": "⛈️ Alerta de Tempestade — Ação preventiva recomendada",
+        "subject": "Alerta: Tempestade — Ação preventiva recomendada",
         "message": (
             "Prezado(a) {name},\n\n"
             "Uma tempestade está prevista para {city}/{state}.\n\n"
@@ -81,10 +81,10 @@ FALLBACK_TEMPLATES: dict[EventType, dict[str, str]] = {
             "• Em caso de emergência: Bombeiros (193), Defesa Civil (199)\n\n"
             "Atenciosamente,\nSua Seguradora"
         ),
-        "short": "⛈️ Alerta: Tempestade em {city}. Busque abrigo seguro. Bombeiros: 193, Defesa Civil: 199",
+        "short": "Alerta: Tempestade em {city}. Busque abrigo seguro. Bombeiros: 193, Defesa Civil: 199",
     },
     EventType.ONDA_CALOR: {
-        "subject": "🌡️ Alerta de Onda de Calor — Cuide da sua saúde",
+        "subject": "Alerta: Onda de Calor — Cuide da sua saúde",
         "message": (
             "Prezado(a) {name},\n\n"
             "Uma onda de calor está afetando a região de {city}/{state}.\n\n"
@@ -96,10 +96,10 @@ FALLBACK_TEMPLATES: dict[EventType, dict[str, str]] = {
             "Sua saúde é nossa prioridade.\n\n"
             "Atenciosamente,\nSua Seguradora"
         ),
-        "short": "🌡️ Alerta: Calor extremo em {city}. Hidrate-se e evite sol entre 10h-16h.",
+        "short": "Alerta: Calor extremo em {city}. Hidrate-se e evite sol entre 10h-16h.",
     },
     EventType.GEADA: {
-        "subject": "❄️ Alerta de Geada — Proteja suas plantações",
+        "subject": "Alerta: Geada — Proteja suas plantações",
         "message": (
             "Prezado(a) {name},\n\n"
             "Há risco de geada na região de {city}/{state}.\n\n"
@@ -110,13 +110,13 @@ FALLBACK_TEMPLATES: dict[EventType, dict[str, str]] = {
             "• Mantenha animais em abrigos adequados\n\n"
             "Atenciosamente,\nSua Seguradora"
         ),
-        "short": "❄️ Alerta: Geada prevista em {city}. Proteja plantações e tubulações. Verifique aquecimento.",
+        "short": "Alerta: Geada prevista em {city}. Proteja plantações e tubulações. Verifique aquecimento.",
     },
 }
 
 # Fallback genérico
 DEFAULT_TEMPLATE = {
-    "subject": "⚠️ Alerta Meteorológico para sua região",
+    "subject": "Alerta Meteorológico para sua região",
     "message": (
         "Prezado(a) {name},\n\n"
         "Um alerta meteorológico foi emitido para a região de {city}/{state}.\n\n"
@@ -124,7 +124,7 @@ DEFAULT_TEMPLATE = {
         "Em caso de emergência, ligue para a Defesa Civil (199).\n\n"
         "Atenciosamente,\nSua Seguradora"
     ),
-    "short": "⚠️ Alerta meteorológico em {city}. Tome medidas preventivas. Defesa Civil: 199",
+    "short": "Alerta meteorológico em {city}. Tome medidas preventivas. Defesa Civil: 199",
 }
 
 
@@ -268,6 +268,7 @@ INSTRUÇÕES:
 2. Gere uma mensagem completa e empática em português brasileiro
 3. Gere uma versão curta da mensagem (max 160 caracteres, formato SMS)
 4. Liste 3-5 recomendações práticas específicas para o tipo de seguro
+5. NÃO utilize emojis em nenhuma parte do texto (mantenha padrão corporativo formal)
 
 FORMATO DE RESPOSTA (use exatamente estas tags):
 <ASSUNTO>título aqui</ASSUNTO>
@@ -283,7 +284,7 @@ FORMATO DE RESPOSTA (use exatamente estas tags):
         text = response.text
 
         # Parsear resposta
-        subject = self._extract_tag(text, "ASSUNTO") or f"⚠️ Alerta para {ph.city}"
+        subject = self._extract_tag(text, "ASSUNTO") or f"Alerta para {ph.city}"
         message = self._extract_tag(text, "MENSAGEM") or ""
         short_msg = self._extract_tag(text, "SMS") or ""
         recs_text = self._extract_tag(text, "RECOMENDACOES") or ""

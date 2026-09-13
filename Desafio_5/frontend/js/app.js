@@ -235,8 +235,8 @@ function completeStep(step, status, detail) {
   el.classList.remove("active");
   el.classList.add(status === "success" ? "completed" : "error");
 
-  const icon = status === "success" ? "✅" : "❌";
-  document.getElementById(`step${step}Status`).textContent = `${icon} ${detail}`;
+  const prefix = status === "success" ? "" : "Erro: ";
+  document.getElementById(`step${step}Status`).textContent = `${prefix}${detail}`;
 
   // Activate next step
   if (status === "success" && step < 4) {
@@ -270,6 +270,8 @@ async function loadPolicyholders() {
       if (phBadge) phBadge.textContent = data.count;
       const tabBadge = document.getElementById("tabBadgePolicyholders");
       if (tabBadge) tabBadge.textContent = data.count;
+      const navBadge = document.getElementById("navBadgePolicyholders");
+      if (navBadge) navBadge.textContent = data.count;
     }
   } catch (err) {
     console.error("Error loading policyholders:", err);
@@ -332,13 +334,45 @@ function animateCounter(elementId, targetValue) {
 }
 
 function switchDashTab(tab) {
-  const tabs = ['whatsapp', 'events', 'policyholders'];
+  const tabs = ['whatsapp', 'events', 'policyholders', 'pipeline'];
+  const titles = {
+    whatsapp: {
+      title: "Central de Mensagens",
+      sub: "Disparos proativos multicanal (WhatsApp, SMS, E-mail, Push)"
+    },
+    events: {
+      title: "Eventos Climáticos",
+      sub: "Monitoramento em tempo real de alertas meteorológicos (INMET)"
+    },
+    policyholders: {
+      title: "Base de Segurados",
+      sub: "Carteira de apólices e geolocalização de clientes"
+    },
+    pipeline: {
+      title: "Esteira de Agentes Autônomos",
+      sub: "Execução orquestrada do fluxo inteligente de prevenção de sinistros"
+    }
+  };
+
   tabs.forEach(t => {
-    const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
-    const pane = document.getElementById(`pane${t.charAt(0).toUpperCase() + t.slice(1)}`);
-    if (btn) btn.classList.toggle('active', t === tab);
+    const capitalized = t.charAt(0).toUpperCase() + t.slice(1);
+    const navItem = document.getElementById(`navItem${capitalized}`);
+    const tabBtn = document.getElementById(`tabBtn${capitalized}`);
+    const pane = document.getElementById(`pane${capitalized}`);
+
+    if (navItem) navItem.classList.toggle('active', t === tab);
+    if (tabBtn) tabBtn.classList.toggle('active', t === tab);
     if (pane) pane.classList.toggle('active', t === tab);
   });
+
+  const pageTitleEl = document.getElementById("pageTitle");
+  const pageSubtitleEl = document.getElementById("pageSubtitle");
+  if (titles[tab]) {
+    if (pageTitleEl) pageTitleEl.textContent = titles[tab].title;
+    if (pageSubtitleEl) pageSubtitleEl.textContent = titles[tab].sub;
+  }
+
+  closeSidebar();
 }
 
 function renderEvents(events) {
@@ -347,6 +381,8 @@ function renderEvents(events) {
   if (badge) badge.textContent = events.length;
   const tabBadge = document.getElementById("tabBadgeEvents");
   if (tabBadge) tabBadge.textContent = events.length;
+  const navBadge = document.getElementById("navBadgeEvents");
+  if (navBadge) navBadge.textContent = events.length;
 
   if (!events.length) {
     container.innerHTML = '<div class="empty-state"><p>Nenhum evento detectado</p></div>';
@@ -369,9 +405,19 @@ function renderEvents(events) {
             <span class="severity-badge severity-${severity}">${severity.toUpperCase()}</span>
           </div>
           <div class="event-meta">
-            <span>🌪️ ${eventType}</span>
-            ${states ? `<span>📍 ${escapeHtml(states)}</span>` : ""}
-            <span>📰 ${escapeHtml(event.source || "—")}</span>
+            <span class="event-meta-item">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;margin-right:4px;"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+              ${eventType}
+            </span>
+            ${states ? `
+            <span class="event-meta-item">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              ${escapeHtml(states)}
+            </span>` : ""}
+            <span class="event-meta-item">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              ${escapeHtml(event.source || "INMET")}
+            </span>
           </div>
           ${desc ? `<div class="event-description">${escapeHtml(desc).substring(0, 200)}${desc.length > 200 ? "..." : ""}</div>` : ""}
         </div>
@@ -389,6 +435,8 @@ function renderNotifications(notifications) {
   
   const tabBadge = document.getElementById("tabBadgeWhatsapp");
   if (tabBadge) tabBadge.textContent = allNotifications.length;
+  const navBadge = document.getElementById("navBadgeWhatsapp");
+  if (navBadge) navBadge.textContent = allNotifications.length;
 
   filterWhatsAppList();
 
@@ -399,9 +447,11 @@ function renderNotifications(notifications) {
     if (chatBody) {
       chatBody.innerHTML = `
         <div class="wa-empty-chat">
-          <div class="wa-empty-chat-icon">💬</div>
+          <div class="wa-empty-chat-icon">
+            <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
           <h4>Nenhuma conversa gerada ainda</h4>
-          <p>Clique em <strong>Executar Pipeline</strong> acima para acionar a IA e gerar comunicados preventivos personalizados.</p>
+          <p>Clique em <strong>Executar Pipeline</strong> no menu lateral para acionar a esteira de IA e gerar comunicados preventivos.</p>
         </div>
       `;
     }
@@ -445,7 +495,9 @@ function filterWhatsAppList() {
     if (chatBody) {
       chatBody.innerHTML = `
         <div class="wa-empty-chat">
-          <div class="wa-empty-chat-icon">🔍</div>
+          <div class="wa-empty-chat-icon">
+            <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
           <h4>Nenhum resultado encontrado</h4>
           <p>Nenhuma mensagem corresponde ao filtro pesquisado.</p>
         </div>
@@ -469,11 +521,11 @@ function renderWhatsAppList(items) {
     return;
   }
 
-  const channelIcons = {
-    whatsapp: '💬 WhatsApp',
-    sms: '📱 SMS',
-    email: '📧 E-mail',
-    push: '🔔 Push'
+  const channelNames = {
+    whatsapp: 'WhatsApp',
+    sms: 'SMS',
+    email: 'E-mail',
+    push: 'Push'
   };
 
   container.innerHTML = items.map((n, idx) => {
@@ -496,9 +548,9 @@ function renderWhatsAppList(items) {
           </div>
           <div class="wa-chat-bottom-row">
             <span class="wa-chat-snippet">
-              <span class="wa-checkmarks">✓✓</span> ${escapeHtml(preview).substring(0, 40)}...
+              <span class="wa-checkmarks" style="color:#53bdeb;font-weight:700;">✓✓</span> ${escapeHtml(preview).substring(0, 40)}...
             </span>
-            <span class="wa-chat-meta-tag">${channelIcons[n.channel] || n.channel}</span>
+            <span class="wa-chat-meta-tag">${channelNames[n.channel] || n.channel}</span>
           </div>
         </div>
       </div>
@@ -530,7 +582,7 @@ function selectWhatsAppChat(index) {
   const subEl = document.getElementById("waActiveSubtitle");
   if (subEl) {
     const formattedIns = (n.insurance_type || 'Residencial').replace(/_/g, ' ');
-    subEl.innerHTML = `📍 ${escapeHtml(n.city || '')}/${escapeHtml(n.state || '')} &bull; <span style="color:#00a884;font-weight:600;">Seguro ${escapeHtml(formattedIns)}</span> &bull; online agora`;
+    subEl.innerHTML = `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-1px;margin-right:2px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ${escapeHtml(n.city || '')}/${escapeHtml(n.state || '')} &bull; <span style="color:#00a884;font-weight:600;">Seguro ${escapeHtml(formattedIns)}</span> &bull; online`;
   }
 
   const footer = document.getElementById("waChatFooter");
@@ -557,7 +609,9 @@ function renderActiveMessage() {
   if (!n) {
     container.innerHTML = `
       <div class="wa-empty-chat">
-        <div class="wa-empty-chat-icon">💬</div>
+        <div class="wa-empty-chat-icon">
+          <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
         <h4>Nenhuma conversa selecionada</h4>
       </div>
     `;
@@ -571,7 +625,10 @@ function renderActiveMessage() {
   if (currentFormat === 'whatsapp') {
     const recsHtml = recommendations.length ? `
       <div class="wa-checklist-card">
-        <div class="wa-checklist-title">📋 Ações Preventivas Recomendadas:</div>
+        <div class="wa-checklist-title">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;margin-right:6px;"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+          Ações Preventivas Recomendadas:
+        </div>
         ${recommendations.map(r => `<div class="wa-checklist-item">${escapeHtml(r)}</div>`).join('')}
       </div>
     ` : '';
@@ -580,19 +637,31 @@ function renderActiveMessage() {
       <div class="wa-date-pill">Hoje &bull; Alerta Preventivo Automatizado por IA</div>
       <div class="wa-bubble">
         <div class="wa-bubble-header">
-          <span class="wa-bubble-title">⛈️ ${escapeHtml(n.subject || `Alerta de ${eventName}`)}</span>
+          <span class="wa-bubble-title">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;margin-right:6px;color:#f59e0b;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            ${escapeHtml(n.subject || `Alerta de ${eventName}`)}
+          </span>
           <span class="wa-bubble-badge severity-${severity}">${severity.toUpperCase()}</span>
         </div>
         <div class="wa-bubble-text">${escapeHtml(n.message || '')}</div>
         ${recsHtml}
         <div class="wa-action-buttons">
-          <button class="wa-action-btn" onclick="showToast('Ligando para a Defesa Civil (199)...')">📞 Ligar para Defesa Civil (199)</button>
-          <button class="wa-action-btn" onclick="showToast('Acionando Central 24h da Seguradora (0800)...')">🛡️ Assistência 24h Seguradora (0800)</button>
-          <button class="wa-action-btn" onclick="showToast('Confirmação de recebimento registrada com sucesso!')">✅ Confirmar Recebimento do Alerta</button>
+          <button class="wa-action-btn" onclick="showToast('Ligando para a Defesa Civil (199)...')">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;margin-right:4px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Ligar para Defesa Civil (199)
+          </button>
+          <button class="wa-action-btn" onclick="showToast('Acionando Central 24h da Seguradora (0800)...')">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;margin-right:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Assistência 24h Seguradora (0800)
+          </button>
+          <button class="wa-action-btn" onclick="showToast('Confirmação de recebimento registrada com sucesso!')">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg>
+            Confirmar Recebimento do Alerta
+          </button>
         </div>
         <div class="wa-bubble-footer">
           <span>14:22</span>
-          <span class="wa-checkmarks">✓✓</span>
+          <span class="wa-checkmarks" style="color:#53bdeb;font-weight:700;">✓✓</span>
         </div>
       </div>
     `;
@@ -604,14 +673,14 @@ function renderActiveMessage() {
       <div class="channel-preview-pane">
         <div class="phone-mockup-frame">
           <div class="phone-mockup-header">
-            📱 Mensagem de Texto (SMS Gateway) &bull; Claro/Vivo/TIM
+            Mensagem de Texto (SMS Gateway) &bull; Telecom Corporativo
           </div>
           <div class="sms-bubble">
             ${escapeHtml(text)}
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;">
             <span class="sms-char-badge">${count} / 160 caracteres</span>
-            <span style="font-size:0.75rem;color:#00a884;font-weight:600;">✓ Entregue via SMS</span>
+            <span style="font-size:0.75rem;color:#00a884;font-weight:600;">Entregue via Gateway SMS</span>
           </div>
         </div>
       </div>
@@ -635,7 +704,7 @@ function renderActiveMessage() {
             <p>${escapeHtml(n.message || '').replace(/\n/g, '<br>')}</p>
             ${recsList}
             <div style="margin-top:16px;padding:12px;background:rgba(59,130,246,0.1);border-left:3px solid #3b82f6;border-radius:4px;font-size:0.8rem;color:#93c5fd;">
-              🚨 <strong>Central de Emergência da Seguradora:</strong> Ligue 0800 700 9000 ou acione o canal direto da Defesa Civil pelo 199.
+              <strong>Central de Emergência da Seguradora:</strong> Ligue 0800 700 9000 ou acione o canal direto da Defesa Civil pelo 199.
             </div>
           </div>
         </div>
@@ -669,14 +738,14 @@ function copyActiveMessage() {
   if (!n) return;
   const text = currentFormat === 'sms' ? (n.short_message || n.message) : n.message;
   navigator.clipboard.writeText(text || '').then(() => {
-    showToast('📋 Mensagem copiada para a área de transferência!');
+    showToast('Mensagem copiada para a área de transferência!');
   }).catch(() => {
-    showToast('📋 Mensagem copiada!');
+    showToast('Mensagem copiada!');
   });
 }
 
 function resendSimulation() {
-  showToast('🔄 Notificação reenviada com sucesso para o segurado!');
+  showToast('Notificação reenviada com sucesso para o segurado!');
 }
 
 function showToast(message) {
@@ -702,7 +771,7 @@ function renderPolicyholders(policyholders) {
     tbody.innerHTML = `
       <tr>
         <td colspan="6" style="text-align: center; padding: 2.5rem 1rem; color: var(--text-muted); font-size: 0.9rem;">
-          🔍 Nenhum segurado encontrado para o filtro atual.
+          Nenhum segurado encontrado para o filtro atual.
         </td>
       </tr>
     `;
@@ -718,11 +787,11 @@ function renderPolicyholders(policyholders) {
         })
         .join("");
 
-      const channelIcons = {
-        sms: "📱 SMS",
-        email: "📧 Email",
-        push: "🔔 Push",
-        whatsapp: "💬 WhatsApp",
+      const channelLabels = {
+        sms: "SMS",
+        email: "Email",
+        push: "Push",
+        whatsapp: "WhatsApp",
       };
 
       return `
@@ -731,7 +800,7 @@ function renderPolicyholders(policyholders) {
           <td>${escapeHtml(ph.name)}</td>
           <td>${escapeHtml(ph.city)}/${escapeHtml(ph.state)}</td>
           <td><div class="insurance-tags">${tags}</div></td>
-          <td>${channelIcons[ph.preferred_channel] || ph.preferred_channel}</td>
+          <td>${channelLabels[ph.preferred_channel] || ph.preferred_channel}</td>
           <td><span class="status-active">Ativo</span></td>
         </tr>
       `;
@@ -773,7 +842,7 @@ function showNotificationDetail(notification) {
   const body = document.getElementById("modalBody");
   const title = document.getElementById("modalTitle");
 
-  title.textContent = `📨 Notificação — ${notification.policyholder_name}`;
+  title.textContent = `Notificação — ${notification.policyholder_name}`;
 
   const severity = notification.severity || "media";
   const eventType = (notification.event_type || "")
@@ -837,7 +906,7 @@ function showNotificationDetail(notification) {
     <div class="modal-field">
       <div class="modal-field-label">Status do Envio</div>
       <div class="modal-field-value">
-        <span class="sent-badge">✓ Enviada com sucesso (simulação)</span>
+        <span class="sent-badge">Enviada com sucesso (simulação)</span>
       </div>
     </div>
   `;
@@ -862,8 +931,22 @@ document.addEventListener("keydown", (e) => {
 });
 
 // ═══════════════════════════════════════════════════════════
-// UTILITIES
+// UTILITIES & SIDEBAR NAVIGATION
 // ═══════════════════════════════════════════════════════════
+
+function toggleSidebar() {
+  const sidebar = document.getElementById("appSidebar");
+  const overlay = document.getElementById("sidebarOverlay");
+  if (sidebar) sidebar.classList.toggle("open");
+  if (overlay) overlay.classList.toggle("active");
+}
+
+function closeSidebar() {
+  const sidebar = document.getElementById("appSidebar");
+  const overlay = document.getElementById("sidebarOverlay");
+  if (sidebar) sidebar.classList.remove("open");
+  if (overlay) overlay.classList.remove("active");
+}
 
 function escapeHtml(str) {
   if (!str) return "";
@@ -892,7 +975,7 @@ function toggleTheme() {
   document.documentElement.setAttribute("data-theme", newTheme);
   localStorage.setItem("insureAlert_theme", newTheme);
   updateThemeToggleUI(newTheme);
-  showToast(newTheme === "light" ? "☀️ Modo Claro ativado" : "🌙 Modo Escuro ativado");
+  showToast(newTheme === "light" ? "Modo Claro ativado" : "Modo Escuro ativado");
 }
 
 function updateThemeToggleUI(theme) {
@@ -910,4 +993,6 @@ function updateThemeToggleUI(theme) {
 
 window.toggleTheme = toggleTheme;
 window.initTheme = initTheme;
+window.toggleSidebar = toggleSidebar;
+window.closeSidebar = closeSidebar;
 

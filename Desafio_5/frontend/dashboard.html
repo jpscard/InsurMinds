@@ -88,316 +88,424 @@
         })();
     </script>
 
-    <!-- ═══ HEADER ═══ -->
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <div class="logo-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                        <path d="M2 17l10 5 10-5"/>
-                        <path d="M2 12l10 5 10-5"/>
-                    </svg>
-                </div>
-                <div class="logo-text">
-                    <h1>InsureAlert</h1>
-                    <span>Comunicação Proativa com Segurados</span>
-                </div>
-            </div>
-            <div class="header-status">
-                <div class="status-indicator" id="apiStatus">
-                    <span class="status-dot"></span>
-                    <span class="status-text">Conectando...</span>
-                </div>
-                <div class="header-time" id="headerTime"></div>
-                <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Alternar entre tema Claro e Escuro" aria-label="Alternar tema">
-                    <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                        <circle cx="12" cy="12" r="5"/>
-                        <line x1="12" y1="1" x2="12" y2="3"/>
-                        <line x1="12" y1="21" x2="12" y2="23"/>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                        <line x1="1" y1="12" x2="3" y2="12"/>
-                        <line x1="21" y1="12" x2="23" y2="12"/>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-                    </svg>
-                    <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                    </svg>
-                    <span class="theme-toggle-text">Tema</span>
-                </button>
-                <div class="header-user" id="headerUser">
-                    <div class="user-avatar" id="userAvatar">U</div>
-                    <div class="user-menu">
-                        <span class="user-name" id="userName">Usuário</span>
-                        <button class="btn-logout" id="logoutBtn" onclick="handleLogout()">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
-                                <polyline points="16 17 21 12 16 7"/>
-                                <line x1="21" y1="12" x2="9" y2="12"/>
-                            </svg>
-                            Sair
-                        </button>
+    <!-- Mobile sidebar backdrop overlay -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+    <!-- ═══ APP LAYOUT (MODERN SIDEBAR + MAIN AREA) ═══ -->
+    <div class="app-layout">
+
+        <!-- ═══ SIDEBAR NAVIGATION ═══ -->
+        <aside class="app-sidebar" id="appSidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <div class="sidebar-brand-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <div class="sidebar-brand-text">
+                        <h2>InsureAlert</h2>
+                        <span class="sidebar-brand-badge">SaaS Enterprise</span>
                     </div>
                 </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="main-content">
-        <!-- ═══ STATS CARDS ═══ -->
-        <section class="stats-section" id="statsSection">
-            <div class="stat-card" id="statAlerts">
-                <div class="stat-icon alerts-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
-                        <line x1="12" y1="9" x2="12" y2="13"/>
-                        <line x1="12" y1="17" x2="12.01" y2="17"/>
-                    </svg>
-                </div>
-                <div class="stat-info">
-                    <span class="stat-value init" id="statAlertsValue" title="Execute o pipeline para atualizar">0</span>
-                    <span class="stat-label">Alertas Ativos</span>
-                </div>
-            </div>
-            <div class="stat-card" id="statEvents">
-                <div class="stat-icon events-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-                    </svg>
-                </div>
-                <div class="stat-info">
-                    <span class="stat-value init" id="statEventsValue" title="Execute o pipeline para atualizar">0</span>
-                    <span class="stat-label">Eventos Relevantes</span>
-                </div>
-            </div>
-            <div class="stat-card" id="statPolicyholders">
-                <div class="stat-icon policyholders-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-                        <circle cx="9" cy="7" r="4"/>
-                        <path d="M23 21v-2a4 4 0 00-3-3.87"/>
-                        <path d="M16 3.13a4 4 0 010 7.75"/>
-                    </svg>
-                </div>
-                <div class="stat-info">
-                    <span class="stat-value init" id="statPolicyholdersValue" title="Execute o pipeline para atualizar">0</span>
-                    <span class="stat-label">Segurados Notificados</span>
-                </div>
-            </div>
-            <div class="stat-card" id="statNotifications">
-                <div class="stat-icon notifications-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 17H2a3 3 0 003-3V9a7 7 0 0114 0v5a3 3 0 003 3zm-8.27 4a2 2 0 01-3.46 0"/>
-                    </svg>
-                </div>
-                <div class="stat-info">
-                    <span class="stat-value init" id="statNotificationsValue" title="Execute o pipeline para atualizar">0</span>
-                    <span class="stat-label">Notificações Geradas</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══ PIPELINE SECTION ═══ -->
-        <section class="pipeline-section">
-            <div class="section-header">
-                <h2>🤖 Pipeline de Agentes Inteligentes</h2>
-                <button class="btn-primary" id="runPipelineBtn" onclick="runPipeline()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-                        <polygon points="5 3 19 12 5 21 5 3"/>
-                    </svg>
-                    Executar Pipeline
-                </button>
             </div>
 
-            <div class="pipeline-steps" id="pipelineSteps">
-                <div class="pipeline-step" id="step1" data-step="1">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>📡 Agente Coletor</h3>
-                        <p>Coleta de dados meteorológicos (INMET)</p>
-                        <div class="step-status" id="step1Status"></div>
-                    </div>
-                    <div class="step-connector"></div>
-                </div>
-                <div class="pipeline-step" id="step2" data-step="2">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>🔍 Agente Analisador</h3>
-                        <p>Classificação de eventos climáticos</p>
-                        <div class="step-status" id="step2Status"></div>
-                    </div>
-                    <div class="step-connector"></div>
-                </div>
-                <div class="pipeline-step" id="step3" data-step="3">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>📋 Agente de Regras</h3>
-                        <p>Aplicação de regras de negócio</p>
-                        <div class="step-status" id="step3Status"></div>
-                    </div>
-                    <div class="step-connector"></div>
-                </div>
-                <div class="pipeline-step" id="step4" data-step="4">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3>✍️ Agente Comunicador</h3>
-                        <p>Geração de mensagens personalizadas</p>
-                        <div class="step-status" id="step4Status"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══ DASHBOARD TABS ═══ -->
-        <div class="dash-tabs" id="dashTabs">
-            <button class="dash-tab-btn active" onclick="switchDashTab('whatsapp')" id="tabBtnWhatsapp">
-                <span>💬 Central de Comunicação (WhatsApp & Multicanal)</span>
-                <span class="dash-tab-badge" id="tabBadgeWhatsapp">0</span>
-            </button>
-            <button class="dash-tab-btn" onclick="switchDashTab('events')" id="tabBtnEvents">
-                <span>⚡ Alertas Climáticos (INMET)</span>
-                <span class="dash-tab-badge" id="tabBadgeEvents">0</span>
-            </button>
-            <button class="dash-tab-btn" onclick="switchDashTab('policyholders')" id="tabBtnPolicyholders">
-                <span>👥 Base de Segurados</span>
-                <span class="dash-tab-badge" id="tabBadgePolicyholders">0</span>
-            </button>
-        </div>
-
-        <!-- ═══ PANE 1: WHATSAPP / MULTICHANNEL COMMUNICATIONS ═══ -->
-        <div class="dash-view-pane active" id="paneWhatsapp">
-            <div class="wa-container">
-                <!-- Left Sidebar: Contact list -->
-                <aside class="wa-sidebar">
-                    <div class="wa-sidebar-header">
-                        <div class="wa-sidebar-title">
-                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" color="#25d366"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
-                            <span>Conversas com Segurados</span>
-                        </div>
-                        <span class="dash-tab-badge" id="waSidebarCount">0</span>
-                    </div>
+            <div class="sidebar-nav-container">
+                <div class="sidebar-nav-group">
+                    <div class="sidebar-group-title">Módulos Principais</div>
                     
-                    <div class="wa-sidebar-search-box">
-                        <div class="wa-search-input-wrap">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:12px;width:16px;height:16px;color:#8696a0;pointer-events:none;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                            <input type="text" id="waSearchInput" placeholder="Pesquisar segurado ou evento..." class="wa-search-input" oninput="filterWhatsAppList()">
+                    <button class="sidebar-nav-item active" id="navItemWhatsapp" onclick="switchDashTab('whatsapp')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                        </svg>
+                        <span class="nav-item-label">Central de Mensagens</span>
+                        <span class="nav-item-badge" id="navBadgeWhatsapp">0</span>
+                    </button>
+
+                    <button class="sidebar-nav-item" id="navItemEvents" onclick="switchDashTab('events')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                        <span class="nav-item-label">Eventos Climáticos</span>
+                        <span class="nav-item-badge" id="navBadgeEvents">0</span>
+                    </button>
+
+                    <button class="sidebar-nav-item" id="navItemPolicyholders" onclick="switchDashTab('policyholders')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        <span class="nav-item-label">Base de Segurados</span>
+                        <span class="nav-item-badge" id="navBadgePolicyholders">0</span>
+                    </button>
+                </div>
+
+                <div class="sidebar-nav-group">
+                    <div class="sidebar-group-title">Automação & IA</div>
+                    <button class="sidebar-nav-item" id="navItemPipeline" onclick="switchDashTab('pipeline')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                        <span class="nav-item-label">Esteira de Agentes</span>
+                        <span class="nav-item-badge">4 Agentes</span>
+                    </button>
+                </div>
+
+                <div class="sidebar-action-box">
+                    <button class="sidebar-action-btn" id="sidebarRunPipelineBtn" onclick="runPipeline()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                        <span>Executar Pipeline</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sidebar Footer -->
+            <div class="sidebar-footer">
+                <div class="sidebar-status-row">
+                    <div class="status-indicator" id="apiStatus">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Conectando...</span>
+                    </div>
+
+                    <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" type="button" title="Alternar entre tema Claro e Escuro" aria-label="Alternar tema">
+                        <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                        <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                        <span class="theme-toggle-text">Tema</span>
+                    </button>
+                </div>
+
+                <div class="sidebar-user-card">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div class="sidebar-user-info">
+                        <span class="user-name" id="userName">Administrador</span>
+                        <span class="user-role">Operador de Risco</span>
+                    </div>
+                    <button class="btn-logout-icon" id="logoutBtn" onclick="handleLogout()" title="Sair do sistema" aria-label="Sair">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ═══ MAIN APPLICATION AREA ═══ -->
+        <div class="app-main-wrapper">
+            <header class="app-topbar">
+                <div class="topbar-left">
+                    <button class="sidebar-mobile-toggle" onclick="toggleSidebar()" aria-label="Menu lateral">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                            <line x1="3" y1="12" x2="21" y2="12"/>
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <line x1="3" y1="18" x2="21" y2="18"/>
+                        </svg>
+                    </button>
+                    <div class="topbar-page-info">
+                        <h1 class="topbar-page-title" id="pageTitle">Central de Mensagens</h1>
+                        <span class="topbar-page-subtitle" id="pageSubtitle">Comunicação multicanal proativa com segurados em áreas de risco</span>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <div class="topbar-clock" id="headerTime">--:--:--</div>
+                </div>
+            </header>
+
+            <main class="app-main-content">
+                <!-- ═══ COMPACT KPIS BAR ═══ -->
+                <section class="stats-section-compact" id="statsSection">
+                    <div class="stat-card-compact" id="statAlerts">
+                        <div class="stat-icon alerts-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                                <line x1="12" y1="9" x2="12" y2="13"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value init" id="statAlertsValue" title="Execute o pipeline para atualizar">0</span>
+                            <span class="stat-label">Alertas Ativos</span>
                         </div>
                     </div>
 
-                    <div class="wa-filter-chips">
-                        <button class="wa-filter-chip active" onclick="filterByChannel('all', this)">Todos</button>
-                        <button class="wa-filter-chip" onclick="filterByChannel('whatsapp', this)">💬 WhatsApp</button>
-                        <button class="wa-filter-chip" onclick="filterByChannel('sms', this)">📱 SMS</button>
-                        <button class="wa-filter-chip" onclick="filterByChannel('email', this)">📧 E-mail</button>
-                        <button class="wa-filter-chip" onclick="filterByChannel('push', this)">🔔 Push</button>
-                    </div>
-
-                    <div class="wa-chat-list" id="waChatList">
-                        <div class="wa-empty-chat" style="padding: 20px;">
-                            <p style="font-size:0.8rem;color:#8696a0;">Nenhuma notificação gerada ainda.<br>Clique em <strong>Executar Pipeline</strong> acima.</p>
+                    <div class="stat-card-compact" id="statEvents">
+                        <div class="stat-icon events-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                            </svg>
                         </div>
-                    </div>
-                </aside>
-
-                <!-- Right Main Pane: Active Chat / Preview -->
-                <section class="wa-chat-pane" id="waChatPane">
-                    <div class="wa-chat-pane-header" id="waChatHeader">
-                        <div class="wa-chat-header-user">
-                            <div class="wa-chat-avatar" id="waActiveAvatar">IA</div>
-                            <div class="wa-chat-header-info">
-                                <h3 id="waActiveName">Selecione um segurado</h3>
-                                <p id="waActiveSubtitle">Visualização em tempo real de mensagens proativas</p>
-                            </div>
-                        </div>
-
-                        <div class="wa-format-switcher">
-                            <button class="wa-format-btn active" id="btnFmtWhatsapp" onclick="switchChannelPreview('whatsapp')">💬 WhatsApp</button>
-                            <button class="wa-format-btn" id="btnFmtSms" onclick="switchChannelPreview('sms')">📱 SMS</button>
-                            <button class="wa-format-btn" id="btnFmtEmail" onclick="switchChannelPreview('email')">📧 E-mail</button>
-                            <button class="wa-format-btn" id="btnFmtPush" onclick="switchChannelPreview('push')">🔔 Push</button>
+                        <div class="stat-info">
+                            <span class="stat-value init" id="statEventsValue" title="Execute o pipeline para atualizar">0</span>
+                            <span class="stat-label">Eventos Relevantes</span>
                         </div>
                     </div>
 
-                    <div class="wa-chat-body" id="waChatBody">
-                        <div class="wa-empty-chat">
-                            <div class="wa-empty-chat-icon">💬</div>
-                            <h4>Central de Disparos Proativos</h4>
-                            <p>Envie alertas meteorológicos proativos e personalizados com Inteligência Artificial para proteger vidas e patrimônios dos segurados.</p>
+                    <div class="stat-card-compact" id="statPolicyholders">
+                        <div class="stat-icon policyholders-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 010 7.75"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value init" id="statPolicyholdersValue" title="Execute o pipeline para atualizar">0</span>
+                            <span class="stat-label">Segurados Notificados</span>
                         </div>
                     </div>
 
-                    <div class="wa-chat-pane-footer" id="waChatFooter" style="display:none;">
-                        <div class="wa-footer-status" style="font-size:0.75rem;color:#8696a0;display:flex;align-items:center;gap:6px;">
-                            <span style="color:#00a884;font-weight:700;">✓✓</span> Mensagem disparada preventivamente antes do sinistro
+                    <div class="stat-card-compact" id="statNotifications">
+                        <div class="stat-icon notifications-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 17H2a3 3 0 003-3V9a7 7 0 0114 0v5a3 3 0 003 3zm-8.27 4a2 2 0 01-3.46 0"/>
+                            </svg>
                         </div>
-                        <div class="wa-footer-actions">
-                            <button class="wa-tool-btn" onclick="copyActiveMessage()">📋 Copiar Mensagem</button>
-                            <button class="wa-tool-btn" onclick="resendSimulation()">🔄 Reenviar Alerta</button>
+                        <div class="stat-info">
+                            <span class="stat-value init" id="statNotificationsValue" title="Execute o pipeline para atualizar">0</span>
+                            <span class="stat-label">Notificações Geradas</span>
                         </div>
                     </div>
                 </section>
-            </div>
-        </div>
 
-        <!-- ═══ PANE 2: CLIMATE EVENTS ═══ -->
-        <div class="dash-view-pane" id="paneEvents">
-            <section class="card events-card" style="margin-bottom: 1.5rem;">
-                <div class="card-header">
-                    <h2>⚡ Eventos Climáticos Detectados (INMET)</h2>
-                    <span class="badge" id="eventsBadge">0</span>
+                <!-- ═══ PANE 1: WHATSAPP / MULTICHANNEL COMMUNICATIONS ═══ -->
+                <div class="dash-view-pane active" id="paneWhatsapp">
+                    <div class="wa-container">
+                        <!-- Left Sidebar: Contact list -->
+                        <aside class="wa-sidebar">
+                            <div class="wa-sidebar-header">
+                                <div class="wa-sidebar-title">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="color:#00a884;">
+                                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                                    </svg>
+                                    <span>Segurados Impactados</span>
+                                </div>
+                                <span class="nav-item-badge" id="waSidebarCount">0</span>
+                            </div>
+                            
+                            <div class="wa-sidebar-search-box">
+                                <div class="wa-search-input-wrap">
+                                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:12px;color:#8696a0;pointer-events:none;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                    <input type="text" id="waSearchInput" placeholder="Buscar segurado, cidade ou apólice..." class="wa-search-input" oninput="filterWhatsAppList()">
+                                </div>
+                            </div>
+
+                            <div class="wa-filter-chips">
+                                <button class="wa-filter-chip active" onclick="filterByChannel('all', this)">Todos</button>
+                                <button class="wa-filter-chip" onclick="filterByChannel('whatsapp', this)">WhatsApp</button>
+                                <button class="wa-filter-chip" onclick="filterByChannel('sms', this)">SMS</button>
+                                <button class="wa-filter-chip" onclick="filterByChannel('email', this)">E-mail</button>
+                                <button class="wa-filter-chip" onclick="filterByChannel('push', this)">Push</button>
+                            </div>
+
+                            <div class="wa-chat-list" id="waChatList">
+                                <div class="wa-empty-chat" style="padding: 24px;">
+                                    <p style="font-size:0.82rem;color:var(--text-muted);">Nenhuma notificação gerada ainda.<br>Clique em <strong>Executar Pipeline</strong> na barra lateral.</p>
+                                </div>
+                            </div>
+                        </aside>
+
+                        <!-- Right Main Pane: Active Chat / Preview -->
+                        <section class="wa-chat-pane" id="waChatPane">
+                            <div class="wa-chat-pane-header" id="waChatHeader">
+                                <div class="wa-chat-header-user">
+                                    <div class="wa-chat-avatar" id="waActiveAvatar">IA</div>
+                                    <div class="wa-chat-header-info">
+                                        <h3 id="waActiveName">Selecione um segurado</h3>
+                                        <p id="waActiveSubtitle">Visualização em tempo real de mensagens proativas</p>
+                                    </div>
+                                </div>
+
+                                <div class="wa-format-switcher">
+                                    <button class="wa-format-btn active" id="btnFmtWhatsapp" onclick="switchChannelPreview('whatsapp')">
+                                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                        WhatsApp
+                                    </button>
+                                    <button class="wa-format-btn" id="btnFmtSms" onclick="switchChannelPreview('sms')">
+                                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                                        SMS
+                                    </button>
+                                    <button class="wa-format-btn" id="btnFmtEmail" onclick="switchChannelPreview('email')">
+                                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                        E-mail
+                                    </button>
+                                    <button class="wa-format-btn" id="btnFmtPush" onclick="switchChannelPreview('push')">
+                                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h24s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                                        Push
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="wa-chat-body" id="waChatBody">
+                                <div class="wa-empty-chat">
+                                    <div class="wa-empty-chat-icon">
+                                        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.35;">
+                                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                                        </svg>
+                                    </div>
+                                    <h4>Central de Disparos Proativos</h4>
+                                    <p>Envie alertas meteorológicos preventivos e personalizados com Inteligência Artificial para proteger a integridade dos segurados.</p>
+                                </div>
+                            </div>
+
+                            <div class="wa-chat-pane-footer" id="waChatFooter" style="display:none;">
+                                <div class="wa-footer-status" style="font-size:0.75rem;color:var(--text-muted);display:flex;align-items:center;gap:6px;">
+                                    <span style="color:#00a884;font-weight:700;">✓✓</span> Mensagem disparada preventivamente antes da ocorrência do sinistro
+                                </div>
+                                <div class="wa-footer-actions">
+                                    <button class="wa-tool-btn" onclick="copyActiveMessage()">
+                                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                        Copiar Mensagem
+                                    </button>
+                                    <button class="wa-tool-btn" onclick="resendSimulation()">
+                                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                                        Reenviar Alerta
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
                 </div>
-                <div class="card-body" id="eventsList" style="max-height: none;">
-                    <div class="empty-state-guided">
-                        <div class="empty-icon">⚡</div>
-                        <p>Nenhum evento detectado ainda.</p>
-                        <div class="guide-arrow">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-                            Clique em <strong style="color:#fff;margin:0 4px">Executar Pipeline</strong> acima para começar
+
+                <!-- ═══ PANE 2: CLIMATE EVENTS ═══ -->
+                <div class="dash-view-pane" id="paneEvents">
+                    <section class="card events-card" style="margin-bottom: 0;">
+                        <div class="card-header">
+                            <div>
+                                <h2>Eventos Climáticos Detectados</h2>
+                                <p style="font-size:0.78rem;color:var(--text-muted);margin-top:2px;">Dados meteorológicos oficiais coletados do Instituto Nacional de Meteorologia (INMET)</p>
+                            </div>
+                            <span class="badge" id="eventsBadge">0</span>
                         </div>
-                    </div>
+                        <div class="card-body" id="eventsList" style="max-height: none;">
+                            <div class="empty-state-guided">
+                                <div class="empty-icon">
+                                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.4;">
+                                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                                    </svg>
+                                </div>
+                                <p>Nenhum evento detectado no momento.</p>
+                                <div class="guide-arrow">
+                                    Clique em <strong>Executar Pipeline</strong> no menu lateral para iniciar o monitoramento
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-            </section>
-        </div>
 
-        <!-- ═══ PANE 3: POLICYHOLDERS ═══ -->
-        <div class="dash-view-pane" id="panePolicyholders">
-            <section class="card policyholders-card" style="margin-bottom: 1.5rem;">
-                <div class="card-header">
-                    <h2>👥 Base de Segurados</h2>
-                    <div class="card-header-actions">
-                        <input type="text" id="phSearchInput" placeholder="🔍 Filtrar por nome, cidade ou seguro..." class="table-search-input" oninput="filterPolicyholders()">
-                        <span class="badge" id="phBadge">0</span>
-                    </div>
+                <!-- ═══ PANE 3: POLICYHOLDERS ═══ -->
+                <div class="dash-view-pane" id="panePolicyholders">
+                    <section class="card policyholders-card" style="margin-bottom: 0;">
+                        <div class="card-header">
+                            <div>
+                                <h2>Base de Segurados</h2>
+                                <p style="font-size:0.78rem;color:var(--text-muted);margin-top:2px;">Cadastro de clientes com geolocalização e apólices vigentes</p>
+                            </div>
+                            <div class="card-header-actions">
+                                <input type="text" id="phSearchInput" placeholder="Filtrar por nome, cidade ou apólice..." class="table-search-input" oninput="filterPolicyholders()">
+                                <span class="badge" id="phBadge">0</span>
+                            </div>
+                        </div>
+                        <div class="card-body" style="max-height: none;">
+                            <div class="table-wrapper">
+                                <table class="data-table" id="policyholdersTable">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nome do Segurado</th>
+                                            <th>Cidade/UF</th>
+                                            <th>Apólices Ativas</th>
+                                            <th>Canal Preferencial</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="policyholdersBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-                <div class="card-body" style="max-height: none;">
-                    <div class="table-wrapper">
-                        <table class="data-table" id="policyholdersTable">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nome</th>
-                                    <th>Cidade/UF</th>
-                                    <th>Seguros</th>
-                                    <th>Canal</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="policyholdersBody">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
 
-    <!-- ═══ FOOTER ═══ -->
-    <footer class="footer">
-        <p>InsureAlert MVP — Desafio 5: Comunicação Proativa com Segurados</p>
-        <p>Powered by INMET API • Google Gemini AI • FastAPI</p>
-    </footer>
+                <!-- ═══ PANE 4: AGENTS PIPELINE ═══ -->
+                <div class="dash-view-pane" id="panePipeline">
+                    <section class="pipeline-section">
+                        <div class="section-header">
+                            <div>
+                                <h2>Esteira de Agentes Autônomos</h2>
+                                <p style="font-size:0.8rem;color:var(--text-muted);margin-top:2px;">Fluxo orquestrado de IA para detecção climática, análise de risco e comunicação</p>
+                            </div>
+                            <button class="btn-primary" id="runPipelineBtn" onclick="runPipeline()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                    <polygon points="5 3 19 12 5 21 5 3"/>
+                                </svg>
+                                Executar Esteira Agora
+                            </button>
+                        </div>
+
+                        <div class="pipeline-steps" id="pipelineSteps">
+                            <div class="pipeline-step" id="step1" data-step="1">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h3>Agente Coletor</h3>
+                                    <p>Coleta meteorológica em tempo real (INMET)</p>
+                                    <div class="step-status" id="step1Status">Pronto para execução</div>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+                            <div class="pipeline-step" id="step2" data-step="2">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h3>Agente Analisador</h3>
+                                    <p>Classificação de severidade e raio de impacto</p>
+                                    <div class="step-status" id="step2Status">Pronto para execução</div>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+                            <div class="pipeline-step" id="step3" data-step="3">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h3>Agente de Regras</h3>
+                                    <p>Cruzamento de geolocalização e apólices vigentes</p>
+                                    <div class="step-status" id="step3Status">Pronto para execução</div>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+                            <div class="pipeline-step" id="step4" data-step="4">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h3>Agente Comunicador</h3>
+                                    <p>Geração de alertas preventivos via IA Gemini</p>
+                                    <div class="step-status" id="step4Status">Pronto para execução</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+            </main>
+        </div>
+    </div>
 
     <script src="/static/js/auth.js"></script>
     <script src="/static/js/app.js?v=3.0"></script>
