@@ -33,7 +33,11 @@ class WeatherCollectorAgent:
     """
 
     def __init__(self):
-        self.client = httpx.AsyncClient(timeout=30.0)
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "application/json, text/plain, */*",
+        }
+        self.client = httpx.AsyncClient(timeout=30.0, headers=headers, verify=False)
         self.name = "Agente Coletor"
 
     async def collect_all(self) -> list[WeatherEvent]:
@@ -62,8 +66,8 @@ class WeatherCollectorAgent:
 
         events: list[WeatherEvent] = []
 
-        # A resposta do INMET possui chaves "hoje" e "amanha"
-        for period_key in ["hoje", "amanha"]:
+        # A resposta do INMET possui chaves "hoje", "futuro" e "amanha"
+        for period_key in ["hoje", "futuro", "amanha"]:
             alerts = data.get(period_key, [])
             if not isinstance(alerts, list):
                 continue
