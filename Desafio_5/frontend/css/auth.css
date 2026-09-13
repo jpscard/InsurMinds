@@ -550,6 +550,193 @@
     color: var(--accent-blue);
 }
 
+/* ─── STANDARD CENTERED AUTH LAYOUT ──────────────────────── */
+.auth-centered-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
+    position: relative;
+    z-index: 10;
+}
+
+.auth-top-bar {
+    position: absolute;
+    top: 24px;
+    left: 28px;
+    right: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 20;
+}
+
+.auth-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.84rem;
+    font-weight: 500;
+    padding: 7px 16px;
+    border-radius: 100px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
+    transition: all var(--transition-fast);
+}
+
+.auth-back-link:hover {
+    color: var(--text-primary);
+    border-color: var(--accent-blue);
+    transform: translateX(-3px);
+    background: var(--bg-glass-hover);
+}
+
+.auth-standard-card {
+    width: 100%;
+    max-width: 450px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 2.25rem 2.5rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+
+[data-theme="light"] .auth-standard-card {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.07);
+}
+
+.auth-card-logo-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1.75rem;
+}
+
+.auth-logo-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--gradient-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    box-shadow: 0 0 24px rgba(59, 130, 246, 0.4);
+}
+
+.auth-logo-badge svg {
+    width: 28px;
+    height: 28px;
+    color: #ffffff;
+}
+
+.auth-card-logo-wrap h1 {
+    font-size: 1.55rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.auth-card-logo-wrap p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Quick demo access box */
+.auth-quick-demo {
+    margin-top: 1.5rem;
+    padding: 12px 16px;
+    background: rgba(59, 130, 246, 0.07);
+    border: 1px dashed rgba(59, 130, 246, 0.35);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.auth-quick-demo:hover {
+    background: rgba(59, 130, 246, 0.12);
+    border-color: var(--accent-blue);
+    transform: translateY(-1px);
+}
+
+.auth-quick-demo-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 2px;
+}
+
+.auth-quick-demo-info strong {
+    font-size: 0.8rem;
+    color: var(--accent-blue);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.auth-quick-demo-info span {
+    font-size: 0.74rem;
+    color: var(--text-secondary);
+    font-family: monospace;
+}
+
+.auth-quick-demo-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: var(--accent-blue);
+    color: #ffffff;
+    font-size: 0.74rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+}
+
+.auth-quick-demo:hover .auth-quick-demo-btn {
+    background: #2563eb;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+}
+
+/* Bottom security badge */
+.auth-security-footer {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.auth-security-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
 /* ─── GRADIENT TEXT (shared) ─────────────────────────────── */
 .gradient-text {
     background: linear-gradient(135deg, #3b82f6, #06b6d4, #8b5cf6);

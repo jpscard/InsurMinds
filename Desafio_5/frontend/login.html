@@ -32,153 +32,150 @@
         <div class="auth-orb auth-orb-3"></div>
     </div>
 
-    <div class="auth-wrapper">
-        <!-- Left brand panel -->
-        <div class="auth-brand">
-            <a href="/" class="auth-brand-logo">
-                <div class="nav-logo-icon">
+    <!-- Centered standard authentication layout -->
+    <div class="auth-centered-container">
+        
+        <!-- Top bar with Back button and Theme toggle -->
+        <div class="auth-top-bar">
+            <a href="/" class="auth-back-link" title="Voltar para a página inicial">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <line x1="19" y1="12" x2="5" y2="12"/>
+                    <polyline points="12 19 5 12 12 5"/>
+                </svg>
+                <span>Voltar ao início</span>
+            </a>
+
+            <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" type="button" title="Alternar entre tema Claro e Escuro" aria-label="Alternar tema">
+                <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+                <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+                <span class="theme-toggle-text">Tema</span>
+            </button>
+        </div>
+
+        <!-- Standard Login Card -->
+        <div class="auth-standard-card">
+            <div class="auth-card-logo-wrap">
+                <div class="auth-logo-badge">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 2L2 7l10 5 10-5-10-5z"/>
                         <path d="M2 17l10 5 10-5"/>
                         <path d="M2 12l10 5 10-5"/>
                     </svg>
                 </div>
-                <span>InsureAlert</span>
-            </a>
-            <div class="auth-brand-content">
-                <h2>Comunicação proativa<br>com <span class="gradient-text">inteligência artificial</span></h2>
-                <p>Monitore eventos climáticos, proteja seus segurados e reduza sinistros com alertas preventivos personalizados.</p>
-                <div class="auth-brand-features">
-                    <div class="auth-brand-feature">
-                        <div class="auth-brand-feature-icon">📡</div>
-                        <span>Monitoramento em tempo real</span>
-                    </div>
-                    <div class="auth-brand-feature">
-                        <div class="auth-brand-feature-icon">🤖</div>
-                        <span>4 Agentes de IA integrados</span>
-                    </div>
-                    <div class="auth-brand-feature">
-                        <div class="auth-brand-feature-icon">🛡️</div>
-                        <span>Proteção preventiva de segurados</span>
+                <h1>InsureAlert</h1>
+                <p>Acesse o painel com suas credenciais</p>
+            </div>
+
+            <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
+                <!-- Error/Success message alert -->
+                <div class="auth-message" id="authMessage"></div>
+
+                <!-- Email field -->
+                <div class="form-group">
+                    <label for="email" class="form-label">E-mail corporativo ou de acesso</label>
+                    <div class="form-input-wrapper">
+                        <svg class="form-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="admin@insure.com" required autocomplete="email" autofocus>
                     </div>
                 </div>
+
+                <!-- Password field -->
+                <div class="form-group">
+                    <div class="form-label-row">
+                        <label for="password" class="form-label">Senha de acesso</label>
+                        <a href="#" class="form-link" onclick="event.preventDefault(); alert('Para redefinir sua senha, entre em contato com o suporte ou use a conta de teste.');">Esqueceu a senha?</a>
+                    </div>
+                    <div class="form-input-wrapper">
+                        <svg class="form-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0110 0v4"/>
+                        </svg>
+                        <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required minlength="6" autocomplete="current-password">
+                        <button type="button" class="form-input-toggle" onclick="togglePassword('password', this)" aria-label="Mostrar senha">
+                            <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            <svg class="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="display:none">
+                                <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+                                <line x1="1" y1="1" x2="23" y2="23"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Remember me -->
+                <div class="form-group-inline">
+                    <label class="form-checkbox">
+                        <input type="checkbox" id="remember" name="remember" checked>
+                        <span class="checkmark"></span>
+                        Lembrar meu acesso
+                    </label>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="auth-btn" id="loginBtn">
+                    <span class="auth-btn-text">
+                        Acessar Plataforma
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="margin-left: 6px;">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                            <polyline points="12 5 19 12 12 19"/>
+                        </svg>
+                    </span>
+                    <span class="auth-btn-loader" style="display:none">
+                        <span class="spinner"></span>
+                        Autenticando...
+                    </span>
+                </button>
+            </form>
+
+            <!-- 1-Click Quick Demo Credentials Pill -->
+            <div class="auth-quick-demo" id="demoFillBox" onclick="fillDemoCredentials()" title="Clique para preencher as credenciais de teste automaticamente">
+                <div class="auth-quick-demo-info">
+                    <strong>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                        Acesso Rápido de Teste (Demo)
+                    </strong>
+                    <span>admin@insure.com • admin123</span>
+                </div>
+                <button type="button" class="auth-quick-demo-btn">Preencher</button>
+            </div>
+
+            <!-- Footer text -->
+            <div class="auth-footer-text">
+                Não tem uma conta? <a href="/register" class="auth-footer-link">Cadastrar nova conta</a>
             </div>
         </div>
 
-        <!-- Right form panel -->
-        <div class="auth-form-panel">
-            <div class="auth-card">
-                <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
-                    <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" type="button" title="Alternar entre tema Claro e Escuro" aria-label="Alternar tema">
-                        <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                            <circle cx="12" cy="12" r="5"/>
-                            <line x1="12" y1="1" x2="12" y2="3"/>
-                            <line x1="12" y1="21" x2="12" y2="23"/>
-                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                            <line x1="1" y1="12" x2="3" y2="12"/>
-                            <line x1="21" y1="12" x2="23" y2="12"/>
-                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-                        </svg>
-                        <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="auth-card-header">
-                    <h1>Bem-vindo de volta</h1>
-                    <p>Entre com sua conta para acessar o dashboard</p>
-                </div>
-
-                <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
-                    <!-- Error/Success message -->
-                    <div class="auth-message" id="authMessage"></div>
-
-                    <div class="form-group">
-                        <label for="email" class="form-label">Email</label>
-                        <div class="form-input-wrapper">
-                            <svg class="form-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                <polyline points="22,6 12,13 2,6"/>
-                            </svg>
-                            <input type="email" id="email" name="email" class="form-input" placeholder="seu@email.com" required autocomplete="email">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="form-label-row">
-                            <label for="password" class="form-label">Senha</label>
-                            <a href="#" class="form-link" onclick="event.preventDefault(); alert('Funcionalidade em breve!')">Esqueceu a senha?</a>
-                        </div>
-                        <div class="form-input-wrapper">
-                            <svg class="form-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                                <path d="M7 11V7a5 5 0 0110 0v4"/>
-                            </svg>
-                            <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required minlength="6" autocomplete="current-password">
-                            <button type="button" class="form-input-toggle" onclick="togglePassword('password', this)" aria-label="Mostrar senha">
-                                <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                                <svg class="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="display:none">
-                                    <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
-                                    <line x1="1" y1="1" x2="23" y2="23"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="form-group-inline">
-                        <label class="form-checkbox">
-                            <input type="checkbox" id="remember" name="remember">
-                            <span class="checkmark"></span>
-                            Lembrar-me
-                        </label>
-                    </div>
-
-                    <button type="submit" class="auth-btn" id="loginBtn">
-                        <span class="auth-btn-text">Entrar</span>
-                        <span class="auth-btn-loader" style="display:none">
-                            <span class="spinner"></span>
-                            Autenticando...
-                        </span>
-                    </button>
-                </form>
-
-                <div class="auth-divider">
-                    <span>ou continue com</span>
-                </div>
-
-                <div class="auth-social">
-                    <button class="auth-social-btn" onclick="alert('Login social em breve!')">
-                        <svg viewBox="0 0 24 24" width="20" height="20">
-                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
-                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                        </svg>
-                        Google
-                    </button>
-                    <button class="auth-social-btn" onclick="alert('Login social em breve!')">
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="#00a4ef">
-                            <path d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zM24 11.4H12.6V0H24v11.4z"/>
-                        </svg>
-                        Microsoft
-                    </button>
-                </div>
-
-                <div class="auth-footer-text">
-                    Não tem uma conta? <a href="/register" class="auth-footer-link">Criar conta gratuita</a>
-                </div>
+        <!-- Security footer -->
+        <div class="auth-security-footer">
+            <div class="auth-security-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0110 0v4"/>
+                </svg>
+                Ambiente seguro com criptografia e autenticação JWT
             </div>
-
-            <!-- Demo credentials hint -->
-            <div class="auth-demo-hint">
-                <strong>🔑 Conta de demonstração:</strong> admin@insure.com / admin123
-            </div>
+            <span>InsureAlert © 2026 • Desafio 5</span>
         </div>
+
     </div>
 
     <script src="/static/js/auth.js"></script>
@@ -188,6 +185,43 @@
             const next = current === 'light' ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', next);
             localStorage.setItem('insureAlert_theme', next);
+            updateThemeBtn(next);
+        }
+
+        function updateThemeBtn(theme) {
+            const btn = document.getElementById('themeToggleBtn');
+            if (!btn) return;
+            const text = btn.querySelector('.theme-toggle-text');
+            if (theme === 'light') {
+                btn.setAttribute('title', 'Mudar para Tema Escuro');
+                if (text) text.textContent = 'Claro';
+            } else {
+                btn.setAttribute('title', 'Mudar para Tema Claro');
+                if (text) text.textContent = 'Escuro';
+            }
+        }
+
+        // Initialize button label
+        (function() {
+            const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+            updateThemeBtn(theme);
+        })();
+
+        // 1-Click quick fill demo credentials
+        function fillDemoCredentials() {
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            if (emailInput && passwordInput) {
+                emailInput.value = 'admin@insure.com';
+                passwordInput.value = 'admin123';
+                emailInput.focus();
+                
+                const demoBox = document.getElementById('demoFillBox');
+                if (demoBox) {
+                    demoBox.style.transform = 'scale(0.97)';
+                    setTimeout(() => { demoBox.style.transform = ''; }, 160);
+                }
+            }
         }
     </script>
 </body>
