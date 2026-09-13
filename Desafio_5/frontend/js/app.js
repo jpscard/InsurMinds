@@ -54,6 +54,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadLastResult();
   await loadActuarialMetrics();
   await loadAuditStream();
+
+  const savedCollapse = localStorage.getItem("insureAlert_sidebar_collapsed");
+  if (savedCollapse === "true") {
+    const sidebar = document.getElementById("appSidebar");
+    if (sidebar) sidebar.classList.add("collapsed");
+  }
 });
 
 function initUserSession() {
@@ -969,6 +975,13 @@ function toggleSidebar() {
   if (overlay) overlay.classList.toggle("active");
 }
 
+function toggleSidebarCollapse() {
+  const sidebar = document.getElementById("appSidebar");
+  if (!sidebar) return;
+  const isCollapsed = sidebar.classList.toggle("collapsed");
+  localStorage.setItem("insureAlert_sidebar_collapsed", isCollapsed ? "true" : "false");
+}
+
 function closeSidebar() {
   const sidebar = document.getElementById("appSidebar");
   const overlay = document.getElementById("sidebarOverlay");
@@ -1023,6 +1036,7 @@ window.toggleTheme = toggleTheme;
 window.initTheme = initTheme;
 window.toggleSidebar = toggleSidebar;
 window.closeSidebar = closeSidebar;
+window.toggleSidebarCollapse = toggleSidebarCollapse;
 
 // ═══════════════════════════════════════════════════════════
 // ENTERPRISE FEATURES: ACTUARIAL METRICS, AUDIT STREAM & CRUD
