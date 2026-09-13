@@ -31,7 +31,7 @@ HEAT_THRESHOLD_C = 38.0
 NOTIFICATION_COOLDOWN_SECONDS = 6 * 60 * 60  # 6 horas
 
 # ─── Modelo Gemini ──────────────────────────────────────────
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")
 
 # ─── Mapeamento de estados brasileiros ──────────────────────
 ESTADOS_BR = {

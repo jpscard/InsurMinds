@@ -153,6 +153,16 @@
                         <span class="nav-item-label">Esteira de Agentes</span>
                         <span class="nav-item-badge">4 Agentes</span>
                     </button>
+
+                    <button class="sidebar-nav-item" id="navItemAudit" onclick="switchDashTab('audit')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                        <span class="nav-item-label">Auditoria & Event Bus</span>
+                        <span class="nav-item-badge" id="navBadgeAudit" style="background:rgba(16,185,129,0.15);color:#10b981;font-weight:600;">Live</span>
+                    </button>
                 </div>
 
                 <div class="sidebar-action-box">
@@ -287,6 +297,45 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- ═══ ACTUARIAL IMPACT BANNER (LOSS RATIO & ROI) ═══ -->
+                <div class="actuarial-banner" id="actuarialBanner">
+                    <div class="actuarial-banner-top">
+                        <div class="actuarial-banner-title">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--primary);"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                            <span>Impacto Atuarial & Prevenção de Sinistralidade (Loss Ratio)</span>
+                        </div>
+                        <div class="actuarial-banner-meta">
+                            <span class="actuarial-badge">Métricas em Tempo Real</span>
+                        </div>
+                    </div>
+                    <div class="actuarial-grid">
+                        <div class="actuarial-metric">
+                            <span class="actuarial-label">Capital Total Segurado</span>
+                            <span class="actuarial-value" id="actuarialTotalCapital">R$ 26,4M</span>
+                        </div>
+                        <div class="actuarial-metric">
+                            <span class="actuarial-label">Capital sob Risco Imediato</span>
+                            <span class="actuarial-value warning" id="actuarialCapitalAtRisk">R$ 10,5M</span>
+                        </div>
+                        <div class="actuarial-metric">
+                            <span class="actuarial-label">Sinistros Evitados (Est.)</span>
+                            <span class="actuarial-value success" id="actuarialAvoidedLoss">R$ 1,89M</span>
+                        </div>
+                        <div class="actuarial-metric">
+                            <span class="actuarial-label">Custo do Disparo Omnicanal</span>
+                            <span class="actuarial-value" id="actuarialCost">R$ 6,08</span>
+                        </div>
+                        <div class="actuarial-metric">
+                            <span class="actuarial-label">ROI Preventivo Estimado</span>
+                            <span class="actuarial-value highlight" id="actuarialRoi">310.000x</span>
+                        </div>
+                        <div class="actuarial-metric">
+                            <span class="actuarial-label">Protocolos de Assistência</span>
+                            <span class="actuarial-value" id="actuarialProtocols">0</span>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- ═══ PANE 1: WHATSAPP / MULTICHANNEL COMMUNICATIONS ═══ -->
                 <div class="dash-view-pane active" id="paneWhatsapp">
@@ -423,6 +472,13 @@
                             </div>
                             <div class="card-header-actions">
                                 <input type="text" id="phSearchInput" placeholder="Filtrar por nome, cidade ou apólice..." class="table-search-input" oninput="filterPolicyholders()">
+                                <button class="btn-primary-sm" onclick="openPolicyholderModal()" id="btnNewPolicyholder" type="button" title="Cadastrar novo segurado na base">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                                        <line x1="12" y1="5" x2="12" y2="19"/>
+                                        <line x1="5" y1="12" x2="19" y2="12"/>
+                                    </svg>
+                                    <span>+ Novo Segurado</span>
+                                </button>
                                 <span class="badge" id="phBadge">0</span>
                             </div>
                         </div>
@@ -437,6 +493,7 @@
                                             <th>Apólices Ativas</th>
                                             <th>Canal Preferencial</th>
                                             <th>Status</th>
+                                            <th>Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody id="policyholdersBody">
@@ -503,11 +560,132 @@
                     </section>
                 </div>
 
+                <!-- ═══ PANE 5: AUDIT & EVENT STREAM (KAFKA / CLOUDEVENTS) ═══ -->
+                <div class="dash-view-pane" id="paneAudit">
+                    <section class="card audit-card" style="margin-bottom:0;">
+                        <div class="card-header">
+                            <div>
+                                <h2>Barramento Corporativo de Eventos & Auditoria (Event Stream)</h2>
+                                <p style="font-size:0.78rem;color:var(--text-muted);margin-top:2px;">Rastreabilidade de mensageria e decisões de IA em conformidade com SUSEP e LGPD</p>
+                            </div>
+                            <div class="card-header-actions">
+                                <button class="btn-secondary-sm" onclick="loadAuditStream()" type="button">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                                    <span>Atualizar Eventos</span>
+                                </button>
+                                <span class="badge" id="auditBadge">0 eventos</span>
+                            </div>
+                        </div>
+                        <div class="card-body" style="padding:16px;">
+                            <div class="audit-terminal">
+                                <div class="audit-terminal-header">
+                                    <div class="terminal-dots">
+                                        <span class="dot red"></span>
+                                        <span class="dot yellow"></span>
+                                        <span class="dot green"></span>
+                                    </div>
+                                    <span class="terminal-cluster-title">insurealert-eventbus-prd01 &bull; consumer-group: core-actuarial-workers</span>
+                                    <span class="terminal-live-badge">STREAMING ATIVO</span>
+                                </div>
+                                <div class="audit-terminal-body" id="auditStreamContainer">
+                                    <div style="padding:20px;text-align:center;color:var(--text-muted);font-size:0.82rem;">
+                                        Carregando eventos do barramento...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
             </main>
         </div>
     </div>
 
+    <!-- ═══ MODAL CADASTRO / EDIÇÃO DE SEGURADO ═══ -->
+    <div class="modal-backdrop" id="policyholderModal" style="display:none;">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div class="modal-header-info">
+                    <h3 id="modalPhTitle">Cadastrar Novo Segurado</h3>
+                    <p style="font-size:0.75rem;color:var(--text-muted);margin-top:2px;">Insira os dados do titular e a apólice correspondente</p>
+                </div>
+                <button class="modal-close-btn" onclick="closePolicyholderModal()" type="button" aria-label="Fechar">&times;</button>
+            </div>
+            <form id="policyholderForm" onsubmit="handlePolicyholderSubmit(event)">
+                <input type="hidden" id="formPhId">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label for="formPhName">Nome Completo do Segurado *</label>
+                            <input type="text" id="formPhName" required placeholder="Ex: Roberto Carlos Alencar" class="form-control">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="formPhDoc">CPF / CNPJ *</label>
+                            <input type="text" id="formPhDoc" required placeholder="000.000.000-00" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label for="formPhCity">Cidade *</label>
+                            <input type="text" id="formPhCity" required placeholder="Ex: Curitiba" class="form-control">
+                        </div>
+                        <div class="form-group flex-1" style="max-width:90px;">
+                            <label for="formPhState">UF *</label>
+                            <input type="text" id="formPhState" required maxlength="2" placeholder="PR" class="form-control" style="text-transform:uppercase;">
+                        </div>
+                        <div class="form-group flex-2">
+                            <label for="formPhNeigh">Bairro</label>
+                            <input type="text" id="formPhNeigh" placeholder="Ex: Centro" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="formPhPhone">Telefone Móvel (WhatsApp / SMS)</label>
+                            <input type="tel" id="formPhPhone" placeholder="(41) 99888-7766" class="form-control">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="formPhEmail">E-mail</label>
+                            <input type="email" id="formPhEmail" placeholder="cliente@email.com.br" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="formPhInsuranceType">Ramo de Seguro *</label>
+                            <select id="formPhInsuranceType" required class="form-control">
+                                <option value="residencial">Residencial</option>
+                                <option value="automovel">Automóvel</option>
+                                <option value="agro">Agro / Rural</option>
+                                <option value="empresarial">Empresarial</option>
+                                <option value="vida">Vida</option>
+                            </select>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="formPhCoverage">Valor de Cobertura (R$) *</label>
+                            <input type="number" id="formPhCoverage" required min="1000" step="1000" value="120000" class="form-control">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="formPhChannel">Canal Preferencial *</label>
+                            <select id="formPhChannel" required class="form-control">
+                                <option value="whatsapp">WhatsApp (Oficial)</option>
+                                <option value="sms">SMS Telecom</option>
+                                <option value="email">E-mail</option>
+                                <option value="push">Push Mobile</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closePolicyholderModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary" id="btnSavePh">Salvar Segurado</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="/static/js/auth.js"></script>
-    <script src="/static/js/app.js?v=3.0"></script>
+    <script src="/static/js/app.js?v=3.2"></script>
 </body>
 </html>

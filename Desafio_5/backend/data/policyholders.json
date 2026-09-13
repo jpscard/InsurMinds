@@ -1,5 +1,26 @@
 [
   {
+    "id": "POL-3A508A",
+    "name": "Professor Avaliador",
+    "document": "123.456.789-00",
+    "city": "Curitiba",
+    "state": "PR",
+    "neighborhood": "",
+    "phone": "(41) 99888-7766",
+    "email": "professor@universidade.edu.br",
+    "preferred_channel": "whatsapp",
+    "policies": [
+      {
+        "id": "APO-F6DD42",
+        "type": "automovel",
+        "description": "Seguro Auto Premium",
+        "coverage_value": 150000.0,
+        "active": true
+      }
+    ],
+    "active": true
+  },
+  {
     "id": "SEG001",
     "name": "Maria Silva",
     "document": "***.***.***-01",
@@ -10,8 +31,20 @@
     "email": "maria.silva@email.com",
     "preferred_channel": "email",
     "policies": [
-      {"id": "APL001", "type": "residencial", "description": "Seguro Residencial Premium", "coverage_value": 500000.00, "active": true},
-      {"id": "APL002", "type": "automovel", "description": "Seguro Auto - Honda Civic 2024", "coverage_value": 120000.00, "active": true}
+      {
+        "id": "APL001",
+        "type": "residencial",
+        "description": "Seguro Residencial Premium",
+        "coverage_value": 500000.0,
+        "active": true
+      },
+      {
+        "id": "APL002",
+        "type": "automovel",
+        "description": "Seguro Auto - Honda Civic 2024",
+        "coverage_value": 120000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -26,7 +59,13 @@
     "email": "joao.santos@email.com",
     "preferred_channel": "sms",
     "policies": [
-      {"id": "APL003", "type": "automovel", "description": "Seguro Auto - Toyota Corolla 2023", "coverage_value": 150000.00, "active": true}
+      {
+        "id": "APL003",
+        "type": "automovel",
+        "description": "Seguro Auto - Toyota Corolla 2023",
+        "coverage_value": 150000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -41,8 +80,20 @@
     "email": "ana.oliveira@email.com",
     "preferred_channel": "push",
     "policies": [
-      {"id": "APL004", "type": "residencial", "description": "Seguro Residencial Básico", "coverage_value": 300000.00, "active": true},
-      {"id": "APL005", "type": "vida", "description": "Seguro de Vida Individual", "coverage_value": 200000.00, "active": true}
+      {
+        "id": "APL004",
+        "type": "residencial",
+        "description": "Seguro Residencial Básico",
+        "coverage_value": 300000.0,
+        "active": true
+      },
+      {
+        "id": "APL005",
+        "type": "vida",
+        "description": "Seguro de Vida Individual",
+        "coverage_value": 200000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -57,8 +108,20 @@
     "email": "carlos.pereira@email.com",
     "preferred_channel": "whatsapp",
     "policies": [
-      {"id": "APL006", "type": "automovel", "description": "Seguro Auto - BMW X3 2024", "coverage_value": 350000.00, "active": true},
-      {"id": "APL007", "type": "residencial", "description": "Seguro Residencial Premium", "coverage_value": 800000.00, "active": true}
+      {
+        "id": "APL006",
+        "type": "automovel",
+        "description": "Seguro Auto - BMW X3 2024",
+        "coverage_value": 350000.0,
+        "active": true
+      },
+      {
+        "id": "APL007",
+        "type": "residencial",
+        "description": "Seguro Residencial Premium",
+        "coverage_value": 800000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -73,7 +136,13 @@
     "email": "fernanda.costa@email.com",
     "preferred_channel": "email",
     "policies": [
-      {"id": "APL008", "type": "agro", "description": "Seguro Agrícola - Soja 200ha", "coverage_value": 1500000.00, "active": true}
+      {
+        "id": "APL008",
+        "type": "agro",
+        "description": "Seguro Agrícola - Soja 200ha",
+        "coverage_value": 1500000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -88,7 +157,13 @@
     "email": "roberto.almeida@email.com",
     "preferred_channel": "sms",
     "policies": [
-      {"id": "APL009", "type": "empresarial", "description": "Seguro Empresarial - Fábrica de Móveis", "coverage_value": 2000000.00, "active": true}
+      {
+        "id": "APL009",
+        "type": "empresarial",
+        "description": "Seguro Empresarial - Fábrica de Móveis",
+        "coverage_value": 2000000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -103,8 +178,20 @@
     "email": "luciana.mendes@email.com",
     "preferred_channel": "email",
     "policies": [
-      {"id": "APL010", "type": "residencial", "description": "Seguro Residencial - Apartamento", "coverage_value": 400000.00, "active": true},
-      {"id": "APL011", "type": "automovel", "description": "Seguro Auto - VW Polo 2023", "coverage_value": 90000.00, "active": true}
+      {
+        "id": "APL010",
+        "type": "residencial",
+        "description": "Seguro Residencial - Apartamento",
+        "coverage_value": 400000.0,
+        "active": true
+      },
+      {
+        "id": "APL011",
+        "type": "automovel",
+        "description": "Seguro Auto - VW Polo 2023",
+        "coverage_value": 90000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -119,7 +206,13 @@
     "email": "pedro.lima@email.com",
     "preferred_channel": "push",
     "policies": [
-      {"id": "APL012", "type": "automovel", "description": "Seguro Auto - Fiat Pulse 2024", "coverage_value": 110000.00, "active": true}
+      {
+        "id": "APL012",
+        "type": "automovel",
+        "description": "Seguro Auto - Fiat Pulse 2024",
+        "coverage_value": 110000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -134,8 +227,20 @@
     "email": "contato@bomfuturo.com.br",
     "preferred_channel": "email",
     "policies": [
-      {"id": "APL013", "type": "agro", "description": "Seguro Agrícola - Milho 500ha", "coverage_value": 3000000.00, "active": true},
-      {"id": "APL014", "type": "empresarial", "description": "Seguro Patrimonial - Silos e Galpões", "coverage_value": 5000000.00, "active": true}
+      {
+        "id": "APL013",
+        "type": "agro",
+        "description": "Seguro Agrícola - Milho 500ha",
+        "coverage_value": 3000000.0,
+        "active": true
+      },
+      {
+        "id": "APL014",
+        "type": "empresarial",
+        "description": "Seguro Patrimonial - Silos e Galpões",
+        "coverage_value": 5000000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -150,8 +255,20 @@
     "email": "mariana.souza@email.com",
     "preferred_channel": "whatsapp",
     "policies": [
-      {"id": "APL015", "type": "residencial", "description": "Seguro Residencial Completo", "coverage_value": 600000.00, "active": true},
-      {"id": "APL016", "type": "vida", "description": "Seguro de Vida Familiar", "coverage_value": 500000.00, "active": true}
+      {
+        "id": "APL015",
+        "type": "residencial",
+        "description": "Seguro Residencial Completo",
+        "coverage_value": 600000.0,
+        "active": true
+      },
+      {
+        "id": "APL016",
+        "type": "vida",
+        "description": "Seguro de Vida Familiar",
+        "coverage_value": 500000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -166,8 +283,20 @@
     "email": "ricardo.torres@email.com",
     "preferred_channel": "sms",
     "policies": [
-      {"id": "APL017", "type": "automovel", "description": "Seguro Auto - Chevrolet Onix 2023", "coverage_value": 80000.00, "active": true},
-      {"id": "APL018", "type": "residencial", "description": "Seguro Residencial Básico", "coverage_value": 250000.00, "active": true}
+      {
+        "id": "APL017",
+        "type": "automovel",
+        "description": "Seguro Auto - Chevrolet Onix 2023",
+        "coverage_value": 80000.0,
+        "active": true
+      },
+      {
+        "id": "APL018",
+        "type": "residencial",
+        "description": "Seguro Residencial Básico",
+        "coverage_value": 250000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -182,7 +311,13 @@
     "email": "patricia.ramos@email.com",
     "preferred_channel": "email",
     "policies": [
-      {"id": "APL019", "type": "vida", "description": "Seguro de Vida Premium", "coverage_value": 1000000.00, "active": true}
+      {
+        "id": "APL019",
+        "type": "vida",
+        "description": "Seguro de Vida Premium",
+        "coverage_value": 1000000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -197,7 +332,13 @@
     "email": "financeiro@comerciocentral.com.br",
     "preferred_channel": "email",
     "policies": [
-      {"id": "APL020", "type": "empresarial", "description": "Seguro Empresarial - Loja de Varejo", "coverage_value": 800000.00, "active": true}
+      {
+        "id": "APL020",
+        "type": "empresarial",
+        "description": "Seguro Empresarial - Loja de Varejo",
+        "coverage_value": 800000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -212,8 +353,20 @@
     "email": "gustavo.ferreira@email.com",
     "preferred_channel": "push",
     "policies": [
-      {"id": "APL021", "type": "residencial", "description": "Seguro Residencial - Cobertura Costeira", "coverage_value": 700000.00, "active": true},
-      {"id": "APL022", "type": "automovel", "description": "Seguro Auto - Jeep Compass 2024", "coverage_value": 200000.00, "active": true}
+      {
+        "id": "APL021",
+        "type": "residencial",
+        "description": "Seguro Residencial - Cobertura Costeira",
+        "coverage_value": 700000.0,
+        "active": true
+      },
+      {
+        "id": "APL022",
+        "type": "automovel",
+        "description": "Seguro Auto - Jeep Compass 2024",
+        "coverage_value": 200000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -228,7 +381,13 @@
     "email": "isabela.martins@email.com",
     "preferred_channel": "whatsapp",
     "policies": [
-      {"id": "APL023", "type": "automovel", "description": "Seguro Auto - Hyundai HB20 2023", "coverage_value": 75000.00, "active": true}
+      {
+        "id": "APL023",
+        "type": "automovel",
+        "description": "Seguro Auto - Hyundai HB20 2023",
+        "coverage_value": 75000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -243,7 +402,13 @@
     "email": "admin@fazendaosaojose.com.br",
     "preferred_channel": "email",
     "policies": [
-      {"id": "APL024", "type": "agro", "description": "Seguro Agrícola - Trigo e Soja 800ha", "coverage_value": 4500000.00, "active": true}
+      {
+        "id": "APL024",
+        "type": "agro",
+        "description": "Seguro Agrícola - Trigo e Soja 800ha",
+        "coverage_value": 4500000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -258,7 +423,13 @@
     "email": "thiago.barbosa@email.com",
     "preferred_channel": "sms",
     "policies": [
-      {"id": "APL025", "type": "residencial", "description": "Seguro Residencial - Casa", "coverage_value": 350000.00, "active": true}
+      {
+        "id": "APL025",
+        "type": "residencial",
+        "description": "Seguro Residencial - Casa",
+        "coverage_value": 350000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -273,9 +444,27 @@
     "email": "daniela.rocha@email.com",
     "preferred_channel": "email",
     "policies": [
-      {"id": "APL026", "type": "residencial", "description": "Seguro Residencial Premium", "coverage_value": 550000.00, "active": true},
-      {"id": "APL027", "type": "automovel", "description": "Seguro Auto - Nissan Kicks 2024", "coverage_value": 130000.00, "active": true},
-      {"id": "APL028", "type": "vida", "description": "Seguro de Vida Individual", "coverage_value": 300000.00, "active": true}
+      {
+        "id": "APL026",
+        "type": "residencial",
+        "description": "Seguro Residencial Premium",
+        "coverage_value": 550000.0,
+        "active": true
+      },
+      {
+        "id": "APL027",
+        "type": "automovel",
+        "description": "Seguro Auto - Nissan Kicks 2024",
+        "coverage_value": 130000.0,
+        "active": true
+      },
+      {
+        "id": "APL028",
+        "type": "vida",
+        "description": "Seguro de Vida Individual",
+        "coverage_value": 300000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -290,8 +479,20 @@
     "email": "eduardo.nascimento@email.com",
     "preferred_channel": "push",
     "policies": [
-      {"id": "APL029", "type": "automovel", "description": "Seguro Auto - Renault Kwid 2023", "coverage_value": 65000.00, "active": true},
-      {"id": "APL030", "type": "empresarial", "description": "Seguro Comercial - Vinícola", "coverage_value": 1200000.00, "active": true}
+      {
+        "id": "APL029",
+        "type": "automovel",
+        "description": "Seguro Auto - Renault Kwid 2023",
+        "coverage_value": 65000.0,
+        "active": true
+      },
+      {
+        "id": "APL030",
+        "type": "empresarial",
+        "description": "Seguro Comercial - Vinícola",
+        "coverage_value": 1200000.0,
+        "active": true
+      }
     ],
     "active": true
   },
@@ -306,8 +507,20 @@
     "email": "camila.araujo@email.com",
     "preferred_channel": "whatsapp",
     "policies": [
-      {"id": "APL031", "type": "residencial", "description": "Seguro Residencial - Apartamento", "coverage_value": 280000.00, "active": true},
-      {"id": "APL032", "type": "automovel", "description": "Seguro Auto - VW T-Cross 2024", "coverage_value": 140000.00, "active": true}
+      {
+        "id": "APL031",
+        "type": "residencial",
+        "description": "Seguro Residencial - Apartamento",
+        "coverage_value": 280000.0,
+        "active": true
+      },
+      {
+        "id": "APL032",
+        "type": "automovel",
+        "description": "Seguro Auto - VW T-Cross 2024",
+        "coverage_value": 140000.0,
+        "active": true
+      }
     ],
     "active": true
   }

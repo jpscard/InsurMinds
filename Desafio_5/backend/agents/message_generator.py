@@ -11,6 +11,7 @@ import logging
 import uuid
 from datetime import datetime
 from typing import Optional
+import asyncio
 
 from backend.config import GEMINI_API_KEY, GEMINI_MODEL
 from backend.models.notification import Notification, NotificationStatus
@@ -149,6 +150,7 @@ class MessageGeneratorAgent:
     def __init__(self):
         self.name = "Agente Comunicador"
         self._gemini_model = None
+        self._ai_cache: dict[tuple, tuple[str, str, str, list[str]]] = {}
         self._init_gemini()
 
     def _init_gemini(self):
@@ -197,24 +199,32 @@ class MessageGeneratorAgent:
         event = match.event
         ins_type = match.insurance_type
         ins_name = INSURANCE_TYPE_NAMES.get(ins_type, ins_type.value)
+        cache_key = (event.event_type, ins_type)
 
-        # Tentar geração com IA primeiro
-        if self._gemini_model:
+        if cache_key in self._ai_cache:
+            base_subj, base_msg, base_short, base_recs = self._ai_cache[cache_key]
+            subject = base_subj.replace("{nome}", ph.display_name).replace("{cidade}", ph.city).replace("{estado}", ph.state)
+            message = base_msg.replace("{nome}", ph.display_name).replace("{cidade}", ph.city).replace("{estado}", ph.state)
+            short_msg = base_short.replace("{nome}", ph.display_name).replace("{cidade}", ph.city).replace("{estado}", ph.state)
+            recommendations = base_recs
+        elif self._gemini_model:
             try:
                 subject, message, short_msg, recommendations = await self._generate_with_ai(
                     match, ins_name
                 )
             except Exception as e:
                 logger.warning(
-                    f"[{self.name}] Fallback para template após erro Gemini: {e}"
+                    f"[{self.name}] Fallback para template após erro Gemini ({e})"
                 )
                 subject, message, short_msg, recommendations = self._generate_with_template(
                     match, ins_name
                 )
+                self._ai_cache[cache_key] = (subject, message, short_msg, recommendations)
         else:
             subject, message, short_msg, recommendations = self._generate_with_template(
                 match, ins_name
             )
+            self._ai_cache[cache_key] = (subject, message, short_msg, recommendations)
 
         # Simular envio
         now = datetime.now()
@@ -242,9 +252,11 @@ class MessageGeneratorAgent:
     async def _generate_with_ai(
         self, match: NotificationMatch, ins_name: str
     ) -> tuple[str, str, str, list[str]]:
-        """Gera mensagem usando Google Gemini."""
+        """Gera mensagem usando Google Gemini com cache inteligente por evento e ramo."""
         ph = match.policyholder
         event = match.event
+        ins_type = match.insurance_type
+        cache_key = (event.event_type, ins_type)
 
         prompt = f"""Você é um assistente de comunicação de uma seguradora brasileira.
 Gere uma mensagem de alerta preventivo personalizada para um segurado.
@@ -252,20 +264,14 @@ Gere uma mensagem de alerta preventivo personalizada para um segurado.
 CONTEXTO DO EVENTO:
 - Tipo: {event.event_type.value.replace('_', ' ').title()}
 - Título: {event.title}
-- Descrição: {event.description}
 - Severidade: {event.severity.value.upper()}
-- Riscos: {'; '.join(event.risks) if event.risks else 'Não especificados'}
-- Instruções oficiais: {'; '.join(event.instructions) if event.instructions else 'Não disponíveis'}
 
 CONTEXTO DO SEGURADO:
-- Nome: {ph.display_name}
-- Cidade: {ph.city}/{ph.state}
 - Tipo de seguro: {ins_name}
-- Canal de comunicação: {ph.preferred_channel.value}
 
 INSTRUÇÕES:
 1. Gere um assunto/título curto e impactante (max 60 caracteres)
-2. Gere uma mensagem completa e empática em português brasileiro
+2. Gere uma mensagem completa e empática em português brasileiro utilizando {{nome}}, {{cidade}} e {{estado}}
 3. Gere uma versão curta da mensagem (max 160 caracteres, formato SMS)
 4. Liste 3-5 recomendações práticas específicas para o tipo de seguro
 5. NÃO utilize emojis em nenhuma parte do texto (mantenha padrão corporativo formal)
@@ -280,13 +286,23 @@ FORMATO DE RESPOSTA (use exatamente estas tags):
 - recomendação 3
 </RECOMENDACOES>"""
 
-        response = self._gemini_model.generate_content(prompt)
+        loop = asyncio.get_running_loop()
+        response = await asyncio.wait_for(
+            loop.run_in_executor(
+                None,
+                lambda: self._gemini_model.generate_content(
+                    prompt,
+                    generation_config={"temperature": 0.2, "max_output_tokens": 500}
+                )
+            ),
+            timeout=6.0
+        )
         text = response.text
 
         # Parsear resposta
-        subject = self._extract_tag(text, "ASSUNTO") or f"Alerta para {ph.city}"
-        message = self._extract_tag(text, "MENSAGEM") or ""
-        short_msg = self._extract_tag(text, "SMS") or ""
+        subject_template = self._extract_tag(text, "ASSUNTO") or f"Alerta Meteorológico para {{cidade}}"
+        message_template = self._extract_tag(text, "MENSAGEM") or ""
+        short_template = self._extract_tag(text, "SMS") or ""
         recs_text = self._extract_tag(text, "RECOMENDACOES") or ""
 
         recommendations = [
@@ -294,6 +310,12 @@ FORMATO DE RESPOSTA (use exatamente estas tags):
             for line in recs_text.split("\n")
             if line.strip() and line.strip() != "-"
         ]
+
+        self._ai_cache[cache_key] = (subject_template, message_template, short_template, recommendations)
+
+        subject = subject_template.replace("{nome}", ph.display_name).replace("{cidade}", ph.city).replace("{estado}", ph.state)
+        message = message_template.replace("{nome}", ph.display_name).replace("{cidade}", ph.city).replace("{estado}", ph.state)
+        short_msg = short_template.replace("{nome}", ph.display_name).replace("{cidade}", ph.city).replace("{estado}", ph.state)
 
         return subject, message, short_msg, recommendations
 
