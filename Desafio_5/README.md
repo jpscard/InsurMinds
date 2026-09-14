@@ -7,6 +7,14 @@
 
 # InsureAlert — Ferramenta Inteligente para Comunicação Proativa com Segurados
 
+### Entrega do Grupo JL
+| Recurso | Link de Acesso |
+| :--- | :--- |
+| **Repositório GitHub** | [Acessar Código (Desafio 5)](https://github.com/jpscard/InsurMinds/tree/main/Desafio_5) |
+| **Aplicação Online (Deploy)** | [Acessar InsureAlert no Render](https://insurealert-desafio5.onrender.com/) |
+| **Integrantes** | Leonardo Pereira & João Cardoso |
+
+
 > Sistema corporativo baseado em Inteligência Artificial para comunicação proativa com segurados, monitorando eventos climáticos em tempo real (INMET) e orquestrando alertas multicanal personalizados antes que sinistros ocorram.
 
 ![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
