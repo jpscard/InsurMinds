@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/logo_dark.jpg">
+    <img src="docs/images/logo_light.jpg" alt="InsureAlert Logo" width="380">
+  </picture>
+</p>
+
 # InsureAlert — Ferramenta Inteligente para Comunicação Proativa com Segurados
 
 > Sistema corporativo baseado em Inteligência Artificial para comunicação proativa com segurados, monitorando eventos climáticos em tempo real (INMET) e orquestrando alertas multicanal personalizados antes que sinistros ocorram.

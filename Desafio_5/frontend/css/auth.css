@@ -625,6 +625,22 @@
     margin-bottom: 1.75rem;
 }
 
+.auth-logo-img {
+    height: 46px;
+    width: auto;
+    max-width: 250px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: opacity 0.2s ease;
+}
+
+.logo-dark-theme { display: block; }
+.logo-light-theme { display: none; }
+
+[data-theme="light"] .logo-dark-theme { display: none !important; }
+[data-theme="light"] .logo-light-theme { display: block !important; }
+
 .auth-logo-badge {
     width: 52px;
     height: 52px;
