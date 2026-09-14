@@ -710,7 +710,7 @@ function renderActiveMessage() {
     `;
   } else if (currentFormat === 'email') {
     const recsList = recommendations.length ? `
-      <ul style="margin:10px 0;padding-left:20px;color:#d1d7db;">
+      <ul class="email-recs-list">
         ${recommendations.map(r => `<li>${escapeHtml(r)}</li>`).join('')}
       </ul>
     ` : '';
@@ -726,7 +726,7 @@ function renderActiveMessage() {
           <div class="email-body-content">
             <p>${escapeHtml(n.message || '').replace(/\n/g, '<br>')}</p>
             ${recsList}
-            <div style="margin-top:16px;padding:12px;background:rgba(59,130,246,0.1);border-left:3px solid #3b82f6;border-radius:4px;font-size:0.8rem;color:#93c5fd;">
+            <div class="email-emergency-box">
               <strong>Central de Emergência da Seguradora:</strong> Ligue 0800 700 9000 ou acione o canal direto da Defesa Civil pelo 199.
             </div>
           </div>
@@ -1241,15 +1241,15 @@ async function sendQuickReply(actionType, serviceType = "check") {
       const p = data.protocol;
 
       const clientMsg = actionType === "safe"
-        ? "✓ Confirmo recebimento do alerta preventivo. Estou em local seguro e o patrimônio está protegido. Obrigado pelo aviso!"
-        : `⚠️ Fui atingido pelo evento climático em ${escapeHtml(p.city || "minha região")}. Solicito acionamento emergencial de: ${escapeHtml(p.service_label)}.`;
+        ? "Confirmo recebimento do alerta preventivo. Estou em local seguro e o patrimônio está protegido. Obrigado pelo aviso."
+        : `Fui atingido pelo evento climático em ${escapeHtml(p.city || "minha região")}. Solicito acionamento emergencial de: ${escapeHtml(p.service_label)}.`;
 
       const clientBubble = document.createElement("div");
       clientBubble.className = "wa-client-bubble";
       clientBubble.innerHTML = `
-        <div>${clientMsg}</div>
-        <div style="font-size:0.68rem;color:#8696a0;text-align:right;margin-top:4px;">
-          ${nowStr} <span style="color:#53bdeb;font-weight:700;">✓✓</span>
+        <div class="wa-client-bubble-text">${clientMsg}</div>
+        <div class="wa-client-bubble-meta" style="font-size:0.68rem;text-align:right;margin-top:4px;">
+          ${nowStr} <span class="wa-checkmarks" style="color:#53bdeb;font-weight:700;">✓✓</span>
         </div>
       `;
       if (thread) thread.appendChild(clientBubble);
@@ -1262,13 +1262,13 @@ async function sendQuickReply(actionType, serviceType = "check") {
             <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Assistência Preventiva Acionada com Sucesso
           </div>
-          <div style="color:var(--text-primary);line-height:1.45;">
-            <strong>Protocolo de Atendimento:</strong> <code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;color:#38bdf8;">${escapeHtml(p.protocol)}</code><br>
+          <div class="wa-bot-protocol-content" style="line-height:1.45;">
+            <strong>Protocolo de Atendimento:</strong> <code class="wa-protocol-code">${escapeHtml(p.protocol)}</code><br>
             <strong>Serviço Agendado:</strong> ${escapeHtml(p.service_label)}<br>
             <strong>Rede Credenciada:</strong> ${escapeHtml(p.partner_assigned)}<br>
             <strong>SLA de Atendimento:</strong> Prioridade Alta (${p.sla_response_minutes} minutos)
           </div>
-          <div style="font-size:0.68rem;color:#8696a0;text-align:right;margin-top:6px;">
+          <div class="wa-bot-bubble-meta" style="font-size:0.68rem;text-align:right;margin-top:6px;">
             ${nowStr} &bull; InsureAlert Proactive Bot
           </div>
         `;
