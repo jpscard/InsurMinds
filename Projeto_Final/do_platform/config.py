@@ -40,6 +40,9 @@ class Settings(BaseSettings):
     # Página com menos caracteres que isto é considerada "digitalizada" e vai para OCR
     min_chars_per_page: int = 80
     tesseract_cmd: str | None = None  # caminho do tesseract.exe no Windows, se preciso
+    # Pasta de idiomas do OCR. Se vazia, usa data/tessdata quando existir (idiomas instalados
+    # pelo projeto sem permissão de administrador) ou a pasta padrão do Tesseract.
+    tessdata_dir: Path | None = None
 
     # Extração: textos maiores que isto são processados em blocos
     chunk_chars: int = 60000

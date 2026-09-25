@@ -12,12 +12,14 @@ from __future__ import annotations
 import hashlib
 import io
 import logging
+import os
+import shutil
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from PIL import Image, ImageOps
 
-from ..config import Settings, get_settings
+from ..config import ROOT_DIR, Settings, get_settings
 
 log = logging.getLogger(__name__)
 
@@ -56,16 +58,35 @@ class DocumentText:
         return sum(len(p.text) for p in self.pages)
 
 
+def _default_tesseract() -> str | None:
+    """No Windows o instalador não põe o Tesseract no PATH; tenta os locais padrão."""
+    if shutil.which("tesseract"):
+        return None
+    candidates = [Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "Tesseract-OCR",
+                  Path(os.environ.get("LOCALAPPDATA", "")) / "Programs" / "Tesseract-OCR"]
+    for d in candidates:
+        if (d / "tesseract.exe").exists():
+            return str(d / "tesseract.exe")
+    return None
+
+
 def _ocr_image(img: Image.Image, s: Settings) -> str:
     try:
         import pytesseract
     except ImportError as exc:
         raise IngestionError("pytesseract não instalado (pip install pytesseract)") from exc
-    if s.tesseract_cmd:
-        pytesseract.pytesseract.tesseract_cmd = s.tesseract_cmd
+    cmd = s.tesseract_cmd or _default_tesseract()
+    if cmd:
+        pytesseract.pytesseract.tesseract_cmd = cmd
+    config = f"--psm {s.ocr_psm}"
+    tessdata = s.tessdata_dir or (ROOT_DIR / "data" / "tessdata")
+    if tessdata.is_dir() and any(tessdata.glob("*.traineddata")):
+        # Variável de ambiente em vez de --tessdata-dir: no Windows o pytesseract não trata
+        # aspas no config, o que quebra caminhos com espaço.
+        os.environ["TESSDATA_PREFIX"] = str(tessdata)
     gray = ImageOps.autocontrast(ImageOps.grayscale(img))
     try:
-        return pytesseract.image_to_string(gray, lang=s.ocr_lang, config=f"--psm {s.ocr_psm}")
+        return pytesseract.image_to_string(gray, lang=s.ocr_lang, config=config)
     except pytesseract.TesseractNotFoundError as exc:
         raise IngestionError(
             "Tesseract OCR não encontrado. Instale-o e/ou defina TESSERACT_CMD no .env"
