@@ -5,7 +5,6 @@ Execute:  streamlit run app.py
 from __future__ import annotations
 
 import hashlib
-import io
 import json
 import logging
 from pathlib import Path
@@ -14,6 +13,7 @@ import pandas as pd
 import streamlit as st
 
 from do_platform.config import ROOT_DIR, get_settings
+from do_platform.exports import comparison_markdown, comparison_xlsx
 from do_platform.ingestion import SUPPORTED_EXT, IngestionError
 from do_platform.llm import PROVIDERS, LLMError, get_provider
 from do_platform.pipeline import Pipeline
@@ -298,19 +298,6 @@ def _situacao_style(df: pd.DataFrame):
     return df.style.apply(style, axis=1)
 
 
-def comparison_report_md(res, analise) -> str:
-    out = ["# Comparação de apólices D&O", "", "## Resumo executivo", analise.get("resumo_executivo", ""), "",
-           "## Diferenças-chave"]
-    for d in analise.get("diferencas_chave", []):
-        out.append(f"- **{d.get('tema')}** ({d.get('impacto')}, favorece: {d.get('favorece')}): {d.get('descricao')}")
-    out += ["", "## Pontos de atenção"] + [f"- {p}" for p in analise.get("pontos_de_atencao", [])]
-    out += ["", "## Recomendação", analise.get("recomendacao", ""), ""]
-    for titulo, tab in [("Dados gerais", res.geral), ("Coberturas", res.coberturas),
-                        ("Exclusões", res.exclusoes), ("Franquias", res.franquias)]:
-        out += [f"## {titulo}", pd.DataFrame(tab).to_markdown(index=False), ""]
-    return "\n".join(out)
-
-
 def page_compare() -> None:
     st.header("Comparar apólices")
     repo = get_repo()
@@ -378,15 +365,8 @@ def page_compare() -> None:
         show_trace(trace)
 
     c1, c2 = st.columns(2)
-    xls = io.BytesIO()
-    with pd.ExcelWriter(xls, engine="openpyxl") as w:
-        pd.DataFrame(res.geral).to_excel(w, sheet_name="Dados gerais", index=False)
-        pd.DataFrame(res.coberturas).to_excel(w, sheet_name="Coberturas", index=False)
-        pd.DataFrame(res.exclusoes).to_excel(w, sheet_name="Exclusões", index=False)
-        pd.DataFrame(res.franquias).to_excel(w, sheet_name="Franquias", index=False)
-        pd.DataFrame(analise.get("diferencas_chave", [])).to_excel(w, sheet_name="Análise", index=False)
-    c1.download_button("⬇️ Baixar planilha (.xlsx)", xls.getvalue(), "comparacao_do.xlsx")
-    c2.download_button("⬇️ Baixar relatório (.md)", comparison_report_md(res, analise), "comparacao_do.md")
+    c1.download_button("⬇️ Baixar planilha (.xlsx)", comparison_xlsx(res, analise), "comparacao_do.xlsx")
+    c2.download_button("⬇️ Baixar relatório (.md)", comparison_markdown(res, analise), "comparacao_do.md")
 
 
 EXEMPLOS_SQL = {

@@ -22,7 +22,7 @@ Plataforma para **extrair, estruturar, armazenar, consultar e comparar apólices
                              └──────────────────────┬─────────────────────┴───────────────────┘
                                                     ▼
                                    ┌─────────────────────────────────┐
-                                   │ 7. Apresentação (Streamlit/CLI) │
+                                   │ 7. Apresentação (Web/API/CLI)   │
                                    │ tabelas, destaques, xlsx, .md   │
                                    └─────────────────────────────────┘
 ```
@@ -41,7 +41,8 @@ comando usam apenas o `Pipeline`, nunca os agentes diretamente.
 | `agents/` | Agentes especializados (abaixo) e seus prompts (`prompts.py`). |
 | `comparison/` | Comparação determinística: alinhamento de coberturas/exclusões e cálculo das diferenças. |
 | `storage/` | Repositório SQLite. |
-| `app.py` / `cli.py` | Interfaces de demonstração. |
+| `api/main.py` + `web/` | API REST (FastAPI) e interface web servida por ela. O provedor, o modelo e a chave de LLM chegam em cabeçalhos a cada requisição; o servidor não guarda a chave. |
+| `app.py` / `cli.py` | Interface Streamlit (legada) e linha de comando. |
 
 ## Agentes
 

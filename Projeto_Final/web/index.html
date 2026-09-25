@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="D&O Insight — análise, comparação e consulta de apólices D&O com IA.">
+  <title>D&amp;O Insight</title>
+  <link rel="icon" href="/static/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('doi.theme'); } catch (e) {}
+      if (!t) t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+
+  <div class="app" id="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#/" aria-label="Início">
+        <span class="brand-mark" data-icon="shield"></span>
+        <span class="brand-text">
+          <span class="brand-name">D&amp;O Insight</span>
+          <span class="brand-sub">Análise de apólices com IA</span>
+        </span>
+      </a>
+      <nav class="nav" id="nav">
+        <div class="nav-label">Visão geral</div>
+        <a class="nav-item" href="#/" data-route="dashboard"><i data-icon="grid"></i><span>Painel</span></a>
+        <div class="nav-label">Apólices</div>
+        <a class="nav-item" href="#/apolices" data-route="policies"><i data-icon="files"></i><span>Carteira</span><em class="count" id="navCount"></em></a>
+        <a class="nav-item" href="#/enviar" data-route="upload"><i data-icon="upload"></i><span>Enviar documentos</span></a>
+        <div class="nav-label">Análise</div>
+        <a class="nav-item" href="#/comparar" data-route="compare"><i data-icon="columns"></i><span>Comparar</span></a>
+        <a class="nav-item" href="#/consultar" data-route="query"><i data-icon="chat"></i><span>Consultar</span></a>
+        <div class="nav-label">Ajuda</div>
+        <a class="nav-item" href="#/sobre" data-route="about"><i data-icon="info"></i><span>Sobre a solução</span></a>
+      </nav>
+      <div class="sidebar-foot">
+        <button class="nav-item" id="settingsBtn"><i data-icon="settings"></i><span class="btn-label">Modelo de IA</span></button>
+        <button class="nav-item collapse-btn" id="collapseBtn"><i data-icon="sidebar"></i><span class="btn-label">Recolher menu</span></button>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="btn btn-ghost btn-icon menu-btn" id="menuBtn" aria-label="Abrir menu"><i data-icon="menu"></i></button>
+        <div class="crumbs" id="crumbs"></div>
+        <div class="topbar-actions">
+          <button class="llm-chip" id="llmChip" title="Configurar modelo de IA">
+            <span class="dot" id="llmDot"></span>
+            <strong id="llmProvider">—</strong>
+            <span class="model" id="llmModel"></span>
+          </button>
+          <button class="btn btn-ghost btn-icon" id="themeBtn" aria-label="Alternar tema"><i data-icon="sun"></i></button>
+        </div>
+      </header>
+      <main class="content" id="view" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <script type="module" src="/static/js/app.js"></script>
+</body>
+</html>

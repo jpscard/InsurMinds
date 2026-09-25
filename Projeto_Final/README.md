@@ -3,7 +3,7 @@
 MVP que recebe apólices de seguro D&O em **PDF ou imagem**, extrai o conteúdo (texto nativo ou OCR),
 usa **IA generativa** para estruturar as informações (coberturas, limites, franquias, exclusões,
 vigência, retroatividade...), armazena tudo em **SQLite** e permite **consultar** e **comparar**
-duas ou mais apólices em uma interface **Streamlit**.
+duas ou mais apólices em uma **aplicação web** (API FastAPI + interface própria, tema claro/escuro).
 
 A arquitetura, os agentes e as decisões técnicas estão em [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md).
 
@@ -23,7 +23,9 @@ A arquitetura, os agentes e as decisões técnicas estão em [`docs/ARQUITETURA.
 
 ```
 Projeto_Final/
-├── app.py                  Interface Streamlit
+├── api/main.py             API REST (FastAPI) que também serve a interface
+├── web/                    Interface web (HTML/CSS/JS, sem build)
+├── app.py                  Interface Streamlit (legada)
 ├── cli.py                  Linha de comando
 ├── do_platform/
 │   ├── config.py           Configuração (.env)
@@ -54,12 +56,23 @@ pip install -r requirements.txt
 copy .env.example .env
 ```
 
-Instale o Tesseract pelo instalador da UB Mannheim (https://github.com/UB-Mannheim/tesseract/wiki),
-marcando o idioma **Portuguese** em "Additional language data". Se ele não ficar no PATH, defina no `.env`:
+Instale o Tesseract (o projeto encontra o executável no local padrão do Windows, mesmo fora do PATH):
 
+```powershell
+winget install --id UB-Mannheim.TesseractOCR -e
 ```
-TESSERACT_CMD=C:\Program Files\Tesseract-OCR\tesseract.exe
+
+O instalador silencioso traz só inglês. Para o português sem precisar de administrador, baixe o
+modelo para a pasta local do projeto, que é usada automaticamente quando existe:
+
+```powershell
+mkdir data\tessdata
+copy "C:\Program Files\Tesseract-OCR\tessdata\eng.traineddata" data\tessdata\
+curl.exe -L -o data\tessdata\por.traineddata https://github.com/tesseract-ocr/tessdata/raw/main/por.traineddata
 ```
+
+Se o Tesseract estiver em outro lugar, defina `TESSERACT_CMD` no `.env` (e `TESSDATA_DIR` para
+outra pasta de idiomas).
 
 ### Linux / macOS
 
@@ -86,10 +99,18 @@ fica só na memória da sessão.
 ## Execução
 
 ```bash
-streamlit run app.py
+python -m api
 ```
 
-Abra http://localhost:8501, clique em **Processar 3 apólices de exemplo** e vá para **Comparar**.
+Abra http://localhost:8000. No **Painel**, use **Usar apólices de exemplo** (ou arraste seus PDFs em
+**Enviar documentos**) e depois vá para **Comparar**. O provedor, o modelo e a chave de API são
+escolhidos em **Modelo de IA** (menu lateral ou selo no topo): a lista de modelos vem da própria API
+do provedor, e a chave fica só na aba do navegador — nunca é gravada no servidor.
+
+A documentação interativa da API fica em http://localhost:8000/docs. Para desenvolvimento, com
+recarga automática: `uvicorn api.main:app --reload`.
+
+A interface Streamlit anterior continua disponível com `streamlit run app.py`.
 
 Linha de comando:
 
