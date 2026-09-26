@@ -26,7 +26,7 @@ from pydantic import BaseModel, Field
 
 from do_platform.comparison import ComparisonResult
 from do_platform.config import ROOT_DIR, Settings, get_settings
-from do_platform.exports import comparison_markdown, comparison_xlsx
+from do_platform.exports import comparison_markdown, comparison_pdf, comparison_xlsx
 from do_platform.ingestion import SUPPORTED_EXT, IngestionError
 from do_platform.llm import PROVIDERS, LLMError, get_provider
 from do_platform.pipeline import Pipeline
@@ -373,7 +373,10 @@ def export(fmt: str, body: ExportIn):
     if fmt == "md":
         return Response(comparison_markdown(res, body.analise), media_type="text/markdown; charset=utf-8",
                         headers={"Content-Disposition": 'attachment; filename="comparacao_do.md"'})
-    raise HTTPException(400, "Formato deve ser xlsx ou md")
+    if fmt == "pdf":
+        return Response(comparison_pdf(res, body.analise), media_type="application/pdf",
+                        headers={"Content-Disposition": 'attachment; filename="comparacao_do_apolis.pdf"'})
+    raise HTTPException(400, "Formato deve ser pdf, xlsx ou md")
 
 
 # --------------------------------------------------------------------------- consulta

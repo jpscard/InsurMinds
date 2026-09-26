@@ -41,7 +41,7 @@ comando usam apenas o `Pipeline`, nunca os agentes diretamente.
 | `agents/` | Agentes especializados (abaixo) e seus prompts (`prompts.py`). |
 | `indexing.py` | Índice hierárquico de cada documento (abordagem PageIndex): árvore de seções detectada pelo layout. |
 | `comparison/` | Comparação determinística: alinhamento de coberturas/exclusões e cálculo das diferenças. |
-| `exports.py` | Exportação da comparação em Excel e Markdown, a partir do resultado já calculado (sem chamar o LLM de novo). |
+| `exports.py` | Exportação da comparação em PDF (relatório com a marca Apólis, gerado com reportlab), Excel e Markdown, a partir do resultado já calculado (sem chamar o LLM de novo). |
 | `storage/` | Repositório SQLite. |
 | `api/main.py` + `web/` | API REST (FastAPI) e interface web servida por ela: landing page em `/`, plataforma em `/app`, documentação da API em `/docs`. O provedor, o modelo e a chave de LLM chegam em cabeçalhos a cada requisição; o servidor não guarda a chave. |
 | `app.py` / `cli.py` | Interface Streamlit (legada) e linha de comando. |

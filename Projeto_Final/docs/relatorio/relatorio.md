@@ -24,7 +24,7 @@
 | Modelo de dados | Pydantic v2 | Esquema canônico `ApoliceDO`, contrato entre os agentes e validação da saída da IA. |
 | Armazenamento | SQLite | Dados relacionais (apólices, coberturas, exclusões), JSON completo, texto por página e índice de cada documento. |
 | Interface | HTML, CSS e JavaScript sem framework e sem build | Landing page e plataforma com tema claro/escuro, responsivas, no mesmo design system do Desafio 5. |
-| Exportação | pandas + openpyxl | Comparação em Excel e relatório em Markdown. |
+| Exportação | reportlab, pandas + openpyxl | Relatório de comparação em PDF (com a marca Apólis, métricas, análise e detalhamento), planilha Excel e Markdown. |
 | Deploy | Docker + Render | Imagem com Tesseract e português; deploy automático a cada push no `main`. |
 | Testes | pytest + TestClient | 47 testes automatizados, sem chave de API (LLM simulado e modo offline). |
 
@@ -87,7 +87,7 @@ Apólices são contratos longos e estruturados, em que a resposta depende de ach
 2. **Envio:** arrasta os PDFs ou imagens em **Enviar documentos**. Cada arquivo entra numa fila e as etapas aparecem **ao vivo**, à medida que terminam (leitura, triagem, extração, validação, gravação e indexação).
 3. **Processamento:** leitura (com OCR quando preciso), triagem, extração, validação, armazenamento e indexação. Um arquivo já processado é reconhecido pelo hash e não é processado de novo, a menos que o usuário peça.
 4. **Carteira e detalhe:** a carteira lista as apólices com vigência, LMG, prêmio e custo relativo. O detalhe mostra os dados extraídos, os alertas da validação, o índice, o texto de cada página, o documento original e a **revisão humana**, em que o usuário corrige o JSON extraído.
-5. **Comparação:** o usuário escolhe duas ou mais apólices e recebe métricas lado a lado, análise executiva, pontos de atenção e o detalhamento de coberturas, exclusões e franquias, com exportação em Excel e Markdown.
+5. **Comparação:** o usuário escolhe duas ou mais apólices e recebe métricas lado a lado, análise executiva, pontos de atenção e o detalhamento de coberturas, exclusões e franquias, com exportação de um relatório completo em PDF, de uma planilha Excel e de Markdown.
 6. **Consulta:** perguntas em linguagem natural com citação de seção e página, ou consultas SQL somente leitura sobre a carteira. Enquanto a IA trabalha, a tela mostra os nós do grafo concluídos e o que está em andamento ("Leitor: abrindo as seções escolhidas…").
 
 No modo offline, o painel, a comparação e a consulta explicam o que o modo faz e oferecem ativar a IA; a comparação por regras classifica as diferenças pelo impacto e mostra as seis mais importantes primeiro.
@@ -153,6 +153,8 @@ No site publicado, o servidor processa os sete documentos de exemplo ao iniciar,
 ![Envio de documentos com fila de processamento e apólices de exemplo](img/07_enviar.png)
 
 ![Comparação de três apólices: métricas, diferenças classificadas por impacto e pontos de atenção](img/08_comparar.png)
+
+![Primeira página do relatório de comparação exportado em PDF, com a marca Apólis](img/14_relatorio_pdf.png)
 
 ![Consulta com citação de apólice, seção e página](img/09_consulta.png)
 

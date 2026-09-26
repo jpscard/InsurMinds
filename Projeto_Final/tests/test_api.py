@@ -83,7 +83,7 @@ def test_fluxo_processar_detalhar_comparar_exportar(client):
     assert cmp.status_code == 200
     body = cmp.json()
     assert len(body["resultado"]["labels"]) == 2 and body["analise"]["resumo_executivo"]
-    for fmt, marker in (("xlsx", b"PK"), ("md", b"# Compara")):
+    for fmt, marker in (("xlsx", b"PK"), ("md", b"# Compara"), ("pdf", b"%PDF")):
         e = client.post(f"/api/compare/export/{fmt}", json={"resultado": body["resultado"], "analise": body["analise"]})
         assert e.status_code == 200 and e.content.startswith(marker)
 

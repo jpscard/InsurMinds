@@ -29,7 +29,7 @@ e é refeito automaticamente a cada push no `main`.
 - Perguntas em linguagem natural por **RAG com índice hierárquico** (abordagem PageIndex, orquestrada
   em LangGraph): a IA navega o sumário da apólice, abre as seções certas e cita seção e página; e consultas SQL
 - Revisão humana: correção do JSON extraído pela interface
-- Exportação da comparação em Excel e Markdown
+- Exportação da comparação: relatório completo em **PDF** (com a marca Apólis), planilha Excel e Markdown
 - Landing page de apresentação e página **Sobre a solução** com os diagramas da arquitetura
 - Modo demonstração para o deploy público: amostras carregadas e protegidas, limite de envio
 - Linha de comando (`cli.py`) e testes automatizados (`pytest`)
@@ -54,7 +54,7 @@ Projeto_Final/
 │   ├── agents/             Triagem, Extração, Validação, Indexação, Comparação, Consulta (grafo), prompts
 │   ├── indexing.py         Índice hierárquico do documento (PageIndex)
 │   ├── comparison/         Diferenças determinísticas
-│   ├── exports.py          Comparação em Excel e Markdown
+│   ├── exports.py          Comparação em PDF, Excel e Markdown
 │   └── storage/            Repositório SQLite
 ├── samples/                Apólices fictícias de exemplo
 ├── scripts/

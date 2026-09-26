@@ -23,7 +23,7 @@ Plataforma que recebe apólices de seguro D&O em **PDF digital, PDF digitalizado
 1. **Ingestão e OCR:** Leitura página a página; páginas sem texto vão para OCR (Tesseract, português).
 2. **6 Agentes Especializados:** Triagem, Extração, Validação, Indexação, Comparação e Consulta.
 3. **LLM Configurável:** Anthropic, OpenAI ou Gemini, com a lista de modelos carregada da própria API do provedor, ou modo offline por regras. A chave de API fica só no navegador.
-4. **Comparação de N Apólices:** Diferenças objetivas calculadas de forma determinística (coberturas, exclusões, franquias, prêmio/LMG) e análise executiva pela IA, com exportação em Excel e Markdown.
+4. **Comparação de N Apólices:** Diferenças objetivas calculadas de forma determinística (coberturas, exclusões, franquias, prêmio/LMG) e análise executiva pela IA, com exportação de relatório em PDF, planilha Excel e Markdown.
 5. **Consulta (RAG por raciocínio):** grafo **LangGraph** que navega o índice hierárquico de cada apólice (abordagem **PageIndex**), abre as seções relevantes e responde citando seção e página; mais consultas SQL somente leitura.
 6. **Interface Web:** Painel, carteira, detalhe da apólice com o documento original e revisão humana dos dados extraídos, tema claro/escuro.
 

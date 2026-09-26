@@ -96,7 +96,7 @@ function visaoGeral() {
         <div class="flow-branch">
           <div class="branch-line"></div>
           <div class="grid grid-2">
-            <div class="flow-step ia wide"><span class="flow-ic">${icon('scale', 18)}</span><b>Comparação</b><span>diferenças calculadas por código + análise executiva pela IA · exporta Excel e Markdown</span></div>
+            <div class="flow-step ia wide"><span class="flow-ic">${icon('scale', 18)}</span><b>Comparação</b><span>diferenças calculadas por código + análise executiva pela IA · exporta PDF, Excel e Markdown</span></div>
             <div class="flow-step ia wide"><span class="flow-ic">${icon('chat', 18)}</span><b>Consulta</b><span>grafo LangGraph que navega o índice e cita seção e página · SQL somente leitura</span></div>
           </div>
         </div>
@@ -111,7 +111,7 @@ function visaoGeral() {
       </div></div>
 
     <div class="grid grid-4 mt-16">
-      ${[['6', 'agentes especializados'], ['3', 'provedores de IA + modo offline'], ['3', 'formatos de entrada'], ['2', 'formatos de relatório']]
+      ${[['6', 'agentes especializados'], ['3', 'provedores de IA + modo offline'], ['3', 'formatos de entrada'], ['3', 'formatos de relatório (PDF, Excel, Markdown)']]
         .map(([n, t]) => `<div class="card kpi" style="text-align:center"><div class="kpi-value grad-num">${n}</div><div class="kpi-foot" style="font-size:13px">${t}</div></div>`).join('')}
     </div>`;
 }

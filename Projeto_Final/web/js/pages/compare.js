@@ -109,8 +109,9 @@ export async function render(view, { query }) {
       <div class="page-head" style="margin-bottom:16px">
         <div><h2 class="page-title" style="font-size:20px">Resultado</h2><p class="page-sub">${res.diferencas.length} diferenças objetivas identificadas. Valores em verde são os mais favoráveis de cada métrica.</p></div>
         <div class="page-actions">
+          <button class="btn btn-primary" data-exp="pdf">${icon('download', 16)} Relatório (.pdf)</button>
           <button class="btn" data-exp="xlsx">${icon('download', 16)} Planilha (.xlsx)</button>
-          <button class="btn" data-exp="md">${icon('download', 16)} Relatório (.md)</button>
+          <button class="btn btn-ghost" data-exp="md" title="Texto em Markdown">${icon('code', 16)} .md</button>
         </div>
       </div>
       <div class="grid" style="grid-template-columns:repeat(${Math.min(labels.length, 4)},minmax(0,1fr))">${cols}</div>
@@ -173,7 +174,7 @@ export async function render(view, { query }) {
       const fmt = b.dataset.exp;
       try {
         const blob = await api.exportComparison(fmt, { resultado: res, analise });
-        download(blob, `comparacao_do.${fmt}`);
+        download(blob, fmt === 'pdf' ? 'comparacao_do_apolis.pdf' : `comparacao_do.${fmt}`);
       } catch (e) { toast(e.message, 'error'); }
     }));
   }
