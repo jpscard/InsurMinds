@@ -145,6 +145,10 @@ def demo_client(tmp_path, monkeypatch):
 
 def test_modo_demo_carrega_e_protege_amostras(demo_client):
     assert demo_client.get("/api/config").json() == {"demo_mode": True, "max_upload_mb": 1}
+    import time
+    fim = time.time() + 90  # as amostras são carregadas em segundo plano
+    while len(demo_client.get("/api/policies").json()) < 2 and time.time() < fim:
+        time.sleep(0.3)
     rows = demo_client.get("/api/policies").json()
     assert {r["arquivo"] for r in rows} >= {"apolice_aurora_do.pdf", "apolice_boreal_do.pdf"}
     aid = rows[0]["id"]

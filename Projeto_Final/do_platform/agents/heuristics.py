@@ -22,7 +22,7 @@ _FIELDS = {
     "cnpj_tomador": [r"cnpj"],
     "corretor": [r"corretor(?:a)?"],
     "lmg": [r"limite\s+m[áa]ximo\s+de\s+garantia(?:\s*\(lmg\))?", r"lmg", r"limite\s+agregado"],
-    "premio": [r"pr[êe]mio\s+total", r"pr[êe]mio\s+l[íi]quido", r"pr[êe]mio"],
+    "premio": [r"pr[êeé]mio\s+total", r"pr[êeé]mio\s+l[íi]quido", r"pr[êeé]mio"],
     "base": [r"base\s+de\s+cobertura", r"forma\s+de\s+contrata[çc][ãa]o"],
     "retro": [r"data\s+(?:limite\s+)?de\s+retroatividade", r"retroatividade"],
     "complementar": [r"prazo\s+complementar", r"per[íi]odo\s+complementar", r"prazo\s+suplementar"],
@@ -94,7 +94,7 @@ def _categoria(nome: str, tabela, default: str) -> str:
 
 
 def _split_title(line: str) -> tuple[str, str | None]:
-    line = re.sub(r"^\s*(?:\d+(?:\.\d+)*|[a-z])[\).\-–]\s*", "", line)
+    line = re.sub(r"^\s*(?:\d+(?:\.\d+)+\.?\s|(?:\d+|[a-z])[\).\-–])\s*", "", line)
     parts = re.split(r"\s*[:–]\s+|\s+-\s+", line, maxsplit=1)
     if len(parts) == 2 and len(parts[0]) < 90:
         return parts[0].strip(), parts[1].strip()
@@ -103,7 +103,7 @@ def _split_title(line: str) -> tuple[str, str | None]:
 
 def _merge_continuations(lines: list[str]) -> list[str]:
     """Junta linhas quebradas: uma nova entrada começa por número/letra de item."""
-    item_re = re.compile(r"^\s*(?:\d+(?:\.\d+)*|[a-z])[\).\-–]\s+")
+    item_re = re.compile(r"^\s*(?:\d+(?:\.\d+)+\.?|(?:\d+|[a-z])[\).\-–])\s+")
     numbered = any(item_re.match(ln) for ln in lines)
     items: list[str] = []
     for ln in lines:
@@ -119,6 +119,17 @@ def _merge_continuations(lines: list[str]) -> list[str]:
     return items
 
 
+def _fold_subitems(items: list[str]) -> list[str]:
+    """Subitens de 3º nível ("5.4.1 Exceção: ...") pertencem ao item anterior, não são itens novos."""
+    out: list[str] = []
+    for it in items:
+        if out and re.match(r"^\s*\d+\.\d+\.\d+", it):
+            out[-1] += " " + it
+        else:
+            out.append(it)
+    return out
+
+
 def extract_heuristic(text: str) -> ApoliceDO:
     ident = Identificacao(
         seguradora=_field(text, "seguradora"),
@@ -132,8 +143,8 @@ def extract_heuristic(text: str) -> ApoliceDO:
     if not ident.seguradora:
         m = re.search(r"^(.*SEGURADORA.*|.*SEGUROS S\.?A\.?.*)$", text, re.MULTILINE)
         if m:
-            ident.seguradora = m.group(1).strip()
-    vig = re.search(rf"vig[êe]ncia[^\n]*?({_DATE})[^\n]*?({_DATE})", text, re.IGNORECASE)
+            ident.seguradora = m.group(1).split("·")[0].strip()
+    vig = re.search(rf"vig[êeé]ncia[^\n]*?({_DATE})[^\n]*?({_DATE})", text, re.IGNORECASE)
     if vig:
         ident.vigencia_inicio = normalize_date(vig.group(1))
         ident.vigencia_fim = normalize_date(vig.group(2))
@@ -151,9 +162,11 @@ def extract_heuristic(text: str) -> ApoliceDO:
 
     for heading, lines in _sections(text):
         h = norm_key(heading)
-        if "exclus" in h:
-            for item in _merge_continuations(lines):
+        if "exclu" in h:
+            for item in _fold_subitems(_merge_continuations(lines)):
                 titulo, desc = _split_title(item)
+                if any(norm_key(e.titulo) == norm_key(titulo) for e in ap.exclusoes):
+                    continue  # repetida entre condições particulares e gerais
                 ap.exclusoes.append(Exclusao(
                     titulo=titulo, descricao=desc, trecho_fonte=item[:200],
                     categoria=_categoria(titulo + " " + (desc or ""), _CATEGORIA_EXC, "Outra"),
@@ -177,8 +190,8 @@ def extract_heuristic(text: str) -> ApoliceDO:
                     nome = item[:cut].strip(" :-–")
                     lim = money[0].group(0) if money else "Até o LMG"
                     fr = money[1].group(0) if len(money) > 1 else None
-                nome = re.sub(r"^\s*(?:\d+(?:\.\d+)*|[a-z])[\).\-–]\s*", "", nome)
-                if not nome:
+                nome = re.sub(r"^\s*(?:\d+(?:\.\d+)+\.?\s|(?:\d+|[a-z])[\).\-–])\s*", "", nome)
+                if not nome or any(norm_key(c.nome) == norm_key(nome) for c in ap.coberturas):
                     continue
                 ap.coberturas.append(Cobertura(
                     nome=nome, trecho_fonte=item[:200],
@@ -186,12 +199,14 @@ def extract_heuristic(text: str) -> ApoliceDO:
                     limite=_valor(lim),
                     franquia=_valor(fr) if fr and fr.strip() not in {"-", "—", "Não há", "Isenta"} else None,
                 ))
-        elif "segurad" in h and "definic" not in h and "exclus" not in h:
+        elif h.startswith("segurados"):  # não "OBRIGAÇÕES DO SEGURADO" das condições gerais
             for item in _merge_continuations(lines):
                 t, _ = _split_title(item)
                 if len(t) < 120:
                     ap.segurados.append(t)
-        elif "clausula" in h or "condicoes especiais" in h or "condicoes particulares" in h:
+        elif h in {"clausulas particulares", "clausulas especificas", "condicoes especiais", "condicoes particulares"}:
+            # Só o bloco de cláusulas da apólice: "CLÁUSULA 11 – ALOCAÇÃO" (condições gerais) e
+            # "CONDIÇÕES ESPECIAIS – CUSTOS EMERGENCIAIS" (uma por cobertura) não entram aqui
             for item in _merge_continuations(lines):
                 ap.clausulas_relevantes.append(item[:300])
 

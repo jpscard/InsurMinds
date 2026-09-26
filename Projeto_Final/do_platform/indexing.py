@@ -121,10 +121,19 @@ def build_tree(pages: list[tuple[int, str]]) -> dict:
             nodes.insert(0, Node("0000", "Preâmbulo", 1, first, preamble[-1][0], "\n".join(l for _, l in preamble)))
         metodo = "estrutura"
 
+    _renumber(nodes)
     for n in flatten(nodes):
         n.texto = n.texto.strip()[:MAX_NODE_CHARS]
         n.resumo = heuristic_summary(n)
     return {"metodo": metodo, "nos": [n.to_dict() for n in nodes]}
+
+
+def _renumber(nodes: list[Node], nivel: int = 1) -> None:
+    """Nível = profundidade real na árvore. Sem isso, "CLÁUSULA 5" → "5.1" → "5.1.1" viraria
+    1 → 3 → 4, e o navegador (que vê até o nível 3) perderia os subitens."""
+    for n in nodes:
+        n.nivel = nivel
+        _renumber(n.filhos, nivel + 1)
 
 
 def heuristic_summary(node: Node | dict, limit: int = 160) -> str:

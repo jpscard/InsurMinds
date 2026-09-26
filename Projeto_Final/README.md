@@ -11,7 +11,7 @@ de forma visual, na página **Sobre a solução** da plataforma. O relatório t�
 
 ## Demonstração online
 
-**https://insurminds.onrender.com** — já vem com as três apólices de exemplo processadas. Funciona no
+**https://insurminds.onrender.com** — já vem com os sete documentos de exemplo processados. Funciona no
 modo offline (regras) ou com a sua própria chave de API em **Modelo de IA**; a chave fica só no seu
 navegador. As apólices de exemplo são protegidas e os documentos enviados são apagados quando o
 servidor reinicia. No plano gratuito o servidor dorme sem uso: o primeiro acesso leva cerca de 50 s.
@@ -165,17 +165,25 @@ pytest -q
 
 ## Apólices de exemplo
 
-`samples/` contém três apólices **fictícias** do mesmo tomador, com condições diferentes, para
-demonstrar a comparação:
+`samples/` contém documentos **fictícios** (seguradoras, tomadores e valores inventados), pensados
+para exercitar a comparação, o OCR, a triagem e o índice:
 
-| Arquivo | Tipo | Destaques |
-|---|---|---|
-| `apolice_aurora_do.pdf` | PDF digital | LMG R$ 20 mi, Lados A/B/C, 9 coberturas |
-| `apolice_boreal_do.pdf` | PDF digital | LMG R$ 15 mi, sem Lado C, mais exclusões (ex.: Segurado vs. Segurado), franquias maiores |
-| `apolice_cruzeiro_digitalizada.pdf` | PDF só imagem | LMG R$ 25 mi, retroatividade ilimitada; exercita o OCR |
-| `imagem/apolice_cruzeiro_pagina1.png` | Imagem | Entrada por imagem |
+| Arquivo | Tipo | Págs. | Destaques |
+|---|---|---|---|
+| `apolice_aurora_do.pdf` | PDF digital | 2 | LMG R$ 20 mi, Lados A/B/C, 9 coberturas |
+| `apolice_boreal_do.pdf` | PDF digital | 2 | LMG R$ 15 mi, sem Lado C, mais exclusões (ex.: Segurado vs. Segurado), franquias maiores |
+| `apolice_cruzeiro_digitalizada.pdf` | PDF só imagem | 2 | LMG R$ 25 mi, retroatividade ilimitada; exercita o OCR |
+| `apolice_equinocio_do.pdf` | PDF digital | 10 | Apólice completa (particulares, gerais e especiais), LMG R$ 50 mi, custos de defesa fora do LMG, subsidiárias |
+| `apolice_meridiana_do.pdf` | PDF digital | 10 | Companhia aberta: LMG R$ 80 mi, Cobertura C, investigações CVM/SEC, exclusões com exceções, EUA |
+| `apolice_pampa_digitalizada.pdf` | PDF só imagem | 6 | Cooperativa, LMG R$ 8 mi; OCR em documento longo |
+| `condicoes_gerais_equinocio_do.pdf` | PDF digital | 11 | Condições gerais (não é apólice): a triagem deve identificar o tipo |
+| `imagem/apolice_cruzeiro_pagina1.png` | Imagem | 1 | Entrada por imagem |
 
-Para regenerar: `python scripts/gerar_amostras.py`. Para testar com documentos reais, use modelos de
+Os três primeiros são do mesmo tomador, para a comparação direta. Os documentos longos têm cláusulas
+numeradas com subitens (5 → 5.6 → 5.6.1) e exceções, como apólices reais.
+
+Para gerar o que faltar: `python scripts/gerar_amostras.py` (`--todas` regera tudo; os longos ficam em
+`scripts/amostras_longas.py`). Para testar com documentos reais, use modelos de
 apólices e condições gerais D&O publicados por seguradoras ou consultados na SUSEP, citando a fonte no
 relatório.
 

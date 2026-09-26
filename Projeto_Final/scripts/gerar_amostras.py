@@ -10,8 +10,15 @@ Gera:
   samples/apolice_boreal_do.pdf              PDF digital, condições mais restritivas
   samples/apolice_cruzeiro_digitalizada.pdf  PDF só com imagens (simula digitalização -> OCR)
   samples/imagem/apolice_cruzeiro_pagina1.png Imagem de uma página (entrada por imagem -> OCR)
+  samples/apolice_equinocio_do.pdf           Apólice completa, com condições gerais (~10 págs.)
+  samples/apolice_meridiana_do.pdf           Companhia aberta: Cobertura C ampla, exceções, anexo (~12 págs.)
+  samples/apolice_pampa_digitalizada.pdf     Apólice longa digitalizada (várias páginas por OCR)
+  samples/condicoes_gerais_equinocio_do.pdf  Condições gerais (não é apólice): testa a triagem
 
-Uso:  python scripts/gerar_amostras.py
+Os documentos longos ficam em scripts/amostras_longas.py.
+
+Uso:  python scripts/gerar_amostras.py            (gera só o que falta)
+      python scripts/gerar_amostras.py --todas    (regera todos)
 """
 from __future__ import annotations
 
@@ -256,8 +263,15 @@ def to_scanned(pdf_bytes: bytes) -> tuple[bytes, bytes]:
 
 
 def main() -> None:
+    import sys
+
+    from amostras_longas import LONGAS, build_apolice_longa, build_condicoes_gerais
+
     OUT.mkdir(exist_ok=True)
+    todas = "--todas" in sys.argv
     for key, d in APOLICES.items():
+        if not todas and (OUT / d["arquivo"]).exists():
+            continue
         pdf = build_pdf(d)
         if key == "cruzeiro":
             scanned, png = to_scanned(pdf)
@@ -267,6 +281,16 @@ def main() -> None:
         else:
             (OUT / d["arquivo"]).write_bytes(pdf)
         print("gerado:", d["arquivo"])
+
+    for d in LONGAS.values():
+        if not todas and (OUT / d["arquivo"]).exists():
+            continue
+        pdf = build_apolice_longa(d)
+        (OUT / d["arquivo"]).write_bytes(to_scanned(pdf)[0] if d.get("digitalizada") else pdf)
+        print("gerado:", d["arquivo"])
+    if todas or not (OUT / "condicoes_gerais_equinocio_do.pdf").exists():
+        (OUT / "condicoes_gerais_equinocio_do.pdf").write_bytes(build_condicoes_gerais())
+        print("gerado: condicoes_gerais_equinocio_do.pdf")
 
 
 if __name__ == "__main__":

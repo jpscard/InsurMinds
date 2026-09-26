@@ -52,7 +52,8 @@ def _seed_samples() -> None:
     if repo.list():
         return
     pipe = Pipeline(llm=get_provider("offline", settings=settings), settings=settings, repo=repo)
-    for name in sorted(_sample_names()):
+    # digitais primeiro (instantâneos); os digitalizados passam por OCR e levam alguns segundos
+    for name in sorted(_sample_names(), key=lambda n: ("digitalizad" in n, n)):
         try:
             data = (SAMPLES_DIR / name).read_bytes()
             r = pipe.process(name, data)
@@ -65,7 +66,9 @@ def _seed_samples() -> None:
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     if settings.demo_mode:
-        _seed_samples()
+        # Em segundo plano: o servidor responde já, sem esperar o OCR das amostras digitalizadas
+        # (importante no plano gratuito, que reinicia o servidor a cada vez que ele "acorda").
+        threading.Thread(target=_seed_samples, name="amostras", daemon=True).start()
     yield
 
 

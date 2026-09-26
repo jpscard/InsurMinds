@@ -217,3 +217,31 @@ def test_limite_de_paginas(settings):
     with pytest.raises(IngestionError, match="limite"):
         load_document("a.pdf", pdf, settings.model_copy(update={"max_pages": 1}))
     assert len(load_document("a.pdf", pdf, settings).pages) == 2
+
+
+def test_amostras_longas_extracao_offline(settings):
+    pipe = Pipeline(settings=settings)
+    r = pipe.process("apolice_meridiana_do.pdf", (SAMPLES / "apolice_meridiana_do.pdf").read_bytes())
+    ap = r.apolice
+    assert r.triagem["tipo_documento"] == "apolice"
+    assert ap.limite_maximo_garantia.valor == 80_000_000 and len(ap.coberturas) == 11
+    titulos = [e.titulo for e in ap.exclusoes]
+    assert "Segurado contra Segurado" in titulos and "Informações privilegiadas" in titulos
+    assert len(titulos) == len({t.lower() for t in titulos})  # sem duplicatas entre particulares e gerais
+    # a exceção (5.6.1) fica na descrição da exclusão, não vira uma exclusão nova
+    ssg = next(e for e in ap.exclusoes if e.titulo == "Segurado contra Segurado")
+    assert "Exceção" in ssg.descricao and not any(t.startswith("Exceção") for t in titulos)
+
+    cg = pipe.process("condicoes_gerais_equinocio_do.pdf", (SAMPLES / "condicoes_gerais_equinocio_do.pdf").read_bytes())
+    assert cg.triagem["tipo_documento"] == "condicoes_gerais"
+
+
+def test_indice_de_documento_longo_tem_niveis_continuos(settings):
+    from do_platform.indexing import build_tree, flatten
+    doc = load_document("m.pdf", (SAMPLES / "apolice_meridiana_do.pdf").read_bytes(), settings)
+    tree = build_tree([(p.number, p.text) for p in doc.pages])
+    nos = flatten(tree["nos"])
+    exc = next(n for n in nos if n["titulo"].startswith("CLÁUSULA 5"))
+    ssg = next(f for f in exc["filhos"] if "Segurado contra Segurado" in f["titulo"])
+    assert exc["nivel"] == 1 and ssg["nivel"] == 2 and ssg["filhos"][0]["nivel"] == 3  # 5 → 5.6 → 5.6.1
+    assert len(nos) > 150

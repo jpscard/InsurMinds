@@ -44,7 +44,7 @@ export async function render(view, { query }) {
       </div>
       <div class="stack">
         <div class="card" id="samplesCard">
-          <div class="card-head"><div><div class="card-title">Apólices de exemplo</div><div class="card-sub">Três apólices fictícias do mesmo tomador</div></div></div>
+          <div class="card-head"><div><div class="card-title">Apólices de exemplo</div><div class="card-sub">Documentos fictícios: apólices curtas e longas, digitais e digitalizadas</div></div></div>
           <div class="card-body stack" id="samples"><span class="subtle">Carregando…</span></div>
         </div>
         <div class="card"><div class="card-body stack" style="gap:10px">
