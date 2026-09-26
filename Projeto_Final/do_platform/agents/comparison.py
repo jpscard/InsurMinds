@@ -47,7 +47,7 @@ def _diferencas_por_regras(res: ComparisonResult) -> list[dict]:
             tem = [lb for lb in labels if not str(r[lb]).startswith("✗")]
             out.append({"tema": f"Cobertura: {r['Cobertura']}",
                         "impacto": "alto" if r["Categoria"] in _CATEGORIAS_CENTRAIS else "medio",
-                        "favorece": ", ".join(tem), "descricao": f"Prevista em {', '.join(tem)}; {sit.lower()}."})
+                        "favorece": ", ".join(tem), "descricao": f"Prevista em {', '.join(tem)}; {sit[:1].lower() + sit[1:]}."})
         elif sit.startswith("Limites"):
             out.append({"tema": f"Cobertura: {r['Cobertura']}", "impacto": "baixo", "favorece": "neutro",
                         "descricao": "Limites diferentes: " + "; ".join(f"{lb}: {r[lb].lstrip('✓ ')}" for lb in labels)})

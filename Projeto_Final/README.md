@@ -190,8 +190,10 @@ relatório.
 ## Relatório
 
 O relatório técnico é escrito em [`docs/relatorio/relatorio.md`](docs/relatorio/relatorio.md), com as
-imagens em `docs/relatorio/img/` e os diagramas em `docs/relatorio/diagramas/`. Para gerar o
-`.docx` e o `.pdf` (o PDF é exportado pelo Microsoft Word, no Windows):
+imagens em `docs/relatorio/img/` e os diagramas em `docs/relatorio/diagramas/`. Versões prontas:
+[`InsurMinds – Projeto Final.pdf`](docs/relatorio/InsurMinds%20–%20Projeto%20Final.pdf) e
+[`.docx`](docs/relatorio/InsurMinds%20–%20Projeto%20Final.docx). Para gerar de novo o `.docx` e o `.pdf`
+(o PDF é exportado pelo Microsoft Word, no Windows):
 
 ```bash
 pip install python-docx

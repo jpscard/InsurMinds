@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><title>Arquitetura</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, 'Segoe UI', sans-serif; background: #fff; color: #0f172a; padding: 24px 24px; width: 1040px; }
+  h1 { font-size: 26px; font-weight: 800; margin-bottom: 18px; color: #0f2b48; }
+  .layer { border: 1.5px solid #cbd5e1; border-radius: 14px; padding: 14px 16px 16px; margin-bottom: 14px; position: relative; }
+  .layer > .tag { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #64748b; margin-bottom: 10px; }
+  .row { display: flex; gap: 10px; align-items: stretch; }
+  .box { flex: 1; border-radius: 10px; padding: 10px 12px; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 16px; }
+  .box b { display: block; font-size: 17px; margin-bottom: 3px; }
+  .box span { color: #475569; font-size: 14.5px; line-height: 1.4; display: block; }
+  .ai { background: #eff6ff; border-color: #93c5fd; }
+  .det { background: #f0fdf4; border-color: #86efac; }
+  .arrow { display: flex; align-items: center; color: #94a3b8; font-size: 22px; font-weight: 700; }
+  .down { text-align: center; color: #64748b; font-size: 16px; margin: -6px 0 6px; }
+  .legend { display: flex; gap: 18px; font-size: 14px; color: #475569; margin-top: 6px; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+</style></head>
+<body>
+  <h1>Apólis — arquitetura em camadas</h1>
+
+  <div class="layer">
+    <div class="tag">Apresentação · web/ (HTML, CSS, JS sem build)</div>
+    <div class="row">
+      <div class="box"><b>Landing page</b><span>/ — apresentação do produto</span></div>
+      <div class="box"><b>Plataforma</b><span>/app — painel, carteira, detalhe, envio, comparação, consulta</span></div>
+      <div class="box"><b>Modelo de IA</b><span>provedor, modelo e chave ficam no navegador</span></div>
+      <div class="box"><b>CLI e Streamlit</b><span>cli.py e app.py (legado)</span></div>
+    </div>
+  </div>
+  <div class="down">▼ HTTP/JSON · cabeçalhos X-LLM-Provider / X-LLM-Model / X-LLM-Key</div>
+
+  <div class="layer">
+    <div class="tag">API · api/main.py (FastAPI + Uvicorn, Docker no Render)</div>
+    <div class="row">
+      <div class="box"><b>/api/policies</b><span>envio, detalhe, revisão, índice, original</span></div>
+      <div class="box"><b>/api/compare</b><span>comparação + exportação xlsx/md</span></div>
+      <div class="box"><b>/api/ask · /api/sql</b><span>consulta por IA e SQL somente leitura</span></div>
+      <div class="box"><b>/api/llm</b><span>provedores e modelos da chave</span></div>
+      <div class="box"><b>Modo demonstração</b><span>amostras carregadas e protegidas</span></div>
+    </div>
+  </div>
+  <div class="down">▼ Pipeline (do_platform/pipeline.py)</div>
+
+  <div class="layer">
+    <div class="tag">Agentes · do_platform/agents</div>
+    <div class="row">
+      <div class="box det"><b>Ingestão / OCR</b><span>pdfplumber + Tesseract (por)</span></div>
+      <div class="arrow">›</div>
+      <div class="box ai"><b>1. Triagem</b><span>é apólice D&amp;O?</span></div>
+      <div class="arrow">›</div>
+      <div class="box ai"><b>2. Extração</b><span>JSON ApoliceDO, em blocos</span></div>
+      <div class="arrow">›</div>
+      <div class="box det"><b>3. Validação</b><span>consistência e alertas</span></div>
+      <div class="arrow">›</div>
+      <div class="box ai"><b>4. Indexação</b><span>árvore de seções (PageIndex)</span></div>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <div class="box ai" style="flex:1.2"><b>5. Comparação</b><span>diferenças calculadas por código + análise executiva pela IA</span></div>
+      <div class="box ai" style="flex:1.8"><b>6. Consulta (grafo LangGraph)</b><span>roteador → navegador do índice → leitor → avaliador → respondedor, com citação de seção e página; BM25 no modo offline</span></div>
+    </div>
+  </div>
+  <div class="down">▼</div>
+
+  <div class="row">
+    <div class="layer" style="flex:1;margin:0">
+      <div class="tag">LLM · do_platform/llm</div>
+      <div class="row"><div class="box">Anthropic</div><div class="box">OpenAI</div><div class="box">Gemini</div><div class="box det">Offline (regras)</div></div>
+    </div>
+    <div class="layer" style="flex:1;margin:0">
+      <div class="tag">Armazenamento · SQLite</div>
+      <div class="row"><div class="box">apolices · coberturas · exclusoes</div><div class="box">paginas · indices</div><div class="box">comparacoes</div></div>
+    </div>
+  </div>
+  <div class="legend"><span><i style="background:#eff6ff;border:1px solid #93c5fd"></i>usa IA generativa</span><span><i style="background:#f0fdf4;border:1px solid #86efac"></i>determinístico (sem IA)</span></div>
+</body></html>

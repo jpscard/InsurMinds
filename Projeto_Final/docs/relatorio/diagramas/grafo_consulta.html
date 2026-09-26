@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><title>Grafo da consulta</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, 'Segoe UI', sans-serif; background: #fff; color: #0f172a; padding: 24px 28px; width: 1200px; }
+  h1 { font-size: 24px; font-weight: 800; color: #0f2b48; margin-bottom: 4px; }
+  p.sub { color: #475569; font-size: 15px; margin-bottom: 14px; }
+  svg text { font-family: Inter, 'Segoe UI', sans-serif; }
+</style></head>
+<body>
+  <h1>Consulta: RAG por raciocínio sobre o índice (PageIndex) em LangGraph</h1>
+  <p class="sub">Cada nó registra o que fez; o "caminho da consulta" aparece junto da resposta na interface.</p>
+  <svg width="1144" height="470" viewBox="0 0 1144 470" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker>
+      <style>
+        .n rect { fill: #eff6ff; stroke: #3b82f6; stroke-width: 1.6; }
+        .d rect { fill: #f0fdf4; stroke: #22c55e; stroke-width: 1.6; }
+        .t rect { fill: #0f2b48; stroke: #0f2b48; }
+        .n text.h, .d text.h { font-size: 18px; font-weight: 700; fill: #0f172a; }
+        .t text.h { font-size: 17px; font-weight: 700; fill: #fff; }
+        text.s { font-size: 13.5px; fill: #475569; }
+        line, path.e { stroke: #64748b; stroke-width: 1.6; fill: none; }
+        text.l { font-size: 14px; fill: #1e3a8a; font-weight: 600; }
+      </style>
+    </defs>
+
+    <!-- nós -->
+    <g class="t"><rect x="20" y="200" width="120" height="50" rx="25"/><text class="h" x="80" y="230" text-anchor="middle">pergunta</text></g>
+    <g class="n"><rect x="190" y="190" width="170" height="70" rx="12"/><text class="h" x="275" y="218" text-anchor="middle">roteador</text><text class="s" x="275" y="238" text-anchor="middle">dados ou documento?</text></g>
+    <g class="n"><rect x="415" y="95" width="210" height="70" rx="12"/><text class="h" x="520" y="123" text-anchor="middle">navegador</text><text class="s" x="520" y="143" text-anchor="middle">lê o sumário, escolhe seções</text></g>
+    <g class="d"><rect x="680" y="95" width="160" height="70" rx="12"/><text class="h" x="760" y="123" text-anchor="middle">leitor</text><text class="s" x="760" y="143" text-anchor="middle">texto das seções</text></g>
+    <g class="n"><rect x="680" y="245" width="160" height="70" rx="12"/><text class="h" x="760" y="273" text-anchor="middle">avaliador</text><text class="s" x="760" y="293" text-anchor="middle">já basta?</text></g>
+    <g class="d"><rect x="430" y="355" width="180" height="70" rx="12"/><text class="h" x="520" y="383" text-anchor="middle">busca_lexical</text><text class="s" x="520" y="403" text-anchor="middle">BM25 nas seções</text></g>
+    <g class="n"><rect x="900" y="190" width="220" height="70" rx="12"/><text class="h" x="1010" y="218" text-anchor="middle">respondedor</text><text class="s" x="1010" y="238" text-anchor="middle">cita apólice · seção · pág.</text></g>
+
+    <!-- arestas -->
+    <line x1="140" y1="225" x2="188" y2="225" marker-end="url(#a)"/>
+    <path class="e" d="M360 215 C 395 200, 395 130, 413 130" marker-end="url(#a)"/><text class="l" x="376" y="178">documento</text>
+    <path class="e" d="M360 245 C 400 270, 400 390, 428 390" marker-end="url(#a)"/><text class="l" x="372" y="330">offline</text>
+    <path class="e" d="M275 190 C 275 30, 1010 30, 1010 188" marker-end="url(#a)"/><text class="l" x="610" y="58">estruturado</text>
+    <line x1="625" y1="130" x2="678" y2="130" marker-end="url(#a)"/><text class="l" x="628" y="120">seções</text>
+    <path class="e" d="M520 165 L 520 353" marker-end="url(#a)"/><text class="l" x="528" y="265">nada novo</text>
+    <line x1="760" y1="165" x2="760" y2="243" marker-end="url(#a)"/>
+    <path class="e" d="M680 290 C 630 290, 590 240, 575 167" marker-end="url(#a)"/><text class="l" x="600" y="320">falta algo</text><text class="s" x="600" y="334">(máx. 2 rodadas)</text>
+    <path class="e" d="M840 280 C 875 280, 875 240, 898 235" marker-end="url(#a)"/><text class="l" x="850" y="300">suficiente</text>
+    <path class="e" d="M610 390 C 850 390, 1000 340, 1010 262" marker-end="url(#a)"/>
+  </svg>
+  <p class="sub" style="margin-top:6px">Azul: usa IA · Verde: determinístico. O navegador recebe só o sumário (títulos, páginas e resumos), nunca o documento inteiro.</p>
+</body></html>

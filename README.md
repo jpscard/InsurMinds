@@ -37,6 +37,11 @@ python -m api
 ```
 Abra http://localhost:8000. Instalação do OCR e demais detalhes em [Projeto_Final/README.md](./Projeto_Final/README.md); arquitetura em [Projeto_Final/docs/ARQUITETURA.md](./Projeto_Final/docs/ARQUITETURA.md).
 
+### Documentação e Relatórios:
+* **Relatório Oficial em PDF:** [Projeto_Final/docs/relatorio/InsurMinds – Projeto Final.pdf](./Projeto_Final/docs/relatorio/InsurMinds%20–%20Projeto%20Final.pdf)
+* **Relatório Oficial em Word:** [Projeto_Final/docs/relatorio/InsurMinds – Projeto Final.docx](./Projeto_Final/docs/relatorio/InsurMinds%20–%20Projeto%20Final.docx)
+* **Arquitetura:** [Projeto_Final/docs/ARQUITETURA.md](./Projeto_Final/docs/ARQUITETURA.md)
+
 ---
 
 ## Destaque: Desafio 5 – InsureAlert: Comunicação Proativa com o Segurado
