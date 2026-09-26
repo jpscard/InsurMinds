@@ -368,7 +368,7 @@ def health():
 async def _revalidate_static(request: Request, call_next):
     """A interface é servida sem build: o navegador revalida (ETag) para pegar sempre a versão atual."""
     response = await call_next(request)
-    if request.url.path == "/" or request.url.path.startswith("/static/"):
+    if request.url.path in {"/", "/app"} or request.url.path.startswith("/static/"):
         response.headers["Cache-Control"] = "no-cache"
     return response
 
@@ -377,5 +377,10 @@ app.mount("/static", StaticFiles(directory=WEB_DIR), name="static")
 
 
 @app.get("/", include_in_schema=False)
+def landing():
+    return FileResponse(WEB_DIR / "landing.html")
+
+
+@app.get("/app", include_in_schema=False)
 def index():
     return FileResponse(WEB_DIR / "index.html")

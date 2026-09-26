@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D&amp;O Insight — Análise e comparação de apólices D&amp;O com IA</title>
+  <meta name="description" content="Envie apólices D&O em PDF ou imagem. A IA estrutura coberturas, limites, franquias e exclusões, e você compara e consulta as apólices em minutos.">
+  <meta property="og:title" content="D&O Insight — Análise de apólices D&O com IA">
+  <meta property="og:description" content="Compare apólices D&O em minutos: coberturas, exclusões, franquias e custo lado a lado, com análise por IA e citação da fonte.">
+  <link rel="icon" href="/static/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('doi.theme'); } catch (e) {}
+      if (!t) t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="stylesheet" href="/static/css/app.css">
+  <link rel="stylesheet" href="/static/css/landing.css">
+</head>
+<body class="landing">
+
+  <header class="lnav" id="lnav">
+    <div class="lwrap lnav-inner">
+      <a class="brand-inline" href="/" aria-label="D&O Insight — início">
+        <span class="brand-mark" data-icon="shield"></span>
+        <span class="brand-name">D&amp;O Insight</span>
+      </a>
+      <nav class="lnav-links" aria-label="Seções">
+        <a href="#como">Como funciona</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#agentes">Arquitetura</a>
+        <a href="#confianca">Confiabilidade</a>
+      </nav>
+      <div class="lnav-actions">
+        <button class="btn btn-ghost btn-icon" id="themeBtn" aria-label="Alternar tema"></button>
+        <a class="btn btn-primary" href="/app">Abrir a plataforma <i data-icon="arrowRight"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ─── Hero ─────────────────────────────────────────── -->
+    <section class="hero">
+      <div class="lwrap hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow"><i data-icon="sparkles"></i> Apólices D&amp;O · IA generativa</span>
+          <h1>Compare apólices D&amp;O em minutos, <span class="grad">não em dias.</span></h1>
+          <p class="lead">Envie as apólices em PDF ou imagem. A IA lê o documento, estrutura coberturas, limites, franquias e exclusões, e mostra lado a lado o que muda entre elas — com a página de origem de cada informação.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary btn-lg" href="/app">Abrir a plataforma <i data-icon="arrowRight"></i></a>
+            <a class="btn btn-lg" href="/app#/comparar?ids=1,2">Ver uma comparação pronta</a>
+          </div>
+          <ul class="hero-points">
+            <li><i data-icon="check"></i> PDF digital, digitalizado ou foto</li>
+            <li><i data-icon="check"></i> Claude, GPT ou Gemini — você escolhe</li>
+            <li><i data-icon="check"></i> Funciona também sem IA, para testar</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual" aria-label="Exemplo de comparação entre duas apólices">
+          <div class="mock">
+            <div class="mock-bar"><span></span><span></span><span></span><em>Comparar apólices</em></div>
+            <div class="mock-body">
+              <div class="mock-cols">
+                <div class="mock-col">
+                  <strong>Aurora · 1010.0045871</strong>
+                  <div class="mrow"><span>LMG</span><b class="best">R$ 20 mi</b></div>
+                  <div class="mrow"><span>Prêmio / LMG</span><b>0,743%</b></div>
+                  <div class="mrow"><span>Coberturas</span><b class="best">9</b></div>
+                  <div class="bar"><i style="width:100%"></i></div>
+                  <div class="mrow"><span>Exclusões</span><b class="best">5</b></div>
+                  <div class="bar red"><i style="width:62%"></i></div>
+                </div>
+                <div class="mock-col">
+                  <strong>Boreal · 7702.2026.00913</strong>
+                  <div class="mrow"><span>LMG</span><b>R$ 15 mi</b></div>
+                  <div class="mrow"><span>Prêmio / LMG</span><b class="best">0,642%</b></div>
+                  <div class="mrow"><span>Coberturas</span><b>6</b></div>
+                  <div class="bar"><i style="width:66%"></i></div>
+                  <div class="mrow"><span>Exclusões</span><b>8</b></div>
+                  <div class="bar red"><i style="width:100%"></i></div>
+                </div>
+              </div>
+              <div class="mock-table">
+                <div class="mt-row head"><span>Cobertura</span><span>Aurora</span><span>Boreal</span></div>
+                <div class="mt-row"><span>Lado A – Pagamento direto</span><span class="ok">✓ R$ 20 mi</span><span class="ok">✓ R$ 15 mi</span></div>
+                <div class="mt-row miss"><span>Lado C – Mercado de capitais</span><span class="ok">✓ R$ 10 mi</span><span class="no">✗ não prevista</span></div>
+                <div class="mt-row miss"><span>Gerenciamento de crise</span><span class="ok">✓ R$ 1 mi</span><span class="no">✗ não prevista</span></div>
+              </div>
+              <div class="mock-insight"><i data-icon="alert"></i><span>Exclusão <b>“Segurado contra Segurado”</b> presente apenas na Boreal — mais restritiva nesse ponto.</span></div>
+            </div>
+          </div>
+          <div class="float-card fc-1"><i data-icon="file"></i><div><b>Pág. 2</b><span>trecho citado na resposta</span></div></div>
+          <div class="float-card fc-2"><i data-icon="checkCircle"></i><div><b>Validação</b><span>LMG ≥ sublimites ✓</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Problema ─────────────────────────────────────── -->
+    <section class="band">
+      <div class="lwrap problem">
+        <h2 class="section-title">Por que comparar apólices D&amp;O é tão difícil?</h2>
+        <div class="grid grid-3">
+          <div class="pcard"><span class="picon"><i data-icon="files"></i></span><h3>Documentos longos</h3><p>Condições gerais, especiais e particulares espalhadas em dezenas de páginas, muitas vezes digitalizadas.</p></div>
+          <div class="pcard"><span class="picon"><i data-icon="columns"></i></span><h3>Cada seguradora, um vocabulário</h3><p>“Custos de Defesa” numa apólice, “Despesas com Defesa” na outra. Alinhar coberturas à mão é lento e sujeito a erro.</p></div>
+          <div class="pcard"><span class="picon"><i data-icon="alert"></i></span><h3>O detalhe que custa caro</h3><p>Uma exclusão a mais, uma franquia maior ou uma retroatividade menor mudam o valor real da proteção.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Como funciona ────────────────────────────────── -->
+    <section id="como" class="section">
+      <div class="lwrap">
+        <span class="eyebrow center">Como funciona</span>
+        <h2 class="section-title center">Do PDF à decisão em quatro etapas</h2>
+        <ol class="steps-l">
+          <li><span class="snum">1</span><div><h3>Envie os documentos</h3><p>Arraste PDFs ou imagens. Vários de uma vez, com acompanhamento de cada arquivo.</p></div></li>
+          <li><span class="snum">2</span><div><h3>Leitura com OCR</h3><p>Páginas com texto são lidas direto; páginas digitalizadas passam por OCR em português.</p></div></li>
+          <li><span class="snum">3</span><div><h3>Estruturação e validação</h3><p>A IA extrai coberturas, limites, franquias, exclusões e vigência. Um agente confere a consistência e aponta alertas.</p></div></li>
+          <li><span class="snum">4</span><div><h3>Compare e pergunte</h3><p>Diferenças lado a lado, análise executiva, perguntas em linguagem natural e exportação do relatório.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ─── Recursos ─────────────────────────────────────── -->
+    <section id="recursos" class="section alt">
+      <div class="lwrap">
+        <span class="eyebrow center">Recursos</span>
+        <h2 class="section-title center">Tudo o que a análise de uma apólice D&amp;O pede</h2>
+        <div class="features">
+          <div class="feature"><span class="ficon"><i data-icon="scale"></i></span><h3>Comparação de N apólices</h3><p>Coberturas, exclusões, franquias e custo relativo (prêmio/LMG) lado a lado, com o que difere destacado.</p></div>
+          <div class="feature"><span class="ficon"><i data-icon="sparkles"></i></span><h3>Análise executiva</h3><p>Resumo, diferenças-chave por impacto, pontos de atenção e recomendação redigidos pela IA.</p></div>
+          <div class="feature"><span class="ficon"><i data-icon="chat"></i></span><h3>Perguntas com citação</h3><p>“Alguma cobre multas administrativas?” — a resposta mostra o trecho e a página de onde veio.</p></div>
+          <div class="feature"><span class="ficon"><i data-icon="eye"></i></span><h3>Documento original ao lado</h3><p>Abra o PDF original e o texto extraído de cada página para conferir qualquer informação.</p></div>
+          <div class="feature"><span class="ficon"><i data-icon="edit"></i></span><h3>Revisão humana</h3><p>Corrija qualquer dado extraído. A correção passa a valer nas comparações e consultas.</p></div>
+          <div class="feature"><span class="ficon"><i data-icon="download"></i></span><h3>Exportação</h3><p>Planilha Excel e relatório em Markdown da comparação, prontos para compartilhar.</p></div>
+          <div class="feature"><span class="ficon"><i data-icon="layers"></i></span><h3>Escolha a IA</h3><p>Anthropic, OpenAI ou Google, com a lista de modelos da sua própria chave — ou modo offline por regras.</p></div>
+          <div class="feature"><span class="ficon"><i data-icon="database"></i></span><h3>Consultas estruturadas</h3><p>Os dados ficam em SQLite: consulte a carteira em SQL, em modo somente leitura.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Agentes ──────────────────────────────────────── -->
+    <section id="agentes" class="section">
+      <div class="lwrap">
+        <span class="eyebrow center">Arquitetura</span>
+        <h2 class="section-title center">Cinco agentes especializados, um fluxo auditável</h2>
+        <p class="section-sub center">Cada etapa registra o que fez e quanto tempo levou — o trajeto aparece na interface.</p>
+        <div class="agents">
+          <div class="agent"><span class="aicon"><i data-icon="search"></i></span><b>Triagem</b><span>Confirma se o documento é uma apólice D&amp;O</span></div>
+          <i class="arrow" data-icon="chevronRight"></i>
+          <div class="agent"><span class="aicon"><i data-icon="file"></i></span><b>Extração</b><span>Estrutura os dados, em blocos se o documento for longo</span></div>
+          <i class="arrow" data-icon="chevronRight"></i>
+          <div class="agent"><span class="aicon"><i data-icon="checkCircle"></i></span><b>Validação</b><span>Checa consistência e gera alertas</span></div>
+          <i class="arrow" data-icon="chevronRight"></i>
+          <div class="agent"><span class="aicon"><i data-icon="scale"></i></span><b>Comparação</b><span>Diferenças exatas + interpretação</span></div>
+          <i class="arrow" data-icon="chevronRight"></i>
+          <div class="agent"><span class="aicon"><i data-icon="chat"></i></span><b>Consulta</b><span>Responde com os trechos de origem</span></div>
+        </div>
+        <div class="facts">
+          <div><b>5</b><span>agentes especializados</span></div>
+          <div><b>3</b><span>provedores de IA + modo offline</span></div>
+          <div><b>3</b><span>formatos de entrada: PDF, digitalizado e imagem</span></div>
+          <div><b>2</b><span>formatos de relatório: Excel e Markdown</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Confiabilidade ───────────────────────────────── -->
+    <section id="confianca" class="section alt">
+      <div class="lwrap">
+        <span class="eyebrow center">Confiabilidade</span>
+        <h2 class="section-title center">IA onde ajuda, precisão onde importa</h2>
+        <div class="grid grid-3 trust">
+          <div class="pcard"><span class="picon green"><i data-icon="scale"></i></span><h3>Números calculados, não gerados</h3><p>As diferenças objetivas (valores, presença de coberturas e exclusões) são calculadas sem IA: exatas e reprodutíveis. A IA entra depois, para interpretar.</p></div>
+          <div class="pcard"><span class="picon green"><i data-icon="key"></i></span><h3>Sua chave fica com você</h3><p>A chave de API fica só no seu navegador e vai direto ao provedor. O servidor não a grava.</p></div>
+          <div class="pcard"><span class="picon green"><i data-icon="shield"></i></span><h3>Especialista no controle</h3><p>Fonte citada, documento original ao lado e revisão humana: a decisão final continua com quem entende de seguro.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── CTA ──────────────────────────────────────────── -->
+    <section class="section">
+      <div class="lwrap">
+        <div class="cta">
+          <div>
+            <h2>Veja funcionando agora</h2>
+            <p>A plataforma já vem com três apólices fictícias processadas. Compare, pergunte e envie seus próprios documentos.</p>
+            <p class="demo-note" id="demoNote" hidden><i data-icon="info"></i> Ambiente de demonstração: as apólices de exemplo são fictícias e os documentos enviados são apagados periodicamente. Use o modo offline ou sua própria chave de API.</p>
+          </div>
+          <a class="btn btn-lg cta-btn" href="/app">Abrir a plataforma <i data-icon="arrowRight"></i></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lfoot">
+    <div class="lwrap lfoot-inner">
+      <a class="brand-inline" href="/"><span class="brand-mark sm" data-icon="shield"></span><span class="brand-name">D&amp;O Insight</span></a>
+      <span class="subtle">Projeto Final · InsurMinds</span>
+      <span class="spacer"></span>
+      <a href="https://github.com/jpscard/InsurMinds/tree/main/Projeto_Final" target="_blank" rel="noopener">Código no GitHub</a>
+      <a href="/docs" target="_blank" rel="noopener">API</a>
+      <a href="/app#/sobre">Arquitetura</a>
+    </div>
+  </footer>
+
+  <script type="module" src="/static/js/landing.js"></script>
+</body>
+</html>

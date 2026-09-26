@@ -39,8 +39,12 @@ def _add_samples(client) -> list[int]:
 def test_interface_e_saude(client):
     assert client.get("/api/health").json() == {"status": "ok"}
     r = client.get("/")
-    assert r.status_code == 200 and "D&amp;O Insight" in r.text
+    assert r.status_code == 200 and "Abrir a plataforma" in r.text
     assert r.headers["cache-control"] == "no-cache"
+    app_page = client.get("/app")
+    assert app_page.status_code == 200 and 'id="view"' in app_page.text
+    for asset in ("/static/css/landing.css", "/static/js/landing.js"):
+        assert client.get(asset).status_code == 200
     assert client.get("/static/js/app.js").status_code == 200
 
 
