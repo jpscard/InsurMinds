@@ -43,7 +43,6 @@ Projeto_Final/
 │   ├── landing.html        Landing page (/)
 │   ├── index.html          Plataforma (/app)
 │   └── js/pages/           Uma página por tela (painel, carteira, comparar, consultar, sobre...)
-├── app.py                  Interface Streamlit (legada)
 ├── cli.py                  Linha de comando
 ├── do_platform/
 │   ├── config.py           Configuração (.env)
@@ -144,8 +143,6 @@ Links diretos para um resultado (úteis em apresentações):
 | `/app#/consultar?q=Existe exclusão de Segurado contra Segurado?` | a consulta, já respondida |
 | `/app#/apolices/2?tab=idx` | a apólice 2 na aba Índice (também `cob`, `exc`, `fra`, `txt`, `rev`) |
 | `/app#/sobre?tab=consulta` | a página Sobre na aba do grafo (também `agentes`, `decisoes`, `dados`) |
-
-A interface Streamlit anterior continua disponível com `streamlit run app.py`.
 
 Linha de comando:
 

@@ -44,7 +44,7 @@ comando usam apenas o `Pipeline`, nunca os agentes diretamente.
 | `exports.py` | Exportação da comparação em PDF (relatório com a marca Apólis, gerado com reportlab), Excel e Markdown, a partir do resultado já calculado (sem chamar o LLM de novo). |
 | `storage/` | Repositório SQLite. |
 | `api/main.py` + `web/` | API REST (FastAPI) e interface web servida por ela: landing page em `/`, plataforma em `/app`, documentação da API em `/docs`. O provedor, o modelo e a chave de LLM chegam em cabeçalhos a cada requisição; o servidor não guarda a chave. |
-| `app.py` / `cli.py` | Interface Streamlit (legada) e linha de comando. |
+| `cli.py` | Linha de comando (processar, listar, comparar, perguntar). |
 
 ## Agentes
 

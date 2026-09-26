@@ -15,7 +15,7 @@ const FLUXO = [
 ];
 
 const CAMADAS = [
-  { nome: 'Apresentação', onde: 'web/', itens: ['Landing page', 'Plataforma (/app)', 'Modelo de IA no navegador', 'CLI e Streamlit (legado)'] },
+  { nome: 'Apresentação', onde: 'web/', itens: ['Landing page', 'Plataforma (/app)', 'Modelo de IA no navegador', 'Linha de comando (cli.py)'] },
   { nome: 'API', onde: 'api/main.py · FastAPI', itens: ['Apólices, índice e original', 'Comparação e exportação', 'Consulta por IA e SQL', 'Modelos de cada provedor'] },
   { nome: 'Núcleo', onde: 'do_platform/', itens: ['Pipeline', '6 agentes', 'Comparação determinística', 'Índice hierárquico'] },
   { nome: 'Infraestrutura', onde: 'LLM · SQLite · Docker', itens: ['Anthropic, OpenAI, Gemini ou offline', 'SQLite relacional + JSON', 'Render com deploy automático'] },
