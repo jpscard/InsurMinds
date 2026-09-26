@@ -8,9 +8,32 @@ Repositório oficial dos projetos e soluções desenvolvidas para os desafios da
 
 | Diretório | Descrição do Desafio | Tecnologias Principais |
 | :--- | :--- | :--- |
+| **[Projeto_Final](./Projeto_Final/)** | **Plataforma Inteligente para Análise e Comparação de Apólices D&O** | Multi-Agente, LLM configurável (Anthropic, OpenAI, Gemini), OCR Tesseract, FastAPI, SQLite |
 | **[Desafio_5](./Desafio_5/)** | **Ferramenta Inteligente para Comunicação Proativa com o Segurado** | Multi-Agente Autônomo, Google Gemini 2.5 Flash Lite, FastAPI, INMET, CPaaS Omnicanal |
 | **[Desafio_4](./Desafio_4/)** | **Agente Inteligente para Interpretação e Auditoria de Notas Fiscais e CSVs** | LangChain, Google Gemini, Streamlit, Pandas, Plotly |
 | **[Desafio 3](./Desafio%203/)** | **Modelo Preditivo e Análise de Dados** | Python, Jupyter Notebook, Pandas, Scikit-Learn |
+
+---
+
+## Destaque: Projeto Final – D&O Insight: Análise e Comparação de Apólices D&O
+
+Plataforma que recebe apólices de seguro D&O em **PDF digital, PDF digitalizado ou imagem**, extrai o conteúdo (texto nativo ou OCR), usa **IA generativa** para estruturar coberturas, limites, franquias, exclusões e vigência, armazena tudo em **SQLite** e permite **consultar e comparar** duas ou mais apólices.
+
+### Principais Módulos:
+1. **Ingestão e OCR:** Leitura página a página; páginas sem texto vão para OCR (Tesseract, português).
+2. **5 Agentes Especializados:** Triagem, Extração, Validação, Comparação e Consulta, orquestrados por um pipeline.
+3. **LLM Configurável:** Anthropic, OpenAI ou Gemini, com a lista de modelos carregada da própria API do provedor, ou modo offline por regras. A chave de API fica só no navegador.
+4. **Comparação de N Apólices:** Diferenças objetivas calculadas de forma determinística (coberturas, exclusões, franquias, prêmio/LMG) e análise executiva pela IA, com exportação em Excel e Markdown.
+5. **Consulta:** Perguntas em linguagem natural com citação da página de origem e consultas SQL somente leitura.
+6. **Interface Web:** Painel, carteira, detalhe da apólice com o documento original e revisão humana dos dados extraídos, tema claro/escuro.
+
+### Como Executar Localmente:
+```bash
+cd Projeto_Final
+pip install -r requirements.txt
+python -m api
+```
+Abra http://localhost:8000. Instalação do OCR e demais detalhes em [Projeto_Final/README.md](./Projeto_Final/README.md); arquitetura em [Projeto_Final/docs/ARQUITETURA.md](./Projeto_Final/docs/ARQUITETURA.md).
 
 ---
 
