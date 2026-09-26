@@ -167,3 +167,29 @@ def test_pipeline_indexa_preserva_na_revisao_e_gera_para_antigas(tmp_path):
     assert pipe.repo.get_index(novo) is not None
     assert out["trechos"][0]["secao"] == "6. Segurado contra Segurado"
     assert "EXCLUSÕES" in outline(pipe.repo.get_index(novo))
+
+
+def test_extracao_divide_bloco_quando_resposta_e_cortada():
+    from do_platform.agents import ExtractionAgent
+    from do_platform.ingestion import DocumentText, PageText
+    from do_platform.llm import LLMTruncated
+
+    class CortaSeLongo(LLMProvider):
+        name = "corta"
+
+        def __init__(self):
+            super().__init__(model="m", temperature=0, max_tokens=10, timeout_s=1, max_retries=1)
+            self.tamanhos = []
+
+        def _complete(self, system, user, json_output):
+            self.tamanhos.append(len(user))
+            if "[Página 1]" in user and "[Página 2]" in user:
+                raise LLMTruncated("resposta cortada")
+            nome = "Lado A" if "[Página 1]" in user else "Lado B"
+            return json.dumps({"coberturas": [{"nome": nome, "categoria": nome}]})
+
+    doc = DocumentText("x.pdf", "h", [PageText(1, "a" * 1500, "texto"), PageText(2, "b" * 1500, "texto")])
+    llm = CortaSeLongo()
+    ap = ExtractionAgent(llm).run(doc)
+    assert [c.nome for c in ap.coberturas] == ["Lado A", "Lado B"]  # nada perdido
+    assert len(llm.tamanhos) == 3  # 1 tentativa cortada + 2 metades

@@ -18,6 +18,10 @@ class LLMError(RuntimeError):
     """Falha ao chamar o modelo (credencial ausente, rede, cota, resposta inválida)."""
 
 
+class LLMTruncated(LLMError):
+    """A resposta foi cortada pelo limite de tokens de saída (JSON incompleto)."""
+
+
 class LLMProvider(ABC):
     name: str = "base"
     default_model: str = ""
@@ -49,7 +53,10 @@ class LLMProvider(ABC):
         """Chamada crua ao provedor. Implementada por cada subclasse."""
 
     def complete(self, system: str, user: str, json_output: bool = False) -> str:
-        """Chama o modelo com novas tentativas e backoff exponencial."""
+        """Chama o modelo com novas tentativas e backoff exponencial.
+
+        Só repete o que pode se resolver sozinho (instabilidade, sobrecarga, limite por minuto).
+        Cota diária esgotada, chave inválida ou modelo inexistente param na hora, com mensagem clara."""
         last_exc: Exception | None = None
         for attempt in range(1, self.max_retries + 1):
             try:
@@ -58,20 +65,31 @@ class LLMProvider(ABC):
                 raise  # erros de configuração não adiantam repetir
             except Exception as exc:  # noqa: BLE001 - SDKs lançam tipos variados
                 status = getattr(exc, "status_code", None) or getattr(exc, "code", None)
+                texto = str(exc)
                 if status in (400, 401, 403, 404):
                     # chave inválida, modelo inexistente, requisição malformada: repetir não resolve
-                    raise LLMError(f"{self.name}: {exc}") from exc
+                    raise LLMError(f"{self.name}: {_resumo(texto)}") from exc
+                if status == 429 and _cota_esgotada(texto):
+                    raise LLMError(f"{self.name}: a cota do provedor para o modelo {self.model} acabou (limite do "
+                                   f"plano). Escolha outro modelo em Modelo de IA, tente mais tarde ou use uma "
+                                   f"chave com faturamento.") from exc
                 last_exc = exc
                 wait = 2 ** attempt
+                if status == 429:  # limite por minuto: espera o que o provedor pedir (até 30 s)
+                    wait = min(max(wait, _espera_sugerida(texto)), 30)
                 log.warning("Falha no %s (tentativa %s/%s): %s. Nova tentativa em %ss",
-                            self.name, attempt, self.max_retries, exc, wait)
+                            self.name, attempt, self.max_retries, _resumo(texto), wait)
                 if attempt < self.max_retries:
                     time.sleep(wait)
-        raise LLMError(f"{self.name}: falhou após {self.max_retries} tentativas: {last_exc}")
+        status = getattr(last_exc, "status_code", None) or getattr(last_exc, "code", None)
+        if status in (503, 529) or "overloaded" in str(last_exc).lower() or "high demand" in str(last_exc).lower():
+            raise LLMError(f"{self.name}: o modelo {self.model} está sobrecarregado no momento. Tente de novo em "
+                           f"instantes ou escolha outro modelo.") from last_exc
+        raise LLMError(f"{self.name}: falhou após {self.max_retries} tentativas: {_resumo(str(last_exc))}")
 
     def complete_json(self, system: str, user: str) -> dict:
         """Chama o modelo pedindo JSON e devolve o objeto já decodificado."""
-        raw = self.complete(system, user, json_output=True)
+        raw = self.complete(system, user, json_output=True)  # LLMTruncated sobe: corrigir não resolve
         try:
             return parse_json(raw)
         except ValueError:
@@ -84,6 +102,24 @@ class LLMProvider(ABC):
 
     def describe(self) -> str:
         return f"{self.name} ({self.model})"
+
+
+def _resumo(texto: str, limite: int = 220) -> str:
+    """Mensagem de erro do SDK sem o JSON inteiro: só a parte legível."""
+    m = re.search(r"'message': '([^']+)'", texto) or re.search(r'"message":\s*"([^"]+)"', texto)
+    msg = (m.group(1) if m else texto).split("\n")[0].strip()
+    return msg if len(msg) <= limite else msg[:limite] + "…"
+
+
+def _cota_esgotada(texto: str) -> bool:
+    """429 que não se resolve esperando alguns segundos: cota diária ou falta de créditos."""
+    t = texto.lower()
+    return any(k in t for k in ("perday", "per day", "insufficient_quota", "billing", "credit balance"))
+
+
+def _espera_sugerida(texto: str) -> float:
+    m = re.search(r"retry in ([\d.]+)s", texto) or re.search(r"retryDelay'?:\s*'(\d+)s", texto)
+    return float(m.group(1)) if m else 0
 
 
 _FENCE = re.compile(r"^```(?:json)?\s*|\s*```$", re.MULTILINE)

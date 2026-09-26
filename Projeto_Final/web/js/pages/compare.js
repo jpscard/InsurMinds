@@ -1,6 +1,6 @@
 import { api } from '../api.js';
 import { crumbs, currentProvider, llmLabel, openSettings } from '../app.js';
-import { $, $$, alertBox, download, empty, esc, icon, liveSteps, loading, moneyShort, pct, shortInsurer, tabs, toast, traceSteps } from '../ui.js';
+import { $, $$, alertBox, docTipo, download, empty, esc, icon, liveSteps, loading, moneyShort, pct, shortInsurer, tabs, toast, traceSteps } from '../ui.js';
 
 let last = null; // última comparação, mantida ao navegar
 
@@ -33,14 +33,14 @@ export async function render(view, { query }) {
   }
 
   const fromQuery = (query.get('ids') || '').split(',').map(Number).filter((id) => rows.some((r) => r.id === id));
-  const sel = new Set(fromQuery.length ? fromQuery : last ? last.ids.filter((id) => rows.some((r) => r.id === id)) : rows.slice(0, 2).map((r) => r.id));
+  const sel = new Set(fromQuery.length ? fromQuery : last ? last.ids.filter((id) => rows.some((r) => r.id === id)) : rows.filter((r) => !docTipo(r.tipo_documento, r.numero_apolice)).slice(0, 2).map((r) => r.id));
 
   const paintPicks = () => {
     $('#picks', view).innerHTML = `<div class="pick-list">${rows.map((r) => `
       <label class="pick ${sel.has(r.id) ? 'on' : ''}">
         <input type="checkbox" data-id="${r.id}" ${sel.has(r.id) ? 'checked' : ''}>
         <span style="min-width:0"><strong style="display:block">${esc(shortInsurer(r.seguradora) || r.arquivo)}</strong>
-        <span class="subtle">${esc(r.numero_apolice || r.arquivo)} · LMG ${moneyShort(r.lmg, r.moeda)}</span></span>
+        <span class="subtle">${docTipo(r.tipo_documento, r.numero_apolice) ? `${docTipo(r.tipo_documento, r.numero_apolice)} · não é apólice` : `${esc(r.numero_apolice || r.arquivo)} · LMG ${moneyShort(r.lmg, r.moeda)}`}</span></span>
       </label>`).join('')}</div>`;
     const b = $('#goBtn', view);
     b.disabled = sel.size < 2;

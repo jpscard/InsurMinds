@@ -1,0 +1,181 @@
+{
+ "provedor": "gemini (gemini-3-flash-preview)",
+ "documentos": {
+  "apolice_aurora_do.pdf": {
+   "campos": {
+    "seguradora": true,
+    "numero_apolice": true,
+    "vigencia_inicio": true,
+    "vigencia_fim": true,
+    "lmg": true,
+    "premio": true,
+    "retroatividade": true
+   },
+   "coberturas": {
+    "esperadas": 9,
+    "encontradas": 9,
+    "limite_correto": 9,
+    "extraidas": 9
+   },
+   "exclusoes": {
+    "esperadas": 5,
+    "encontradas": 5,
+    "extraidas": 5
+   },
+   "franquias": {
+    "esperadas": 3,
+    "extraidas": 2
+   },
+   "segundos": 44.9,
+   "erros_de_campo": []
+  },
+  "apolice_boreal_do.pdf": {
+   "campos": {
+    "seguradora": true,
+    "numero_apolice": true,
+    "vigencia_inicio": true,
+    "vigencia_fim": true,
+    "lmg": true,
+    "premio": true,
+    "retroatividade": true
+   },
+   "coberturas": {
+    "esperadas": 6,
+    "encontradas": 6,
+    "limite_correto": 6,
+    "extraidas": 6
+   },
+   "exclusoes": {
+    "esperadas": 8,
+    "encontradas": 8,
+    "extraidas": 8
+   },
+   "franquias": {
+    "esperadas": 2,
+    "extraidas": 2
+   },
+   "segundos": 17.8,
+   "erros_de_campo": []
+  },
+  "apolice_cruzeiro_digitalizada.pdf": {
+   "campos": {
+    "seguradora": true,
+    "numero_apolice": true,
+    "vigencia_inicio": true,
+    "vigencia_fim": true,
+    "lmg": true,
+    "premio": true,
+    "retroatividade": true
+   },
+   "coberturas": {
+    "esperadas": 7,
+    "encontradas": 7,
+    "limite_correto": 6,
+    "extraidas": 8
+   },
+   "exclusoes": {
+    "esperadas": 4,
+    "encontradas": 4,
+    "extraidas": 4
+   },
+   "franquias": {
+    "esperadas": 2,
+    "extraidas": 2
+   },
+   "segundos": 21.3,
+   "erros_de_campo": []
+  },
+  "apolice_equinocio_do.pdf": {
+   "campos": {
+    "seguradora": true,
+    "numero_apolice": true,
+    "vigencia_inicio": true,
+    "vigencia_fim": true,
+    "lmg": true,
+    "premio": true,
+    "retroatividade": true
+   },
+   "coberturas": {
+    "esperadas": 10,
+    "encontradas": 10,
+    "limite_correto": 9,
+    "extraidas": 10
+   },
+   "exclusoes": {
+    "esperadas": 10,
+    "encontradas": 10,
+    "extraidas": 10
+   },
+   "franquias": {
+    "esperadas": 3,
+    "extraidas": 3
+   },
+   "segundos": 26.1,
+   "erros_de_campo": []
+  },
+  "apolice_meridiana_do.pdf": {
+   "campos": {
+    "seguradora": true,
+    "numero_apolice": true,
+    "vigencia_inicio": true,
+    "vigencia_fim": true,
+    "lmg": true,
+    "premio": true,
+    "retroatividade": true
+   },
+   "coberturas": {
+    "esperadas": 11,
+    "encontradas": 9,
+    "limite_correto": 6,
+    "extraidas": 8
+   },
+   "exclusoes": {
+    "esperadas": 12,
+    "encontradas": 7,
+    "extraidas": 8
+   },
+   "franquias": {
+    "esperadas": 4,
+    "extraidas": 0
+   },
+   "segundos": 33.9,
+   "erros_de_campo": [],
+   "nota": "refeita após a correção de respostas cortadas pelo limite de tokens"
+  },
+  "apolice_pampa_digitalizada.pdf": {
+   "campos": {
+    "seguradora": true,
+    "numero_apolice": true,
+    "vigencia_inicio": true,
+    "vigencia_fim": true,
+    "lmg": true,
+    "premio": true,
+    "retroatividade": true
+   },
+   "coberturas": {
+    "esperadas": 5,
+    "encontradas": 5,
+    "limite_correto": 5,
+    "extraidas": 5
+   },
+   "exclusoes": {
+    "esperadas": 7,
+    "encontradas": 7,
+    "extraidas": 7
+   },
+   "franquias": {
+    "esperadas": 2,
+    "extraidas": 2
+   },
+   "segundos": 35.5,
+   "erros_de_campo": []
+  }
+ },
+ "total": {
+  "campos_gerais": "42/42",
+  "campos_gerais_pct": 100.0,
+  "coberturas_pct": 95.8,
+  "limites_pct": 85.4,
+  "exclusoes_pct": 89.1
+ }
+}

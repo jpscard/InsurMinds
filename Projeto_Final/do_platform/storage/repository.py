@@ -185,6 +185,7 @@ class Repository:
             rows = c.execute(
                 """SELECT a.id, a.arquivo, a.seguradora, a.numero_apolice, a.tomador, a.vigencia_inicio,
                           a.vigencia_fim, a.lmg, a.premio, a.moeda, a.provedor_llm, a.criado_em,
+                          json_extract(a.triagem_json, '$.tipo_documento') AS tipo_documento,
                           (SELECT COUNT(*) FROM coberturas WHERE apolice_id = a.id) AS n_coberturas,
                           (SELECT COUNT(*) FROM exclusoes  WHERE apolice_id = a.id) AS n_exclusoes
                    FROM apolices a ORDER BY a.id DESC"""

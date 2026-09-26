@@ -18,7 +18,7 @@ from do_platform.agents import ComparisonAgent, ExtractionAgent, ValidationAgent
 from do_platform.agents.extraction import chunk_pages, merge_partials  # noqa: E402
 from do_platform.config import Settings  # noqa: E402
 from do_platform.ingestion import DocumentText, IngestionError, PageText, load_document  # noqa: E402
-from do_platform.llm import get_provider, parse_json  # noqa: E402
+from do_platform.llm import LLMError, get_provider, parse_json  # noqa: E402
 from do_platform.llm.base import LLMProvider  # noqa: E402
 from do_platform.pipeline import Pipeline  # noqa: E402
 from do_platform.schema import ApoliceDO, Cobertura, Exclusao, Identificacao, Valor  # noqa: E402
@@ -245,3 +245,37 @@ def test_indice_de_documento_longo_tem_niveis_continuos(settings):
     ssg = next(f for f in exc["filhos"] if "Segurado contra Segurado" in f["titulo"])
     assert exc["nivel"] == 1 and ssg["nivel"] == 2 and ssg["filhos"][0]["nivel"] == 3  # 5 → 5.6 → 5.6.1
     assert len(nos) > 150
+
+
+class _Erro429(Exception):
+    status_code = 429
+
+
+class _CotaLLM(LLMProvider):
+    """Simula a cota diária do Gemini esgotada."""
+    name = "gemini"
+
+    def __init__(self):
+        super().__init__(model="gemini-2.5-flash", temperature=0, max_tokens=100, timeout_s=1, max_retries=3)
+        self.chamadas = 0
+
+    def _complete(self, system, user, json_output):
+        self.chamadas += 1
+        raise _Erro429("429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current "
+                       "quota', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier'}}")
+
+
+def test_cota_diaria_esgotada_nao_repete_e_explica():
+    llm = _CotaLLM()
+    with pytest.raises(LLMError, match="cota do provedor para o modelo gemini-2.5-flash acabou") as e:
+        llm.complete("s", "u")
+    assert llm.chamadas == 1  # não gasta mais cota repetindo
+    assert "{" not in str(e.value)  # sem o JSON do SDK na mensagem
+
+
+def test_extracao_cai_para_regras_se_a_ia_falhar(settings):
+    pipe = Pipeline(llm=_CotaLLM(), settings=settings)
+    r = pipe.process("apolice_boreal_do.pdf", (SAMPLES / "apolice_boreal_do.pdf").read_bytes())
+    assert len(r.apolice.coberturas) == 6  # extraído por regras
+    assert any("extraídos por regras" in a for a in r.avisos)
+    assert pipe.repo.get_row(r.apolice_id)["provedor_llm"].startswith("regras (a IA falhou")

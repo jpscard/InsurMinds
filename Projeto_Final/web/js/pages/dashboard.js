@@ -1,6 +1,6 @@
 import { api } from '../api.js';
 import { crumbs, currentProvider, llmLabel, llmReady, openSettings } from '../app.js';
-import { $, empty, esc, icon, loading, moneyShort, pct, shortInsurer, vigencia, vigenciaStatus } from '../ui.js';
+import { $, docTipo, empty, esc, icon, loading, moneyShort, pct, shortInsurer, vigencia, vigenciaStatus } from '../ui.js';
 
 export async function render(view) {
   crumbs([{ label: 'Painel' }]);
@@ -50,7 +50,8 @@ export async function render(view) {
     return `<tr data-id="${r.id}">
       <td><div class="cell-title">${esc(shortInsurer(r.seguradora) || r.arquivo)}</div><div class="cell-sub">${esc(r.numero_apolice || r.arquivo)}</div></td>
       <td>${esc(r.tomador || '—')}</td>
-      <td class="nowrap">${vigencia(r.vigencia_inicio, r.vigencia_fim)} <span class="badge ${st.cls}">${st.label}</span></td>
+      <td class="nowrap">${docTipo(r.tipo_documento, r.numero_apolice) ? `<span class="badge amber">${docTipo(r.tipo_documento, r.numero_apolice)}</span>`
+        : `${vigencia(r.vigencia_inicio, r.vigencia_fim)} <span class="badge ${st.cls}">${st.label}</span>`}</td>
       <td class="num">${moneyShort(r.lmg, r.moeda)}</td>
     </tr>`;
   }).join('');

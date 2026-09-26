@@ -4,7 +4,7 @@ Os SDKs são importados sob demanda: só é preciso instalar o do provedor em us
 """
 from __future__ import annotations
 
-from .base import LLMError, LLMProvider
+from .base import LLMError, LLMProvider, LLMTruncated
 
 
 class AnthropicProvider(LLMProvider):
@@ -40,6 +40,8 @@ class AnthropicProvider(LLMProvider):
             messages=[{"role": "user", "content": user}],
         ) as stream:
             msg = stream.get_final_message()
+        if msg.stop_reason == "max_tokens":
+            raise LLMTruncated(f"anthropic: resposta cortada no limite de {self.max_tokens} tokens")
         return "".join(b.text for b in msg.content if getattr(b, "type", "") == "text")
 
 
@@ -87,6 +89,8 @@ class OpenAIProvider(LLMProvider):
             messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
             **kwargs,
         )
+        if resp.choices[0].finish_reason == "length":
+            raise LLMTruncated(f"openai: resposta cortada no limite de {self.max_tokens} tokens")
         return resp.choices[0].message.content or ""
 
 
@@ -104,7 +108,7 @@ class GeminiProvider(LLMProvider):
             raise LLMError("Instale o SDK: pip install google-genai") from exc
         self._client = genai.Client(api_key=api_key)
 
-    _NON_TEXT = ("embedding", "image", "tts", "live", "audio", "aqa", "computer-use", "customtools",
+    _NON_TEXT = ("embedding", "image", "tts", "live", "audio", "aqa", "computer-use", "customtools", "transcribe",
                  "robotics")
 
     def list_models(self) -> list[tuple[str, str]]:
@@ -130,6 +134,9 @@ class GeminiProvider(LLMProvider):
             response_mime_type="application/json" if json_output else "text/plain",
         )
         resp = self._client.models.generate_content(model=self.model, contents=user, config=cfg)
+        motivo = str(getattr((resp.candidates or [None])[0], "finish_reason", "") or "")
+        if motivo.endswith("MAX_TOKENS"):  # nos modelos com raciocínio, os tokens de "pensar" também contam
+            raise LLMTruncated(f"gemini: resposta cortada no limite de {self.max_tokens} tokens")
         return resp.text or ""
 
 

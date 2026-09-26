@@ -1,6 +1,6 @@
 import { api } from '../api.js';
 import { crumbs } from '../app.js';
-import { $, $$, dateTime, empty, esc, icon, loading, moneyShort, pct, shortInsurer, vigencia, vigenciaStatus } from '../ui.js';
+import { $, $$, dateTime, docTipo, empty, esc, icon, loading, moneyShort, pct, shortInsurer, vigencia, vigenciaStatus } from '../ui.js';
 
 export async function render(view) {
   crumbs([{ label: 'Carteira' }]);
@@ -44,11 +44,13 @@ export async function render(view) {
       <thead><tr><th style="width:36px"></th><th>Seguradora</th><th>Tomador</th><th>Vigência</th><th class="num">LMG</th><th class="num">Prêmio</th><th class="num">Prêmio/LMG</th><th class="num">Cob. / Excl.</th><th>Processado</th></tr></thead>
       <tbody>${list.map((r) => {
         const st = vigenciaStatus(r.vigencia_inicio, r.vigencia_fim);
+        const tipo = docTipo(r.tipo_documento, r.numero_apolice);
         return `<tr data-id="${r.id}">
           <td><input type="checkbox" class="sel" data-id="${r.id}" ${selected.has(r.id) ? 'checked' : ''} aria-label="Selecionar"></td>
           <td><div class="cell-title">${esc(shortInsurer(r.seguradora) || r.arquivo)}</div><div class="cell-sub">${esc(r.numero_apolice || r.arquivo)}</div></td>
           <td>${esc(r.tomador || '—')}</td>
-          <td class="nowrap">${vigencia(r.vigencia_inicio, r.vigencia_fim)}<br><span class="badge ${st.cls}">${st.label}</span></td>
+          <td class="nowrap">${tipo ? `<span class="badge amber" title="A triagem identificou que não é uma apólice: serve de consulta, não entra bem em comparações">${tipo}</span><div class="cell-sub">não é apólice</div>`
+            : `${vigencia(r.vigencia_inicio, r.vigencia_fim)}<br><span class="badge ${st.cls}">${st.label}</span>`}</td>
           <td class="num">${moneyShort(r.lmg, r.moeda)}</td>
           <td class="num">${moneyShort(r.premio, r.moeda)}</td>
           <td class="num">${r.lmg && r.premio ? pct((r.premio / r.lmg) * 100) : '—'}</td>

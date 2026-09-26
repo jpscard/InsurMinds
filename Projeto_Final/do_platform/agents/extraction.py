@@ -6,6 +6,7 @@ parciais são consolidados (map-reduce).
 """
 from __future__ import annotations
 
+import re
 import time
 
 from pydantic import ValidationError
@@ -13,6 +14,7 @@ from pydantic import ValidationError
 from ..ingestion import DocumentText
 from ..schema import ApoliceDO
 from ..utils import norm_key
+from ..llm import LLMTruncated
 from .base import Agent
 from .heuristics import extract_heuristic
 from .prompts import EXTRACAO_CHUNK_CONTEXT, EXTRACAO_SYSTEM, EXTRACAO_USER
@@ -96,6 +98,30 @@ class ExtractionAgent(Agent):
             )
             return ApoliceDO.model_validate(fix)
 
+    def _extract_safe(self, text: str, arquivo: str, i: int, n: int, nivel: int = 0) -> list[ApoliceDO]:
+        """Extrai um bloco; se a resposta vier cortada pelo limite de tokens, divide o bloco ao meio
+        (por páginas, ou por linhas se for uma página só) e extrai cada metade. Nunca guarda um JSON
+        incompleto como se fosse a extração inteira."""
+        try:
+            return [self._extract_chunk(text, arquivo, i, n)]
+        except LLMTruncated:
+            if nivel >= 3 or len(text) < 2000:
+                raise
+            partes = re.split(r"(?=\[Página \d+\])", text)
+            partes = [p for p in partes if p.strip()]
+            if len(partes) < 2:
+                linhas = text.splitlines()
+                partes = ["\n".join(linhas[: len(linhas) // 2]), "\n".join(linhas[len(linhas) // 2:])]
+            meio = len(partes) // 2
+            metades = ["".join(partes[:meio]), "".join(partes[meio:])]
+            self.log.warning("Resposta cortada no bloco %s/%s; extraindo em %s partes menores", i, n, len(metades))
+            self.trace.add(self.nome, "Bloco longo dividido", time.perf_counter(),
+                           "a resposta passou do limite de tokens; extraindo em partes menores")
+            out = []
+            for k, metade in enumerate(metades, start=1):
+                out += self._extract_safe(metade, arquivo, k, len(metades), nivel + 1)
+            return out
+
     def run(self, doc: DocumentText) -> ApoliceDO:
         t0 = time.perf_counter()
         if self.llm.is_offline:
@@ -107,7 +133,7 @@ class ExtractionAgent(Agent):
         chunks = chunk_pages(doc, self.chunk_chars)
         parts = []
         for i, ch in enumerate(chunks, start=1):
-            parts.append(self._extract_chunk(ch, doc.filename, i, len(chunks)))
+            parts += self._extract_safe(ch, doc.filename, i, len(chunks))
         ap = merge_partials(parts)
         self.trace.add(self.nome, f"Extração via {self.llm.describe()}", t0,
                        f"{len(chunks)} bloco(s) · {len(ap.coberturas)} coberturas · {len(ap.exclusoes)} exclusões")

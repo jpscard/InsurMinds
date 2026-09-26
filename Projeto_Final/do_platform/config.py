@@ -24,7 +24,8 @@ class Settings(BaseSettings):
     llm_provider: str = "offline"
     llm_model: str | None = None  # se vazio, usa o padrão de cada provedor
     llm_temperature: float = 0.0
-    llm_max_tokens: int = 8000
+    # Modelos com raciocínio gastam parte deste limite "pensando": apólices longas precisam de folga
+    llm_max_tokens: int = 32000
     llm_timeout_s: int = 180
     llm_max_retries: int = 3
 
@@ -44,6 +45,9 @@ class Settings(BaseSettings):
     # Pasta de idiomas do OCR. Se vazia, usa data/tessdata quando existir (idiomas instalados
     # pelo projeto sem permissão de administrador) ou a pasta padrão do Tesseract.
     tessdata_dir: Path | None = None
+
+    # Resumos das seções do índice pelo LLM (1 chamada por documento); False usa resumos por regras
+    index_llm_summaries: bool = True
 
     # Extração: textos maiores que isto são processados em blocos
     chunk_chars: int = 60000

@@ -1,7 +1,7 @@
 import { api } from '../api.js';
 import { crumbs, refreshCount } from '../app.js';
 import {
-  $, alertBox, confirmDialog, date, dateTime, esc, icon, loading, moneyShort, overlay, pct, shortInsurer, table, tabs,
+  $, alertBox, confirmDialog, date, dateTime, docTipo, esc, icon, loading, moneyShort, overlay, pct, shortInsurer, table, tabs,
   toast, valor, vigencia, vigenciaStatus,
 } from '../ui.js';
 
@@ -17,15 +17,18 @@ export async function render(view, { id, query }) {
   const st = vigenciaStatus(idt.vigencia_inicio, idt.vigencia_fim);
   const lmg = ap.limite_maximo_garantia, pr = ap.premio_total;
 
-  const alertas = (d.alertas || []).map((a) => alertBox(a.nivel === 'erro' ? 'error' : a.nivel === 'aviso' ? 'warn' : 'info', esc(a.mensagem))).join('');
+  const tipo = docTipo(d.triagem?.tipo_documento, idt.numero_apolice);
+  // num documento que não é apólice, os avisos de "campo não identificado" são esperados: não mostra
+  const alertas = tipo ? '' : (d.alertas || []).map((a) => alertBox(a.nivel === 'erro' ? 'error' : a.nivel === 'aviso' ? 'warn' : 'info', esc(a.mensagem))).join('');
   const kpi = (label, value, foot = '') => `<div class="card kpi"><div class="kpi-label">${label}</div><div class="kpi-value">${value}</div><div class="kpi-foot">${foot}</div></div>`;
 
   view.innerHTML = `
     <div class="page-head">
       <div>
-        <div class="row" style="gap:8px;margin-bottom:6px"><span class="badge ${st.cls}">${st.label}</span>${idt.produto ? `<span class="badge">${esc(idt.produto)}</span>` : ''}</div>
+        <div class="row" style="gap:8px;margin-bottom:6px">${tipo ? `<span class="badge amber">${tipo}</span>` : `<span class="badge ${st.cls}">${st.label}</span>`}${idt.produto ? `<span class="badge">${esc(idt.produto)}</span>` : ''}</div>
         <h1 class="page-title">${esc(title)}</h1>
-        <p class="page-sub">Apólice ${esc(idt.numero_apolice || '—')} · ${esc(idt.tomador || 'Tomador não identificado')} · ${vigencia(idt.vigencia_inicio, idt.vigencia_fim)}</p>
+        ${tipo ? `<p class="page-sub">${esc(meta.arquivo)}</p>${alertBox('info', `A triagem identificou este documento como <strong>${tipo.toLowerCase()}</strong>, não uma apólice emitida: por isso não tem número, vigência, LMG nem prêmio. Ele é útil para consultas sobre as regras do produto.`)}`
+          : `<p class="page-sub">Apólice ${esc(idt.numero_apolice || '—')} · ${esc(idt.tomador || 'Tomador não identificado')} · ${vigencia(idt.vigencia_inicio, idt.vigencia_fim)}</p>`}
       </div>
       <div class="page-actions">
         ${d.tem_original ? `<button class="btn" id="origBtn">${icon('eye', 16)} Documento original</button>` : ''}

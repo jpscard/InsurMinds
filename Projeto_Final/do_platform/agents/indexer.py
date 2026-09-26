@@ -20,12 +20,12 @@ MAX_BATCH_CHARS = 40000    # seções por chamada
 class IndexAgent(Agent):
     nome = "Indexação"
 
-    def run(self, pages: list[tuple[int, str]]) -> dict:
+    def run(self, pages: list[tuple[int, str]], resumos_llm: bool = True) -> dict:
         t0 = time.perf_counter()
         tree = build_tree(pages)
         nodes = flatten(tree["nos"])
         alvo = [n for n in nodes if n["nivel"] == 1 or len(n["texto"]) > 600]
-        if self.llm.is_offline or not alvo:
+        if self.llm.is_offline or not alvo or not resumos_llm:
             self.trace.add(self.nome, "Índice por estrutura", t0, f"{len(nodes)} seções · método {tree['metodo']}")
             return tree
 

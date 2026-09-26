@@ -17,9 +17,11 @@ from .agents import (ComparisonAgent, ExtractionAgent, IndexAgent, QAAgent, Trac
                      ValidationAgent)
 from .comparison import ComparisonResult, policy_label
 from .config import Settings, get_settings
+from .agents.extraction import dedupe
+from .agents.heuristics import extract_heuristic
 from .indexing import build_tree
 from .ingestion import load_document
-from .llm import LLMProvider, get_provider
+from .llm import LLMError, LLMProvider, get_provider
 from .schema import ApoliceDO
 from .storage import Repository
 
@@ -68,16 +70,28 @@ class Pipeline:
             avisos.append("A triagem indica que o documento pode não ser uma apólice D&O. "
                           "O processamento continuou, mas confira os resultados.")
 
-        ap = ExtractionAgent(self.llm, trace, self.settings.chunk_chars).run(doc)
+        provedor = self.llm.describe()
+        try:
+            ap = ExtractionAgent(self.llm, trace, self.settings.chunk_chars).run(doc)
+        except LLMError as exc:
+            # A IA falhou (cota, sobrecarga, rede): extrai por regras em vez de perder o documento
+            t0 = time.perf_counter()
+            ap = dedupe(extract_heuristic(doc.text))
+            trace.add("Extração", "Extração por regras (IA indisponível)", t0,
+                      f"{len(ap.coberturas)} coberturas · {len(ap.exclusoes)} exclusões")
+            avisos.append(f"A IA não conseguiu extrair os dados ({exc}). Eles foram extraídos por regras; "
+                          f"revise antes de usar.")
+            provedor = f"regras (a IA falhou: {self.llm.describe()})"
         ap, alertas = ValidationAgent(self.llm, trace).run(ap)
 
         t0 = time.perf_counter()
         aid = self.repo.save(filename, doc.sha256, ap,
                              [(p.number, p.method, p.text) for p in doc.pages],
-                             triagem, alertas, self.llm.describe())
+                             triagem, alertas, provedor)
         trace.add("Armazenamento", "Gravação no SQLite", t0, f"id={aid}")
 
-        tree = IndexAgent(self.llm, trace).run([(p.number, p.text) for p in doc.pages])
+        tree = IndexAgent(self.llm, trace).run([(p.number, p.text) for p in doc.pages],
+                                               resumos_llm=self.settings.index_llm_summaries)
         self.repo.save_index(aid, tree)
         return ProcessResult(aid, filename, ap, triagem, alertas, trace, avisos=avisos)
 

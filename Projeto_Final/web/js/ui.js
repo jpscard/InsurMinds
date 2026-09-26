@@ -128,6 +128,13 @@ export function vigenciaStatus(ini, fim) {
   if (ini || fim) return { label: 'Vigente', cls: 'green' };
   return { label: 'Sem vigência', cls: '' };
 }
+const TIPOS_DOC = {
+  condicoes_gerais: 'Condições gerais', condicoes_especiais: 'Condições especiais',
+  proposta: 'Proposta', cotacao: 'Cotação', outro: 'Outro documento',
+};
+/** Rótulo do tipo quando o documento não é uma apólice emitida (triagem diz outro tipo e não há número
+ * de apólice); senão null. */
+export function docTipo(tipo, numero) { return (!numero && TIPOS_DOC[tipo]) || null; }
 export function shortInsurer(name) {
   if (!name) return '—';
   const skip = new Set(['seguros', 'seguradora', 'companhia', 'cia', 'de', 'do', 's.a.', 'sa', '(fictícia)', 'brasil']);

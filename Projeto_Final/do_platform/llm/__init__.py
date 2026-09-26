@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from ..config import Settings, get_settings
-from .base import LLMError, LLMProvider, parse_json
+from .base import LLMError, LLMProvider, LLMTruncated, parse_json
 from .providers import AnthropicProvider, GeminiProvider, OfflineProvider, OpenAIProvider
 
 PROVIDERS = {
@@ -29,4 +29,4 @@ def get_provider(name: str | None = None, model: str | None = None,
     return PROVIDERS[name](api_key=key, **common)
 
 
-__all__ = ["LLMError", "LLMProvider", "get_provider", "parse_json", "PROVIDERS"]
+__all__ = ["LLMError", "LLMProvider", "LLMTruncated", "get_provider", "parse_json", "PROVIDERS"]
