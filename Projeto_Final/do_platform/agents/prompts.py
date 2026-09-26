@@ -54,14 +54,61 @@ Diferenças calculadas deterministicamente:
 Devolva apenas o JSON."""
 
 CONSULTA_SYSTEM = """Você responde perguntas sobre apólices de seguro D&O armazenadas na plataforma.
-Use SOMENTE os dados estruturados e os trechos fornecidos. Se a resposta não estiver neles, diga que
-não encontrou a informação. Cite a apólice (seguradora e número) e, quando possível, a página do trecho.
-Seja objetivo. Português do Brasil."""
+Use SOMENTE os dados estruturados e as seções fornecidas. Se a resposta não estiver nelas, diga que
+não encontrou a informação. Cite a apólice (seguradora e número) e a seção e página de onde veio cada
+informação, no formato (Apólice · Seção · pág. N). Seja objetivo. Português do Brasil."""
 
 CONSULTA_USER = """Dados estruturados das apólices:
 {apolices}
 
-Trechos relevantes dos documentos:
+Seções lidas dos documentos:
 {trechos}
 
 Pergunta: {pergunta}"""
+
+# ─── Índice hierárquico (abordagem PageIndex) ──────────────────────────────
+INDICE_SYSTEM = """Você indexa apólices de seguro D&O. Para cada seção recebida, escreva um resumo de
+no máximo 25 palavras que diga O QUE a seção contém (temas, coberturas, valores, condições), para que
+alguém decida só pelo resumo se precisa ler a seção. Não invente nada que não esteja no texto.
+Responda em JSON: {"resumos": {"<id>": "<resumo>", ...}}."""
+
+INDICE_USER = """Seções da apólice:
+{secoes}
+
+Devolva apenas o JSON."""
+
+ROTEADOR_SYSTEM = """Você encaminha perguntas sobre apólices D&O. Escolha a rota:
+- "estruturado": a pergunta se responde com os dados já extraídos de cada apólice (seguradora, vigência,
+  LMG, prêmio, lista de coberturas com limites e franquias, lista de exclusões, retroatividade, prazo
+  complementar, territorialidade, custos de defesa).
+- "documento": a pergunta exige ler a redação das cláusulas (condições, exceções, definições, o que
+  exatamente está excluído, como algo funciona) ou você não tem certeza.
+Responda em JSON: {"rota": "estruturado" | "documento", "motivo": "<uma frase>"}."""
+
+ROTEADOR_USER = """Campos disponíveis nos dados estruturados: {campos}
+
+Pergunta: {pergunta}"""
+
+NAVEGADOR_SYSTEM = """Você navega pelo índice (sumário) de apólices D&O para encontrar onde está a resposta
+de uma pergunta, como um especialista folheando o documento. Cada apólice tem um código (A1, A2...) e
+cada seção um id entre colchetes. Escolha as seções que precisam ser lidas, no máximo {max_secoes} no
+total, preferindo a seção mais específica. Escolher uma seção inclui as subseções dela. Considere todas
+as apólices relevantes para a pergunta.
+Responda em JSON: {{"secoes": [{{"apolice": "A1", "id": "0014", "motivo": "<por que ler>"}}]}}."""
+
+NAVEGADOR_USER = """Pergunta: {pergunta}
+{falta}
+Índices:
+{indices}
+
+Seções já lidas (não repita): {lidas}"""
+
+AVALIADOR_SYSTEM = """Você verifica se as seções lidas bastam para responder a pergunta com segurança,
+para todas as apólices consideradas. Responda em JSON:
+{"suficiente": true | false, "falta": "<o que ainda precisa ser procurado, se insuficiente>"}."""
+
+AVALIADOR_USER = """Pergunta: {pergunta}
+Apólices consideradas: {apolices}
+
+Seções lidas:
+{trechos}"""

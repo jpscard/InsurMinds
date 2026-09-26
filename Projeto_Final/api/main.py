@@ -236,6 +236,14 @@ def policy_pages(aid: int):
     return repo.pages(aid)
 
 
+@app.get("/api/policies/{aid}/index")
+def policy_index(aid: int):
+    """Índice hierárquico do documento (gerado por estrutura se a apólice for anterior à indexação)."""
+    repo.get_row(aid)
+    offline = Pipeline(llm=get_provider("offline", settings=settings), settings=settings, repo=repo)
+    return offline.index_for(aid)
+
+
 @app.get("/api/policies/{aid}/file")
 def policy_file(aid: int):
     row = repo.get_row(aid)

@@ -381,6 +381,25 @@ code, pre, .mono { font-family: var(--mono); font-size: 0.86em; }
 .point:last-child { border-bottom: 0; }
 .point svg { color: var(--warning); margin-top: 2px; }
 
+/* ─── Índice (árvore) ───────────────────────────────────── */
+.tree { display: flex; flex-direction: column; gap: 6px; }
+.tnode { border: 1px solid var(--border); border-radius: var(--r-md); background: var(--bg-sunken); }
+.tnode summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 9px 12px; }
+.tnode summary::-webkit-details-marker { display: none; }
+.tnode summary::before { content: "▸"; color: var(--text-3); font-size: 11px; transition: transform var(--t); }
+.tnode[open] > summary::before { transform: rotate(90deg); }
+.tid { color: var(--text-3); font-size: 11px; }
+.ttitle { font-weight: 600; flex: 1; min-width: 0; }
+.tsum { padding: 0 12px 8px 44px; color: var(--text-2); font-size: 13px; }
+.tkids { padding: 0 10px 10px 30px; display: flex; flex-direction: column; gap: 6px; }
+.tkids .tnode { background: var(--bg-card); }
+.ttext { white-space: pre-wrap; padding: 0 12px 12px 44px; font-size: 12px; color: var(--text-2); }
+.route { display: flex; flex-direction: column; gap: 0; padding: 4px 12px 12px; }
+.route-step { display: grid; grid-template-columns: 18px 130px 1fr; gap: 8px; font-size: 12.5px; padding: 5px 0; align-items: baseline; }
+.route-step i { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); margin-top: 5px; }
+.route-step b { font-weight: 600; }
+.route-step span { color: var(--text-2); }
+
 /* ─── Q&A ───────────────────────────────────────────────── */
 .chat { display: flex; flex-direction: column; gap: 16px; }
 .msg { display: flex; gap: 12px; }

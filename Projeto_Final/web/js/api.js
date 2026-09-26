@@ -69,6 +69,7 @@ export const api = {
   policies: () => request('GET', '/api/policies'),
   policy: (id) => request('GET', `/api/policies/${id}`),
   pages: (id) => request('GET', `/api/policies/${id}/pages`),
+  index: (id) => request('GET', `/api/policies/${id}/index`),
   updatePolicy: (id, data) => request('PUT', `/api/policies/${id}`, { body: data }),
   deletePolicy: (id) => request('DELETE', `/api/policies/${id}`),
   upload(file, force) {

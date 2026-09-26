@@ -7,6 +7,8 @@ Modelo híbrido:
 - Uma coluna JSON com o `ApoliceDO` completo, que preserva todos os detalhes
   e permite evoluir o esquema sem migrações a cada novo campo.
 - Tabela de páginas com o texto original, usada pelo Agente de Consulta.
+- Tabela de índices: a árvore de seções de cada documento (abordagem PageIndex), que o
+  Agente de Consulta navega para decidir o que ler.
 """
 from __future__ import annotations
 
@@ -65,6 +67,12 @@ CREATE TABLE IF NOT EXISTS comparacoes (
     apolice_ids  TEXT NOT NULL,
     analise_json TEXT NOT NULL,
     provedor_llm TEXT,
+    criado_em    TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS indices (
+    apolice_id   INTEGER PRIMARY KEY REFERENCES apolices(id) ON DELETE CASCADE,
+    metodo       TEXT,
+    arvore_json  TEXT NOT NULL,
     criado_em    TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS ix_cob_apolice ON coberturas(apolice_id);
@@ -131,12 +139,31 @@ class Repository:
                           [(aid, n, m, t) for n, m, t in pages])
             return aid
 
-    def update_data(self, apolice_id: int, ap: ApoliceDO) -> None:
-        """Salva correções manuais feitas pelo usuário na interface (human-in-the-loop)."""
+    def update_data(self, apolice_id: int, ap: ApoliceDO) -> int:
+        """Salva correções manuais feitas pelo usuário na interface (human-in-the-loop).
+
+        A regravação gera um novo id; o índice do documento (que não muda) é mantido."""
         pages = [(p["numero"], p["metodo"], p["texto"]) for p in self.pages(apolice_id)]
         row = self.get_row(apolice_id)
-        self.save(row["arquivo"], row["sha256"], ap, pages, json.loads(row["triagem_json"] or "{}"),
-                  json.loads(row["alertas_json"] or "[]"), row["provedor_llm"])
+        tree = self.get_index(apolice_id)
+        new_id = self.save(row["arquivo"], row["sha256"], ap, pages, json.loads(row["triagem_json"] or "{}"),
+                           json.loads(row["alertas_json"] or "[]"), row["provedor_llm"])
+        if tree:
+            self.save_index(new_id, tree)
+        return new_id
+
+    def save_index(self, apolice_id: int, tree: dict) -> None:
+        with self._conn() as c:
+            c.execute(
+                "INSERT OR REPLACE INTO indices (apolice_id, metodo, arvore_json, criado_em) VALUES (?,?,?,?)",
+                (apolice_id, tree.get("metodo"), json.dumps(tree, ensure_ascii=False),
+                 datetime.now().isoformat(timespec="seconds")),
+            )
+
+    def get_index(self, apolice_id: int) -> dict | None:
+        with self._conn() as c:
+            row = c.execute("SELECT arvore_json FROM indices WHERE apolice_id = ?", (apolice_id,)).fetchone()
+            return json.loads(row["arvore_json"]) if row else None
 
     def delete(self, apolice_id: int) -> None:
         with self._conn() as c:

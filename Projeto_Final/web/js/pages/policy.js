@@ -46,6 +46,7 @@ export async function render(view, { id }) {
         <button class="tab" data-tab="cob">Coberturas <span class="badge">${(ap.coberturas || []).length}</span></button>
         <button class="tab" data-tab="exc">Exclusões <span class="badge">${(ap.exclusoes || []).length}</span></button>
         <button class="tab" data-tab="fra">Franquias <span class="badge">${(ap.franquias || []).length}</span></button>
+        <button class="tab" data-tab="idx">${icon('layers', 14)} Índice</button>
         <button class="tab" data-tab="txt">Texto extraído</button>
         <button class="tab" data-tab="rev">${icon('edit', 14)} Revisão</button>
       </div>
@@ -90,6 +91,21 @@ export async function render(view, { id }) {
       { key: 'aplicacao', label: 'Aplicação', fmt: (v) => `<span class="cell-title">${esc(v)}</span>` },
       { key: 'valor', label: 'Valor', cls: 'num', fmt: (v) => esc(valor(v)) },
     ], { empty: 'Nenhuma franquia extraída.' }),
+    idx: async (el) => {
+      el.innerHTML = loading('Carregando índice…');
+      const t = await api.index(meta.id);
+      const metodo = { estrutura: 'estrutura do documento', 'estrutura+llm': 'estrutura + resumos pela IA', paginas: 'uma seção por página', 'paginas+llm': 'páginas + resumos pela IA' }[t.metodo] || t.metodo;
+      const node = (n) => `
+        <details class="tnode" ${n.nivel === 1 && n.filhos.length ? 'open' : ''}>
+          <summary><span class="tid mono">${esc(n.id)}</span><span class="ttitle">${esc(n.titulo)}</span>
+            <span class="badge">pág. ${n.pagina_inicio}${n.pagina_fim !== n.pagina_inicio ? `–${n.pagina_fim}` : ''}</span></summary>
+          ${n.resumo ? `<p class="tsum">${esc(n.resumo)}</p>` : ''}
+          ${n.filhos.length ? `<div class="tkids">${n.filhos.map(node).join('')}</div>` : `<pre class="ttext">${esc(n.texto)}</pre>`}
+        </details>`;
+      el.innerHTML = `<div class="card-body stack">
+        ${alertBox('info', `Sumário que a IA percorre para decidir o que ler numa consulta (abordagem PageIndex). Montado por: <strong>${esc(metodo)}</strong>.`)}
+        <div class="tree">${t.nos.map(node).join('')}</div></div>`;
+    },
     txt: async (el) => {
       el.innerHTML = loading('Carregando páginas…');
       const pages = await api.pages(meta.id);

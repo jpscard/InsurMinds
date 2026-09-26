@@ -1,8 +1,8 @@
 """Orquestrador: coordena os agentes nas etapas do fluxo.
 
-    Recebimento -> Ingestão/OCR -> Triagem -> Extração -> Validação -> Armazenamento
-                                                         ↓
-                          Consulta (QA)  ←  Repositório  →  Comparação
+    Recebimento -> Ingestão/OCR -> Triagem -> Extração -> Validação -> Armazenamento -> Indexação
+                                                                          ↓
+                          Consulta (grafo LangGraph sobre o índice)  ←  Repositório  →  Comparação
 
 A interface (Streamlit) e a linha de comando usam apenas esta classe.
 """
@@ -13,10 +13,11 @@ import logging
 import time
 from dataclasses import dataclass, field
 
-from .agents import (ComparisonAgent, ExtractionAgent, QAAgent, Trace, TriageAgent,
+from .agents import (ComparisonAgent, ExtractionAgent, IndexAgent, QAAgent, Trace, TriageAgent,
                      ValidationAgent)
 from .comparison import ComparisonResult, policy_label
 from .config import Settings, get_settings
+from .indexing import build_tree
 from .ingestion import load_document
 from .llm import LLMProvider, get_provider
 from .schema import ApoliceDO
@@ -55,6 +56,7 @@ class Pipeline:
 
         existing = self.repo.find_by_hash(doc.sha256)
         if existing and not force:
+            self.index_for(existing)
             row = self.repo.get_row(existing)
             return ProcessResult(existing, filename, self.repo.get(existing),
                                  json.loads(row["triagem_json"] or "{}"),
@@ -74,6 +76,9 @@ class Pipeline:
                              [(p.number, p.method, p.text) for p in doc.pages],
                              triagem, alertas, self.llm.describe())
         trace.add("Armazenamento", "Gravação no SQLite", t0, f"id={aid}")
+
+        tree = IndexAgent(self.llm, trace).run([(p.number, p.text) for p in doc.pages])
+        self.repo.save_index(aid, tree)
         return ProcessResult(aid, filename, ap, triagem, alertas, trace, avisos=avisos)
 
     def labels_for(self, ids: list[int]) -> dict[int, str]:
@@ -94,10 +99,20 @@ class Pipeline:
         self.repo.save_comparison(ids, analise, self.llm.describe())
         return res, analise, trace
 
+    def index_for(self, apolice_id: int) -> dict:
+        """Índice do documento. Apólices processadas antes da indexação ganham um índice
+        por estrutura (sem LLM) na primeira vez que são consultadas."""
+        tree = self.repo.get_index(apolice_id)
+        if tree is None:
+            tree = build_tree([(p["numero"], p["texto"]) for p in self.repo.pages(apolice_id)])
+            self.repo.save_index(apolice_id, tree)
+        return tree
+
     def ask(self, pergunta: str, ids: list[int]) -> tuple[dict, Trace]:
         trace = Trace()
         labels = self.labels_for(ids)
         estruturado = {labels[i]: self.repo.get(i).model_dump(exclude_none=True) for i in ids}
         paginas = [{"rotulo": labels[i], "pagina": p["numero"], "texto": p["texto"]}
                    for i in ids for p in self.repo.pages(i)]
-        return QAAgent(self.llm, trace).run(pergunta, estruturado, paginas), trace
+        arvores = {labels[i]: self.index_for(i) for i in ids}
+        return QAAgent(self.llm, trace).run(pergunta, estruturado, paginas, arvores), trace

@@ -67,18 +67,21 @@ export async function render(view) {
     const paintChat = () => {
       if (!history.length) {
         chat.innerHTML = `<div class="empty" style="padding:24px 8px"><div class="empty-icon">${icon('sparkles', 24)}</div>
-          <h3>O que você quer saber?</h3><p>A resposta usa os dados estruturados e os trechos originais das apólices.</p>
+          <h3>O que você quer saber?</h3><p>A IA percorre o índice de cada apólice, abre as seções relevantes e responde citando seção e página.</p>
           <div class="suggestions" style="justify-content:center">${SUGGESTIONS.map((s) => `<button class="suggestion">${esc(s)}</button>`).join('')}</div></div>`;
         return;
       }
       chat.innerHTML = history.map((h) => `
         <div class="msg"><span class="avatar user">${icon('chat', 14)}</span><div class="bubble user">${esc(h.q)}</div></div>
         <div class="msg"><span class="avatar ai">${icon('sparkles', 14)}</span><div class="bubble">
-          ${h.pending ? '<span class="spinner"></span> <span class="subtle">Analisando as apólices…</span>'
+          ${h.pending ? '<span class="spinner"></span> <span class="subtle">Percorrendo o índice das apólices…</span>'
             : h.error ? alertBox('error', esc(h.error))
             : `<div class="md">${markdown(h.a.resposta)}</div>
                ${h.a.trechos?.length ? `<div class="cites">${h.a.trechos.map((t) => `
-                 <details class="cite"><summary>${icon('file', 14)} ${esc(t.rotulo)} · pág. ${t.pagina}</summary><pre>${esc(t.texto)}</pre></details>`).join('')}</div>` : ''}`}
+                 <details class="cite"><summary>${icon('file', 14)} ${esc(t.rotulo)}${t.secao ? ` · ${esc(t.secao)}` : ''} · pág. ${esc(t.paginas || t.pagina)}</summary>
+                 ${t.motivo ? `<p class="subtle" style="padding:0 12px 6px">Aberta porque: ${esc(t.motivo)}</p>` : ''}<pre>${esc(t.texto)}</pre></details>`).join('')}</div>` : ''}
+               ${h.a.caminho?.length ? `<details class="cite mt-8"><summary>${icon('layers', 14)} Caminho da consulta · ${h.a.caminho.length} etapa(s)</summary>
+                 <div class="route">${h.a.caminho.map((c) => `<div class="route-step"><i></i><b>${esc(c.etapa)}</b><span>${esc(c.detalhe)}</span></div>`).join('')}</div></details>` : ''}`}
         </div></div>`).join('');
       chat.lastElementChild?.scrollIntoView({ block: 'nearest' });
     };

@@ -156,3 +156,13 @@ def test_modo_demo_carrega_e_protege_amostras(demo_client):
     grande = b"%PDF" + b"0" * (1024 * 1024 + 10)
     r = demo_client.post("/api/policies", files={"file": ("grande.pdf", grande, "application/pdf")}, headers=OFFLINE)
     assert r.status_code == 413
+
+
+def test_indice_da_apolice_e_caminho_da_consulta(client):
+    ids = _add_samples(client)
+    t = client.get(f"/api/policies/{ids[1]}/index").json()
+    assert t["metodo"] == "estrutura" and any(n["titulo"] == "EXCLUSÕES" for n in t["nos"])
+    a = client.post("/api/ask", json={"pergunta": "Segurado contra Segurado", "ids": ids}, headers=OFFLINE).json()
+    assert a["rota"] == "lexical" and a["caminho"][0]["etapa"] == "Roteador"
+    assert a["trechos"][0]["secao"] == "6. Segurado contra Segurado"
+    assert client.get("/api/policies/999/index").status_code == 404

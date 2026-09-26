@@ -20,11 +20,12 @@ e é refeito automaticamente a cada push no `main`.
 ## Funcionalidades
 
 - Upload de PDF digital, PDF digitalizado e imagens (PNG/JPG/TIFF...) com OCR automático por página
-- 5 agentes especializados: Triagem, Extração, Validação, Comparação e Consulta
+- 6 agentes especializados: Triagem, Extração, Validação, Indexação, Comparação e Consulta
 - Provedor de LLM configurável: **Anthropic, OpenAI, Gemini** ou **offline** (regras, sem chave)
 - Comparação de N apólices: dados gerais, coberturas, exclusões e franquias lado a lado, com
   destaque do que difere, métricas (LMG, prêmio, prêmio/LMG) e análise executiva gerada pelo LLM
-- Perguntas em linguagem natural com citação de página, e consultas SQL
+- Perguntas em linguagem natural por **RAG com índice hierárquico** (abordagem PageIndex, orquestrada
+  em LangGraph): a IA navega o sumário da apólice, abre as seções certas e cita seção e página; e consultas SQL
 - Revisão humana: correção do JSON extraído pela interface
 - Exportação da comparação em Excel e Markdown
 - Linha de comando (`cli.py`) e testes automatizados (`pytest`)
