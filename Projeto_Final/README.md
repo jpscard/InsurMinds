@@ -7,6 +7,16 @@ duas ou mais apólices em uma **aplicação web** (API FastAPI + interface próp
 
 A arquitetura, os agentes e as decisões técnicas estão em [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md).
 
+## Demonstração online
+
+**https://insurminds.onrender.com** — já vem com as três apólices de exemplo processadas. Funciona no
+modo offline (regras) ou com a sua própria chave de API em **Modelo de IA**; a chave fica só no seu
+navegador. As apólices de exemplo são protegidas e os documentos enviados são apagados quando o
+servidor reinicia. No plano gratuito o servidor dorme sem uso: o primeiro acesso leva cerca de 50 s.
+
+O deploy usa o `Dockerfile` desta pasta (Render, serviço Docker com *Root Directory* `Projeto_Final`)
+e é refeito automaticamente a cada push no `main`.
+
 ## Funcionalidades
 
 - Upload de PDF digital, PDF digitalizado e imagens (PNG/JPG/TIFF...) com OCR automático por página

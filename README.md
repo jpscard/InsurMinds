@@ -27,6 +27,8 @@ Plataforma que recebe apólices de seguro D&O em **PDF digital, PDF digitalizado
 5. **Consulta:** Perguntas em linguagem natural com citação da página de origem e consultas SQL somente leitura.
 6. **Interface Web:** Painel, carteira, detalhe da apólice com o documento original e revisão humana dos dados extraídos, tema claro/escuro.
 
+**Demonstração online:** https://insurminds.onrender.com (modo demonstração: use o modo offline ou sua própria chave de API; o primeiro acesso pode levar ~50 s enquanto o servidor acorda).
+
 ### Como Executar Localmente:
 ```bash
 cd Projeto_Final
