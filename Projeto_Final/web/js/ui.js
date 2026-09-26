@@ -50,7 +50,7 @@ export function icon(name, size = 18, cls = '') {
 /** Substitui <i data-icon="x"> pelos SVGs (usado no HTML estático). */
 export function hydrateIcons(root = document) {
   root.querySelectorAll('[data-icon]').forEach((el) => {
-    el.innerHTML = icon(el.dataset.icon, el.classList.contains('brand-mark') ? 20 : 18);
+    el.innerHTML = icon(el.dataset.icon, 18);
     el.removeAttribute('data-icon');
     el.style.display = 'inline-flex';
   });

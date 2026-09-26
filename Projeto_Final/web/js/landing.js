@@ -2,10 +2,7 @@
 import { icon } from './ui.js';
 
 document.querySelectorAll('[data-icon]').forEach((el) => {
-  const big = el.classList.contains('brand-mark') && !el.classList.contains('sm');
-  el.outerHTML = el.classList.contains('brand-mark')
-    ? `<span class="${el.className}">${icon(el.dataset.icon, big ? 20 : 16)}</span>`
-    : icon(el.dataset.icon, el.closest('.ficon, .picon, .aicon') ? 20 : 16, el.className);
+  el.outerHTML = icon(el.dataset.icon, el.closest('.ficon, .picon, .aicon') ? 20 : 16, el.className);
 });
 
 const themeBtn = document.getElementById('themeBtn');

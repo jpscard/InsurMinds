@@ -1,4 +1,4 @@
-# Plataforma Inteligente para Análise e Comparação de Apólices D&O
+# Apólis — Plataforma Inteligente para Análise e Comparação de Apólices D&O
 
 MVP que recebe apólices de seguro D&O em **PDF ou imagem**, extrai o conteúdo (texto nativo ou OCR),
 usa **IA generativa** para estruturar as informações (coberturas, limites, franquias, exclusões,

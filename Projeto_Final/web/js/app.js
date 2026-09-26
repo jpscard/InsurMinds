@@ -33,7 +33,7 @@ export function crumbs(items) {
   $('#crumbs').innerHTML = items.map((c, i) => (i === items.length - 1
     ? `<strong>${esc(c.label)}</strong>`
     : `<a href="${c.href}">${esc(c.label)}</a>${icon('chevronRight', 14)}`)).join('');
-  document.title = `${items[items.length - 1].label} · D&O Insight`;
+  document.title = `${items[items.length - 1].label} · Apólis`;
 }
 
 export function currentProvider() {

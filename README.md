@@ -15,7 +15,7 @@ Repositório oficial dos projetos e soluções desenvolvidas para os desafios da
 
 ---
 
-## Destaque: Projeto Final – D&O Insight: Análise e Comparação de Apólices D&O
+## Destaque: Projeto Final – Apólis: Análise e Comparação de Apólices D&O
 
 Plataforma que recebe apólices de seguro D&O em **PDF digital, PDF digitalizado ou imagem**, extrai o conteúdo (texto nativo ou OCR), usa **IA generativa** para estruturar coberturas, limites, franquias, exclusões e vigência, armazena tudo em **SQLite** e permite **consultar e comparar** duas ou mais apólices.
 

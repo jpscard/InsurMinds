@@ -67,7 +67,7 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(title="D&O Insight API", version="1.0.0", lifespan=lifespan,
+app = FastAPI(title="Apólis API", version="1.0.0", lifespan=lifespan,
               description="Ingestão, extração, comparação e consulta de apólices D&O.")
 
 

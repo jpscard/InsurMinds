@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   D&O Insight — Design system
+   Apólis — Design system
    Tokens alinhados ao InsureAlert (Desafio 5): tema escuro/claro, Inter.
    ═══════════════════════════════════════════════════════════ */
 
@@ -126,7 +126,7 @@ code, pre, .mono { font-family: var(--mono); font-size: 0.86em; }
   z-index: 40;
 }
 .brand { display: flex; align-items: center; gap: 10px; height: var(--topbar-h); padding: 0 18px; border-bottom: 1px solid var(--border); }
-.brand-mark { width: 34px; height: 34px; border-radius: 10px; background: var(--gradient); display: grid; place-items: center; color: #fff; box-shadow: 0 4px 14px rgba(59,130,246,.35); }
+.brand-mark { width: 34px; height: 34px; border-radius: 10px; display: block; flex-shrink: 0; box-shadow: 0 4px 14px rgba(59,130,246,.35); }
 .brand-text { line-height: 1.2; white-space: nowrap; display: flex; flex-direction: column; }
 .brand:hover { text-decoration: none; }
 .brand-name { color: var(--text); }

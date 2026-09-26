@@ -1,4 +1,4 @@
-# Arquitetura da solução
+# Arquitetura da solução — Apólis
 
 Plataforma para **extrair, estruturar, armazenar, consultar e comparar apólices de seguro D&O**
 (Responsabilidade Civil de Administradores e Diretores), usando OCR e IA generativa.

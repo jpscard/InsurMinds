@@ -64,7 +64,7 @@
 .float-card svg { color: var(--primary); }
 .float-card div { display: flex; flex-direction: column; line-height: 1.3; }
 .float-card span { color: var(--text-3); }
-.fc-1 { left: -24px; bottom: -26px; }
+.fc-1 { left: -24px; bottom: -52px; }
 .fc-2 { right: -18px; top: -16px; animation-delay: -3s; }
 .fc-2 svg { color: var(--success); }
 @keyframes float { 50% { transform: translateY(-8px); } }
@@ -151,3 +151,12 @@
   .mock-cols { grid-template-columns: 1fr; }
   .hero-ctas .btn { width: 100%; }
 }
+
+/* ─── Alinhamento: cartões centralizados e quebra de linha equilibrada ─── */
+.landing h1, .landing h2, .landing h3 { text-wrap: balance; }
+.landing p { text-wrap: pretty; }
+.pcard, .feature, .steps-l li { text-align: center; }
+.pcard .picon, .feature .ficon { margin: 0 auto; }
+.steps-l li { align-items: center; }
+.problem .grid-3, .trust { align-items: stretch; }
+.cta > div { flex: 1; }
