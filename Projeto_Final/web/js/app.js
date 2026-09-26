@@ -26,7 +26,7 @@ const ROUTES = [
   { re: /^sobre$/, page: about, nav: 'about' },
 ];
 
-export const state = { providers: [], defaultProvider: 'offline' };
+export const state = { providers: [], defaultProvider: 'offline', config: { demo_mode: false, max_upload_mb: 20 } };
 
 // ─── Contexto passado às páginas ──────────────────────────
 export function crumbs(items) {
@@ -233,9 +233,13 @@ async function init() {
   });
 
   try {
-    const p = await api.providers();
+    const [p, cfg] = await Promise.all([api.providers(), api.config()]);
     state.providers = p.providers;
     state.defaultProvider = p.default;
+    state.config = cfg;
+    if (cfg.demo_mode) {
+      $('#demoBadge').hidden = false;
+    }
   } catch (e) {
     toast(e.message, 'error', 8000);
   }

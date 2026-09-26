@@ -60,6 +60,7 @@ async function request(method, path, { body, form, blob, quiet, headers = {} } =
 }
 
 export const api = {
+  config: () => request('GET', '/api/config', { quiet: true }),
   providers: () => request('GET', '/api/llm/providers', { quiet: true }),
   models: (provider, key) => request('GET', '/api/llm/models', {
     quiet: true, headers: { 'X-LLM-Provider': provider, ...(key ? { 'X-LLM-Key': key } : { 'X-LLM-Key': '' }) },

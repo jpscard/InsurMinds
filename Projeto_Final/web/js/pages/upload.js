@@ -1,5 +1,5 @@
 import { api } from '../api.js';
-import { crumbs, llmLabel, llmReady, openSettings, refreshCount } from '../app.js';
+import { crumbs, llmLabel, llmReady, openSettings, refreshCount, state } from '../app.js';
 import { $, alertBox, bytes, esc, icon, moneyShort, toast, traceSteps } from '../ui.js';
 
 const EXT = ['.pdf', '.png', '.jpg', '.jpeg', '.tif', '.tiff', '.bmp', '.webp'];
@@ -62,8 +62,11 @@ export async function render(view, { query }) {
 
   const drop = $('#drop', view), input = $('#file', view);
   const add = (files) => {
-    const ok = [...files].filter((f) => EXT.some((e) => f.name.toLowerCase().endsWith(e)));
-    if (ok.length < files.length) toast('Alguns arquivos foram ignorados: formato não suportado.', 'error');
+    const max = state.config.max_upload_mb * 1024 * 1024;
+    const typed = [...files].filter((f) => EXT.some((e) => f.name.toLowerCase().endsWith(e)));
+    const ok = typed.filter((f) => f.size <= max);
+    if (typed.length < files.length) toast('Alguns arquivos foram ignorados: formato não suportado.', 'error');
+    if (ok.length < typed.length) toast(`Alguns arquivos foram ignorados: limite de ${state.config.max_upload_mb} MB por arquivo.`, 'error');
     ok.forEach((f) => queue.push({ kind: 'file', file: f, name: f.name, size: f.size, status: 'queued' }));
     run();
   };

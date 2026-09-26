@@ -30,7 +30,7 @@ export async function render(view, { id }) {
       <div class="page-actions">
         ${d.tem_original ? `<button class="btn" id="origBtn">${icon('eye', 16)} Documento original</button>` : ''}
         <a class="btn" href="#/comparar?ids=${meta.id}">${icon('columns', 16)} Comparar</a>
-        <button class="btn btn-danger" id="delBtn">${icon('trash', 16)} Excluir</button>
+        ${d.protegida ? '' : `<button class="btn btn-danger" id="delBtn">${icon('trash', 16)} Excluir</button>`}
       </div>
     </div>
     ${alertas ? `<div class="stack" style="gap:8px;margin-bottom:16px">${alertas}</div>` : ''}
@@ -100,6 +100,10 @@ export async function render(view, { id }) {
         </details>`).join('') || '<div class="empty">Sem texto.</div>';
     },
     rev: (el) => {
+      if (d.protegida) {
+        el.innerHTML = `<div class="card-body">${alertBox('info', 'Esta é uma apólice de demonstração e não pode ser editada. Envie seus próprios documentos para testar a revisão humana.')}</div>`;
+        return;
+      }
       el.innerHTML = `<div class="card-body stack">
         ${alertBox('info', 'Corrija os dados extraídos editando o JSON abaixo. Ao salvar, a correção substitui a extração e passa a valer nas comparações e consultas.')}
         <textarea id="json" class="textarea code" style="min-height:420px" spellcheck="false">${esc(JSON.stringify(ap, null, 2))}</textarea>
@@ -136,7 +140,7 @@ export async function render(view, { id }) {
   tabs($('#tabs', view), show);
   show('geral');
 
-  $('#delBtn', view).addEventListener('click', async () => {
+  $('#delBtn', view)?.addEventListener('click', async () => {
     if (!await confirmDialog({ title: 'Excluir apólice?', message: `“${title}” e todo o texto extraído serão removidos. Esta ação não pode ser desfeita.`, confirm: 'Excluir', danger: true })) return;
     try {
       await api.deletePolicy(meta.id);

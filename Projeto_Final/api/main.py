@@ -13,6 +13,7 @@ import hashlib
 import json
 import logging
 import time
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Annotated
 
@@ -36,10 +37,48 @@ log = logging.getLogger("api")
 WEB_DIR = ROOT_DIR / "web"
 SAMPLES_DIR = ROOT_DIR / "samples"
 
-app = FastAPI(title="D&O Insight API", version="1.0.0",
-              description="Ingestão, extração, comparação e consulta de apólices D&O.")
 settings = get_settings()
 repo = Repository(settings.database_path)
+
+
+def _sample_names() -> set[str]:
+    return {p.name for p in SAMPLES_DIR.glob("*") if p.suffix.lower() in SUPPORTED_EXT}
+
+
+def _seed_samples() -> None:
+    """Modo demonstração: a carteira nunca começa vazia (o disco do deploy gratuito é efêmero)."""
+    if repo.list():
+        return
+    pipe = Pipeline(llm=get_provider("offline", settings=settings), settings=settings, repo=repo)
+    for name in sorted(_sample_names()):
+        try:
+            data = (SAMPLES_DIR / name).read_bytes()
+            r = pipe.process(name, data)
+            _upload_path(repo.get_row(r.apolice_id)["sha256"], name).write_bytes(data)
+            log.info("Amostra carregada: %s -> #%s", name, r.apolice_id)
+        except Exception:  # noqa: BLE001 - uma amostra com problema não impede o servidor de subir
+            log.exception("Falha ao carregar a amostra %s", name)
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    if settings.demo_mode:
+        _seed_samples()
+    yield
+
+
+app = FastAPI(title="D&O Insight API", version="1.0.0", lifespan=lifespan,
+              description="Ingestão, extração, comparação e consulta de apólices D&O.")
+
+
+def _protected(row: dict) -> bool:
+    return settings.demo_mode and row["arquivo"] in _sample_names()
+
+
+def _guard(row: dict) -> None:
+    if _protected(row):
+        raise HTTPException(403, "Apólice de demonstração: não pode ser alterada nem excluída. "
+                                 "Envie seus próprios documentos para testar essas funções.")
 
 
 # --------------------------------------------------------------------------- erros
@@ -147,7 +186,14 @@ def list_policies():
 
 @app.post("/api/policies")
 def upload_policy(ctx: LLM, file: UploadFile = File(...), force: bool = Form(False)):
-    return _process(ctx, file.filename or "documento", file.file.read(), force)
+    limit = settings.max_upload_mb * 1024 * 1024
+    data = file.file.read(limit + 1)
+    if len(data) > limit:
+        raise HTTPException(413, f"Arquivo maior que {settings.max_upload_mb} MB.")
+    name = file.filename or "documento"
+    if settings.demo_mode and name in _sample_names():
+        force = False  # não deixa reprocessar por cima das amostras protegidas
+    return _process(ctx, name, data, force)
 
 
 @app.get("/api/policies/{aid}")
@@ -160,12 +206,15 @@ def get_policy(aid: int):
         "triagem": json.loads(row["triagem_json"] or "{}"),
         "alertas": json.loads(row["alertas_json"] or "[]"),
         "tem_original": _upload_path(row["sha256"], row["arquivo"]).exists(),
+        "protegida": _protected(row),
     }
 
 
 @app.put("/api/policies/{aid}")
 def update_policy(aid: int, ap: ApoliceDO):
-    sha = repo.get_row(aid)["sha256"]
+    row = repo.get_row(aid)
+    _guard(row)
+    sha = row["sha256"]
     repo.update_data(aid, ap)
     # a regravação gera um novo id; devolve o atual para a interface seguir
     return {"id": repo.find_by_hash(sha)}
@@ -174,6 +223,7 @@ def update_policy(aid: int, ap: ApoliceDO):
 @app.delete("/api/policies/{aid}", status_code=204)
 def delete_policy(aid: int):
     row = repo.get_row(aid)
+    _guard(row)
     repo.delete(aid)
     if not repo.find_by_hash(row["sha256"]):
         _upload_path(row["sha256"], row["arquivo"]).unlink(missing_ok=True)
@@ -206,7 +256,7 @@ def process_sample(name: str, ctx: LLM, force: bool = False):
     path = SAMPLES_DIR / name
     if path.parent != SAMPLES_DIR or not path.is_file():
         raise HTTPException(404, "Amostra não encontrada")
-    return _process(ctx, path.name, path.read_bytes(), force)
+    return _process(ctx, path.name, path.read_bytes(), force and not settings.demo_mode)
 
 
 # --------------------------------------------------------------------------- comparação
@@ -301,6 +351,11 @@ def stats():
 def about():
     doc = ROOT_DIR / "docs" / "ARQUITETURA.md"
     return {"markdown": doc.read_text(encoding="utf-8") if doc.exists() else ""}
+
+
+@app.get("/api/config")
+def app_config():
+    return {"demo_mode": settings.demo_mode, "max_upload_mb": settings.max_upload_mb}
 
 
 @app.get("/api/health")

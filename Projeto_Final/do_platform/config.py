@@ -47,6 +47,11 @@ class Settings(BaseSettings):
     # Extração: textos maiores que isto são processados em blocos
     chunk_chars: int = 60000
 
+    # Demonstração pública (deploy): carrega as amostras ao iniciar, protege-as contra
+    # exclusão/edição e limita o tamanho dos envios.
+    demo_mode: bool = False
+    max_upload_mb: int = 20
+
     # Armazenamento
     database_path: Path = ROOT_DIR / "data" / "apolices.db"
     uploads_dir: Path = ROOT_DIR / "data" / "uploads"

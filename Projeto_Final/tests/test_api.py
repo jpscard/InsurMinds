@@ -121,3 +121,34 @@ def test_consulta_e_sql_somente_leitura(client):
 def test_amostra_nao_permite_sair_da_pasta(client):
     assert client.post("/api/samples/..%2Frequirements.txt", headers=OFFLINE).status_code == 404
     assert client.post("/api/samples/inexistente.pdf", headers=OFFLINE).status_code == 404
+
+
+@pytest.fixture
+def demo_client(tmp_path, monkeypatch):
+    monkeypatch.setenv("DATABASE_PATH", str(tmp_path / "demo.db"))
+    monkeypatch.setenv("UPLOADS_DIR", str(tmp_path / "uploads"))
+    monkeypatch.setenv("LLM_PROVIDER", "offline")
+    monkeypatch.setenv("DEMO_MODE", "true")
+    monkeypatch.setenv("MAX_UPLOAD_MB", "1")
+    from do_platform import config
+    config.get_settings.cache_clear()
+    import api.main
+    main = importlib.reload(api.main)
+    with TestClient(main.app) as c:  # "with" executa o lifespan (carga das amostras)
+        yield c
+    config.get_settings.cache_clear()
+
+
+def test_modo_demo_carrega_e_protege_amostras(demo_client):
+    assert demo_client.get("/api/config").json() == {"demo_mode": True, "max_upload_mb": 1}
+    rows = demo_client.get("/api/policies").json()
+    assert {r["arquivo"] for r in rows} >= {"apolice_aurora_do.pdf", "apolice_boreal_do.pdf"}
+    aid = rows[0]["id"]
+    d = demo_client.get(f"/api/policies/{aid}").json()
+    assert d["protegida"] is True and d["tem_original"] is True
+    assert demo_client.delete(f"/api/policies/{aid}").status_code == 403
+    assert demo_client.put(f"/api/policies/{aid}", json=d["apolice"]).status_code == 403
+
+    grande = b"%PDF" + b"0" * (1024 * 1024 + 10)
+    r = demo_client.post("/api/policies", files={"file": ("grande.pdf", grande, "application/pdf")}, headers=OFFLINE)
+    assert r.status_code == 413
