@@ -135,7 +135,9 @@ versão open source só aceita OpenAI.
 - **Render**: serviço Docker com *Root Directory* `Projeto_Final`, deploy automático a cada push no
   `main`. Link público: https://insurminds.onrender.com.
 - **Modo demonstração** (`DEMO_MODE=true`, ligado na imagem): como o disco do plano gratuito é apagado a
-  cada reinício, as apólices de exemplo são processadas na inicialização; elas ficam protegidas contra
+  cada reinício, as apólices de exemplo são importadas na inicialização de uma **base pré-processada**
+  (`samples/processados/`, gerada por `scripts/gerar_base_demo.py`, com ou sem IA), em cerca de 2 s e sem
+  OCR nem chamadas à IA; uma amostra sem base válida (hash diferente) é processada por regras em segundo plano; elas ficam protegidas contra
   edição e exclusão, os envios são limitados (`MAX_UPLOAD_MB`, padrão 20) e a interface mostra o selo
   "Demonstração". O servidor não tem chave de API: cada visitante usa o modo offline ou a própria chave.
 

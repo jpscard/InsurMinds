@@ -179,6 +179,20 @@ para exercitar a comparação, o OCR, a triagem e o índice:
 Os três primeiros são do mesmo tomador, para a comparação direta. Os documentos longos têm cláusulas
 numeradas com subitens (5 → 5.6 → 5.6.1) e exceções, como apólices reais.
 
+### Base de demonstração pré-processada
+
+O site público importa as amostras já processadas de `samples/processados/` ao iniciar, em vez de
+processá-las a cada reinício (o plano gratuito tem pouca CPU e apaga o disco quando o servidor dorme).
+Assim tudo aparece na hora, sem OCR nem chamadas à IA. Para gerar ou atualizar a base:
+
+```bash
+python scripts/gerar_base_demo.py                     # por regras (offline)
+python scripts/gerar_base_demo.py --provedor gemini   # com IA (chave do .env); o site mostra a extração da IA
+```
+
+Cada JSON guarda o hash do documento de origem: se uma amostra mudar e a base não for regerada, o
+servidor ignora o JSON antigo e processa a amostra por regras.
+
 Para gerar o que faltar: `python scripts/gerar_amostras.py` (`--todas` regera tudo; os longos ficam em
 `scripts/amostras_longas.py`). Para testar com documentos reais, use modelos de
 apólices e condições gerais D&O publicados por seguradoras ou consultados na SUSEP, citando a fonte no

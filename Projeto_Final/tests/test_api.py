@@ -223,3 +223,43 @@ def test_streaming_erros(client):
     ev = _eventos(client.post("/api/ask/stream", json={"pergunta": "teste", "ids": [aid]},
                               headers={"X-LLM-Provider": "anthropic"}))
     assert ev[-1]["type"] == "error" and ev[-1]["status"] == 502 and "ANTHROPIC_API_KEY" in ev[-1]["detail"]
+
+
+def test_base_de_demonstracao_pre_processada(tmp_path):
+    import json as _json
+    import shutil
+
+    from do_platform.config import Settings
+    from do_platform.demo_base import import_policy, load_snapshot, write_snapshots
+    from do_platform.pipeline import Pipeline
+    from do_platform.storage import Repository
+
+    s = Settings(llm_provider="offline", database_path=tmp_path / "a.db", uploads_dir=tmp_path)
+    pipe = Pipeline(settings=s)
+    src = ROOT / "samples" / "apolice_boreal_do.pdf"
+    aid = pipe.process(src.name, src.read_bytes()).apolice_id
+    base = tmp_path / "base"
+    write_snapshots(pipe.repo, [aid], base, "offline")
+
+    # ida e volta: outra base recebe os mesmos dados, páginas e índice
+    snap = load_snapshot(base, src)
+    novo = Repository(tmp_path / "b.db")
+    nid = import_policy(novo, snap)
+    assert novo.get(nid) == pipe.repo.get(aid)
+    assert novo.get_index(nid) == pipe.repo.get_index(aid) and len(novo.pages(nid)) == 2
+
+    # documento alterado: a base antiga é ignorada
+    alterado = tmp_path / src.name
+    shutil.copy(src, alterado)
+    alterado.write_bytes(alterado.read_bytes() + b"\n%alterado")
+    assert load_snapshot(base, alterado) is None
+    assert _json.loads((base / "manifesto.json").read_text(encoding="utf-8"))["provedor"] == "offline"
+
+
+def test_modo_demo_importa_base_na_hora(demo_client):
+    # sem esperar: a base pré-processada é importada antes de o servidor responder
+    rows = demo_client.get("/api/policies").json()
+    esperados = {p.name for p in (ROOT / "samples").glob("*.pdf")}
+    assert {r["arquivo"] for r in rows} == esperados
+    pampa = next(r for r in rows if r["arquivo"] == "apolice_pampa_digitalizada.pdf")
+    assert demo_client.get(f"/api/policies/{pampa['id']}").json()["tem_original"] is True

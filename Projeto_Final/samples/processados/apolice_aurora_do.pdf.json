@@ -1,0 +1,486 @@
+{
+ "versao": 1,
+ "arquivo": "apolice_aurora_do.pdf",
+ "sha256": "cdff81e0f9bdce2841d3f7f84917bf19cc5c4bbc053ad29644a20055776cc165",
+ "provedor_llm": "offline (heurístico)",
+ "processado_em": "2026-09-26T02:06:52",
+ "triagem": {
+  "eh_do": true,
+  "tipo_documento": "apolice",
+  "seguradora": "Aurora Seguros S.A. (FICTÍCIA)",
+  "confianca": 0.9,
+  "justificativa": "9 ocorrências de termos típicos de D&O (modo heurístico)."
+ },
+ "alertas": [],
+ "dados": {
+  "identificacao": {
+   "seguradora": "Aurora Seguros S.A. (FICTÍCIA)",
+   "numero_apolice": "1010.0045871",
+   "produto": "RC D&O – Responsabilidade Civil de Administradores",
+   "processo_susep": "15414.000001/2026-11 (fictício)",
+   "tomador": "Metalúrgica Horizonte S.A. (fictícia)",
+   "cnpj_tomador": "00.000.001/0001-91",
+   "corretor": "Prisma Corretora de Seguros Ltda. (fictícia)",
+   "vigencia_inicio": "2026-03-01",
+   "vigencia_fim": "2027-03-01"
+  },
+  "limite_maximo_garantia": {
+   "valor": 20000000.0,
+   "moeda": "BRL",
+   "texto": "R$ 20.000.000,00 (agregado, por reclamação e no período)"
+  },
+  "premio_total": {
+   "valor": 148500.0,
+   "moeda": "BRL",
+   "texto": "R$ 148.500,00 (incluso IOF)"
+  },
+  "base_cobertura": "À base de reclamações (claims made), com notificação",
+  "data_retroatividade": "2019-03-01",
+  "prazo_complementar": "36 meses, mediante pagamento de prêmio adicional",
+  "territorialidade": "Mundial, exceto Estados Unidos e Canadá",
+  "segurados": [
+   "Diretores e membros do Conselho de Administração, eleitos ou nomeados",
+   "Membros do Conselho Fiscal e de comitês estatutários",
+   "Empregados em cargo de gestão, quando corréus com Administradores",
+   "Administradores de subsidiárias e coligadas com participação superior a 50%"
+  ],
+  "custos_defesa": "Dentro do LMG, com adiantamento de custos de defesa em até 15 dias",
+  "coberturas": [
+   {
+    "nome": "Lado A – Pagamento direto aos Segurados",
+    "categoria": "Lado A",
+    "descricao": null,
+    "limite": {
+     "valor": 20000000.0,
+     "moeda": "BRL",
+     "texto": "R$ 20.000.000,00"
+    },
+    "franquia": null,
+    "trecho_fonte": "Lado A – Pagamento direto aos Segurados R$ 20.000.000,00 Não há"
+   },
+   {
+    "nome": "Lado B – Reembolso à Sociedade Tomadora",
+    "categoria": "Lado B",
+    "descricao": null,
+    "limite": {
+     "valor": 20000000.0,
+     "moeda": "BRL",
+     "texto": "R$ 20.000.000,00"
+    },
+    "franquia": {
+     "valor": 100000.0,
+     "moeda": "BRL",
+     "texto": "R$ 100.000,00"
+    },
+    "trecho_fonte": "Lado B – Reembolso à Sociedade Tomadora R$ 20.000.000,00 R$ 100.000,00"
+   },
+   {
+    "nome": "Lado C – Mercado de Capitais (entidade)",
+    "categoria": "Lado C",
+    "descricao": null,
+    "limite": {
+     "valor": 10000000.0,
+     "moeda": "BRL",
+     "texto": "R$ 10.000.000,00"
+    },
+    "franquia": {
+     "valor": 250000.0,
+     "moeda": "BRL",
+     "texto": "R$ 250.000,00"
+    },
+    "trecho_fonte": "Lado C – Mercado de Capitais (entidade) R$ 10.000.000,00 R$ 250.000,00"
+   },
+   {
+    "nome": "Custos de Defesa",
+    "categoria": "Custos de Defesa",
+    "descricao": null,
+    "limite": {
+     "valor": 20000000.0,
+     "moeda": "BRL",
+     "texto": "R$ 20.000.000,00"
+    },
+    "franquia": null,
+    "trecho_fonte": "Custos de Defesa R$ 20.000.000,00 Não há"
+   },
+   {
+    "nome": "Custos Emergenciais",
+    "categoria": "Outra",
+    "descricao": null,
+    "limite": {
+     "valor": 2000000.0,
+     "moeda": "BRL",
+     "texto": "R$ 2.000.000,00"
+    },
+    "franquia": null,
+    "trecho_fonte": "Custos Emergenciais R$ 2.000.000,00 Não há"
+   },
+   {
+    "nome": "Extensão a Cônjuges e Herdeiros",
+    "categoria": "Extensão",
+    "descricao": null,
+    "limite": {
+     "valor": 20000000.0,
+     "moeda": "BRL",
+     "texto": "R$ 20.000.000,00"
+    },
+    "franquia": null,
+    "trecho_fonte": "Extensão a Cônjuges e Herdeiros R$ 20.000.000,00 Não há"
+   },
+   {
+    "nome": "Penhora on-line e bloqueio de bens",
+    "categoria": "Outra",
+    "descricao": null,
+    "limite": {
+     "valor": 3000000.0,
+     "moeda": "BRL",
+     "texto": "R$ 3.000.000,00"
+    },
+    "franquia": null,
+    "trecho_fonte": "Penhora on-line e bloqueio de bens R$ 3.000.000,00 Não há"
+   },
+   {
+    "nome": "Multas civis e administrativas",
+    "categoria": "Outra",
+    "descricao": null,
+    "limite": {
+     "valor": 5000000.0,
+     "moeda": "BRL",
+     "texto": "R$ 5.000.000,00"
+    },
+    "franquia": {
+     "valor": 50000.0,
+     "moeda": "BRL",
+     "texto": "R$ 50.000,00"
+    },
+    "trecho_fonte": "Multas civis e administrativas R$ 5.000.000,00 R$ 50.000,00"
+   },
+   {
+    "nome": "Custos de Publicidade e Gerenciamento de Crise",
+    "categoria": "Outra",
+    "descricao": null,
+    "limite": {
+     "valor": 1000000.0,
+     "moeda": "BRL",
+     "texto": "R$ 1.000.000,00"
+    },
+    "franquia": null,
+    "trecho_fonte": "Custos de Publicidade e Gerenciamento de Crise R$ 1.000.000,00 Não há"
+   }
+  ],
+  "exclusoes": [
+   {
+    "titulo": "Atos dolosos ou fraudulentos",
+    "categoria": "Conduta dolosa/fraude",
+    "descricao": "Reclamações decorrentes de atos dolosos, fraudulentos ou praticados com a intenção de obter vantagem pessoal indevida, reconhecidos por decisão judicial ou arbitral definitiva.",
+    "trecho_fonte": "1. Atos dolosos ou fraudulentos: Reclamações decorrentes de atos dolosos, fraudulentos ou praticados com a intenção de obter vantagem pessoal indevida, reconhecidos por decisão judicial ou arbitral de"
+   },
+   {
+    "titulo": "Danos corporais e materiais",
+    "categoria": "Danos corporais/materiais",
+    "descricao": "Reclamações por danos corporais, morte, doença, danos materiais ou destruição de bens, exceto quanto aos custos de defesa em reclamações de acionistas.",
+    "trecho_fonte": "2. Danos corporais e materiais: Reclamações por danos corporais, morte, doença, danos materiais ou destruição de bens, exceto quanto aos custos de defesa em reclamações de acionistas."
+   },
+   {
+    "titulo": "Reclamações prévias e circunstâncias conhecidas",
+    "categoria": "Reclamações prévias",
+    "descricao": "Reclamações ou circunstâncias conhecidas pelos Segurados antes do início de vigência, ou já notificadas em apólice anterior.",
+    "trecho_fonte": "3. Reclamações prévias e circunstâncias conhecidas: Reclamações ou circunstâncias conhecidas pelos Segurados antes do início de vigência, ou já notificadas em apólice anterior."
+   },
+   {
+    "titulo": "Multas e penalidades",
+    "categoria": "Multas e penalidades",
+    "descricao": "Multas, penalidades e tributos, salvo multas civis e administrativas aplicadas aos Segurados quando o reembolso for permitido pela legislação.",
+    "trecho_fonte": "4. Multas e penalidades: Multas, penalidades e tributos, salvo multas civis e administrativas aplicadas aos Segurados quando o reembolso for permitido pela legislação."
+   },
+   {
+    "titulo": "Poluição ambiental",
+    "categoria": "Ambiental",
+    "descricao": "Reclamações relativas a poluição ou contaminação ambiental.",
+    "trecho_fonte": "5. Poluição ambiental: Reclamações relativas a poluição ou contaminação ambiental."
+   }
+  ],
+  "franquias": [
+   {
+    "aplicacao": "Reclamações contra a Sociedade (Lado C)",
+    "valor": {
+     "valor": 250000.0,
+     "moeda": "BRL",
+     "texto": "R$ 250.000,00 por reclamação"
+    }
+   },
+   {
+    "aplicacao": "Reembolso à Sociedade (Lado B)",
+    "valor": {
+     "valor": 100000.0,
+     "moeda": "BRL",
+     "texto": "R$ 100.000,00 por reclamação"
+    }
+   },
+   {
+    "aplicacao": "Reclamações trabalhistas",
+    "valor": {
+     "valor": 30000.0,
+     "moeda": "BRL",
+     "texto": "R$ 30.000,00 por reclamação"
+    }
+   }
+  ],
+  "clausulas_relevantes": [
+   "1. Cláusula de alocação: 100% dos custos de defesa alocados à parte segurada em reclamações mistas.",
+   "2. Ordem de pagamento: prioridade ao Lado A sobre os Lados B e C.",
+   "3. Não-imputação: o conhecimento de um Segurado não é imputado aos demais."
+  ],
+  "observacoes": "Extraído em modo offline (regras heurísticas, sem LLM)."
+ },
+ "paginas": [
+  {
+   "numero": 1,
+   "metodo": "texto",
+   "texto": "AURORA SEGUROS S.A. (FICTÍCIA)\nAPÓLICE DE SEGURO DE RESPONSABILIDADE CIVIL DE\nADMINISTRADORES E DIRETORES – D&O\nDocumento fictício gerado para fins acadêmicos. Não possui validade jurídica.\nDADOS DA APÓLICE\nSeguradora: Aurora Seguros S.A. (FICTÍCIA)\nApólice nº: 1010.0045871\nProduto: RC D&O – Responsabilidade Civil de Administradores\nProcesso SUSEP nº: 15414.000001/2026-11 (fictício)\nTomador: Metalúrgica Horizonte S.A. (fictícia)\nCNPJ: 00.000.001/0001-91\nCorretor: Prisma Corretora de Seguros Ltda. (fictícia)\nVigência: das 24h de 01/03/2026 às 24h de 01/03/2027\nLimite Máximo de Garantia (LMG): R$ 20.000.000,00 (agregado, por reclamação e no período)\nPrêmio Total: R$ 148.500,00 (incluso IOF)\nBase de cobertura: À base de reclamações (claims made), com notificação\nData de retroatividade: 01/03/2019\nPrazo complementar: 36 meses, mediante pagamento de prêmio adicional\nTerritorialidade: Mundial, exceto Estados Unidos e Canadá\nTratamento dos custos de defesa: Dentro do LMG, com adiantamento de custos de defesa em até 15 dias\nQUADRO DE COBERTURAS E LIMITES\nCobertura Limite Franquia\nLado A – Pagamento direto aos Segurados R$ 20.000.000,00 Não há\nLado B – Reembolso à Sociedade Tomadora R$ 20.000.000,00 R$ 100.000,00\nLado C – Mercado de Capitais (entidade) R$ 10.000.000,00 R$ 250.000,00\nCustos de Defesa R$ 20.000.000,00 Não há\nCustos Emergenciais R$ 2.000.000,00 Não há\nExtensão a Cônjuges e Herdeiros R$ 20.000.000,00 Não há\nPenhora on-line e bloqueio de bens R$ 3.000.000,00 Não há\nMultas civis e administrativas R$ 5.000.000,00 R$ 50.000,00\nCustos de Publicidade e Gerenciamento de Crise R$ 1.000.000,00 Não há\nFRANQUIAS\n1. Reclamações contra a Sociedade (Lado C): R$ 250.000,00 por reclamação\n2. Reembolso à Sociedade (Lado B): R$ 100.000,00 por reclamação\n3. Reclamações trabalhistas: R$ 30.000,00 por reclamação\nSEGURADOS\n1. Diretores e membros do Conselho de Administração, eleitos ou nomeados"
+  },
+  {
+   "numero": 2,
+   "metodo": "texto",
+   "texto": "2. Membros do Conselho Fiscal e de comitês estatutários\n3. Empregados em cargo de gestão, quando corréus com Administradores\n4. Administradores de subsidiárias e coligadas com participação superior a 50%\nEXCLUSÕES\nAlém das exclusões das Condições Gerais, este seguro não cobre:\n1. Atos dolosos ou fraudulentos: Reclamações decorrentes de atos dolosos, fraudulentos ou praticados com a\nintenção de obter vantagem pessoal indevida, reconhecidos por decisão judicial ou arbitral definitiva.\n2. Danos corporais e materiais: Reclamações por danos corporais, morte, doença, danos materiais ou\ndestruição de bens, exceto quanto aos custos de defesa em reclamações de acionistas.\n3. Reclamações prévias e circunstâncias conhecidas: Reclamações ou circunstâncias conhecidas pelos\nSegurados antes do início de vigência, ou já notificadas em apólice anterior.\n4. Multas e penalidades: Multas, penalidades e tributos, salvo multas civis e administrativas aplicadas aos\nSegurados quando o reembolso for permitido pela legislação.\n5. Poluição ambiental: Reclamações relativas a poluição ou contaminação ambiental.\nCLÁUSULAS PARTICULARES\n1. Cláusula de alocação: 100% dos custos de defesa alocados à parte segurada em reclamações mistas.\n2. Ordem de pagamento: prioridade ao Lado A sobre os Lados B e C.\n3. Não-imputação: o conhecimento de um Segurado não é imputado aos demais.\nDISPOSIÇÕES FINAIS\nAs Condições Gerais e Especiais do produto integram esta apólice. Em caso de divergência, prevalecem as Condições Particulares\nacima."
+  }
+ ],
+ "indice": {
+  "metodo": "estrutura",
+  "nos": [
+   {
+    "id": "0001",
+    "titulo": "AURORA SEGUROS S.A. (FICTÍCIA) APÓLICE DE SEGURO DE RESPONSABILIDADE CIVIL DE ADMINISTRADORES E DIRETORES – D&O",
+    "nivel": 1,
+    "pagina_inicio": 1,
+    "pagina_fim": 1,
+    "resumo": "Documento fictício gerado para fins acadêmicos. Não possui validade jurídica.",
+    "texto": "AURORA SEGUROS S.A. (FICTÍCIA) APÓLICE DE SEGURO DE RESPONSABILIDADE CIVIL DE ADMINISTRADORES E DIRETORES – D&O\nDocumento fictício gerado para fins acadêmicos. Não possui validade jurídica.",
+    "filhos": []
+   },
+   {
+    "id": "0002",
+    "titulo": "DADOS DA APÓLICE",
+    "nivel": 1,
+    "pagina_inicio": 1,
+    "pagina_fim": 1,
+    "resumo": "Seguradora: Aurora Seguros S.A. (FICTÍCIA) Apólice nº: 1010.0045871 Produto: RC D&O – Responsabilidade Civil de Administradores Processo SUSEP nº:…",
+    "texto": "DADOS DA APÓLICE\nSeguradora: Aurora Seguros S.A. (FICTÍCIA)\nApólice nº: 1010.0045871\nProduto: RC D&O – Responsabilidade Civil de Administradores\nProcesso SUSEP nº: 15414.000001/2026-11 (fictício)\nTomador: Metalúrgica Horizonte S.A. (fictícia)\nCNPJ: 00.000.001/0001-91\nCorretor: Prisma Corretora de Seguros Ltda. (fictícia)\nVigência: das 24h de 01/03/2026 às 24h de 01/03/2027\nLimite Máximo de Garantia (LMG): R$ 20.000.000,00 (agregado, por reclamação e no período)\nPrêmio Total: R$ 148.500,00 (incluso IOF)\nBase de cobertura: À base de reclamações (claims made), com notificação\nData de retroatividade: 01/03/2019\nPrazo complementar: 36 meses, mediante pagamento de prêmio adicional\nTerritorialidade: Mundial, exceto Estados Unidos e Canadá\nTratamento dos custos de defesa: Dentro do LMG, com adiantamento de custos de defesa em até 15 dias",
+    "filhos": []
+   },
+   {
+    "id": "0003",
+    "titulo": "QUADRO DE COBERTURAS E LIMITES",
+    "nivel": 1,
+    "pagina_inicio": 1,
+    "pagina_fim": 1,
+    "resumo": "Cobertura Limite Franquia Lado A – Pagamento direto aos Segurados R$ 20.000.000,00 Não há Lado B – Reembolso à Sociedade Tomadora R$ 20.000.000,00 R$…",
+    "texto": "QUADRO DE COBERTURAS E LIMITES\nCobertura Limite Franquia\nLado A – Pagamento direto aos Segurados R$ 20.000.000,00 Não há\nLado B – Reembolso à Sociedade Tomadora R$ 20.000.000,00 R$ 100.000,00\nLado C – Mercado de Capitais (entidade) R$ 10.000.000,00 R$ 250.000,00\nCustos de Defesa R$ 20.000.000,00 Não há\nCustos Emergenciais R$ 2.000.000,00 Não há\nExtensão a Cônjuges e Herdeiros R$ 20.000.000,00 Não há\nPenhora on-line e bloqueio de bens R$ 3.000.000,00 Não há\nMultas civis e administrativas R$ 5.000.000,00 R$ 50.000,00\nCustos de Publicidade e Gerenciamento de Crise R$ 1.000.000,00 Não há",
+    "filhos": []
+   },
+   {
+    "id": "0004",
+    "titulo": "FRANQUIAS",
+    "nivel": 1,
+    "pagina_inicio": 1,
+    "pagina_fim": 1,
+    "resumo": "",
+    "texto": "FRANQUIAS",
+    "filhos": [
+     {
+      "id": "0005",
+      "titulo": "1. Reclamações contra a Sociedade (Lado C)",
+      "nivel": 2,
+      "pagina_inicio": 1,
+      "pagina_fim": 1,
+      "resumo": "R$ 250.000,00 por reclamação",
+      "texto": "1. Reclamações contra a Sociedade (Lado C): R$ 250.000,00 por reclamação",
+      "filhos": []
+     },
+     {
+      "id": "0006",
+      "titulo": "2. Reembolso à Sociedade (Lado B)",
+      "nivel": 2,
+      "pagina_inicio": 1,
+      "pagina_fim": 1,
+      "resumo": "R$ 100.000,00 por reclamação",
+      "texto": "2. Reembolso à Sociedade (Lado B): R$ 100.000,00 por reclamação",
+      "filhos": []
+     },
+     {
+      "id": "0007",
+      "titulo": "3. Reclamações trabalhistas",
+      "nivel": 2,
+      "pagina_inicio": 1,
+      "pagina_fim": 1,
+      "resumo": "R$ 30.000,00 por reclamação",
+      "texto": "3. Reclamações trabalhistas: R$ 30.000,00 por reclamação",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0008",
+    "titulo": "SEGURADOS",
+    "nivel": 1,
+    "pagina_inicio": 1,
+    "pagina_fim": 1,
+    "resumo": "",
+    "texto": "SEGURADOS",
+    "filhos": [
+     {
+      "id": "0009",
+      "titulo": "1. Diretores e membros do Conselho de Administração, eleitos ou nomeados",
+      "nivel": 2,
+      "pagina_inicio": 1,
+      "pagina_fim": 1,
+      "resumo": "",
+      "texto": "1. Diretores e membros do Conselho de Administração, eleitos ou nomeados",
+      "filhos": []
+     },
+     {
+      "id": "0010",
+      "titulo": "2. Membros do Conselho Fiscal e de comitês estatutários",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "",
+      "texto": "2. Membros do Conselho Fiscal e de comitês estatutários",
+      "filhos": []
+     },
+     {
+      "id": "0011",
+      "titulo": "3. Empregados em cargo de gestão, quando corréus com Administradores",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "",
+      "texto": "3. Empregados em cargo de gestão, quando corréus com Administradores",
+      "filhos": []
+     },
+     {
+      "id": "0012",
+      "titulo": "4. Administradores de subsidiárias e coligadas com participação superior a 50%",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "",
+      "texto": "4. Administradores de subsidiárias e coligadas com participação superior a 50%",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0013",
+    "titulo": "EXCLUSÕES",
+    "nivel": 1,
+    "pagina_inicio": 2,
+    "pagina_fim": 2,
+    "resumo": "Além das exclusões das Condições Gerais, este seguro não cobre:",
+    "texto": "EXCLUSÕES\nAlém das exclusões das Condições Gerais, este seguro não cobre:",
+    "filhos": [
+     {
+      "id": "0014",
+      "titulo": "1. Atos dolosos ou fraudulentos",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "Reclamações decorrentes de atos dolosos, fraudulentos ou praticados com a intenção de obter vantagem pessoal indevida, reconhecidos por decisão judicial ou…",
+      "texto": "1. Atos dolosos ou fraudulentos: Reclamações decorrentes de atos dolosos, fraudulentos ou praticados com a\nintenção de obter vantagem pessoal indevida, reconhecidos por decisão judicial ou arbitral definitiva.",
+      "filhos": []
+     },
+     {
+      "id": "0015",
+      "titulo": "2. Danos corporais e materiais",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "Reclamações por danos corporais, morte, doença, danos materiais ou destruição de bens, exceto quanto aos custos de defesa em reclamações de acionistas.",
+      "texto": "2. Danos corporais e materiais: Reclamações por danos corporais, morte, doença, danos materiais ou\ndestruição de bens, exceto quanto aos custos de defesa em reclamações de acionistas.",
+      "filhos": []
+     },
+     {
+      "id": "0016",
+      "titulo": "3. Reclamações prévias e circunstâncias conhecidas",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "Reclamações ou circunstâncias conhecidas pelos Segurados antes do início de vigência, ou já notificadas em apólice anterior.",
+      "texto": "3. Reclamações prévias e circunstâncias conhecidas: Reclamações ou circunstâncias conhecidas pelos\nSegurados antes do início de vigência, ou já notificadas em apólice anterior.",
+      "filhos": []
+     },
+     {
+      "id": "0017",
+      "titulo": "4. Multas e penalidades",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "Multas, penalidades e tributos, salvo multas civis e administrativas aplicadas aos Segurados quando o reembolso for permitido pela legislação.",
+      "texto": "4. Multas e penalidades: Multas, penalidades e tributos, salvo multas civis e administrativas aplicadas aos\nSegurados quando o reembolso for permitido pela legislação.",
+      "filhos": []
+     },
+     {
+      "id": "0018",
+      "titulo": "5. Poluição ambiental",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "Reclamações relativas a poluição ou contaminação ambiental.",
+      "texto": "5. Poluição ambiental: Reclamações relativas a poluição ou contaminação ambiental.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0019",
+    "titulo": "CLÁUSULAS PARTICULARES",
+    "nivel": 1,
+    "pagina_inicio": 2,
+    "pagina_fim": 2,
+    "resumo": "",
+    "texto": "CLÁUSULAS PARTICULARES",
+    "filhos": [
+     {
+      "id": "0020",
+      "titulo": "1. Cláusula de alocação",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "100% dos custos de defesa alocados à parte segurada em reclamações mistas.",
+      "texto": "1. Cláusula de alocação: 100% dos custos de defesa alocados à parte segurada em reclamações mistas.",
+      "filhos": []
+     },
+     {
+      "id": "0021",
+      "titulo": "2. Ordem de pagamento",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "prioridade ao Lado A sobre os Lados B e C.",
+      "texto": "2. Ordem de pagamento: prioridade ao Lado A sobre os Lados B e C.",
+      "filhos": []
+     },
+     {
+      "id": "0022",
+      "titulo": "3. Não-imputação",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "o conhecimento de um Segurado não é imputado aos demais.",
+      "texto": "3. Não-imputação: o conhecimento de um Segurado não é imputado aos demais.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0023",
+    "titulo": "DISPOSIÇÕES FINAIS",
+    "nivel": 1,
+    "pagina_inicio": 2,
+    "pagina_fim": 2,
+    "resumo": "As Condições Gerais e Especiais do produto integram esta apólice. Em caso de divergência, prevalecem as Condições Particulares acima.",
+    "texto": "DISPOSIÇÕES FINAIS\nAs Condições Gerais e Especiais do produto integram esta apólice. Em caso de divergência, prevalecem as Condições Particulares\nacima.",
+    "filhos": []
+   }
+  ]
+ }
+}

@@ -26,6 +26,7 @@ from pydantic import BaseModel, Field
 
 from do_platform.comparison import ComparisonResult
 from do_platform.config import ROOT_DIR, Settings, get_settings
+from do_platform.demo_base import import_policy, load_snapshot
 from do_platform.exports import comparison_markdown, comparison_pdf, comparison_xlsx
 from do_platform.ingestion import SUPPORTED_EXT, IngestionError
 from do_platform.llm import PROVIDERS, LLMError, get_provider
@@ -38,6 +39,7 @@ log = logging.getLogger("api")
 
 WEB_DIR = ROOT_DIR / "web"
 SAMPLES_DIR = ROOT_DIR / "samples"
+DEMO_BASE_DIR = SAMPLES_DIR / "processados"
 
 settings = get_settings()
 repo = Repository(settings.database_path)
@@ -47,18 +49,39 @@ def _sample_names() -> set[str]:
     return {p.name for p in SAMPLES_DIR.glob("*") if p.suffix.lower() in SUPPORTED_EXT}
 
 
-def _seed_samples() -> None:
-    """Modo demonstração: a carteira nunca começa vazia (o disco do deploy gratuito é efêmero)."""
+def _seed_samples() -> list[str]:
+    """Modo demonstração: a carteira nunca começa vazia (o disco do deploy gratuito é efêmero).
+
+    Importa a base pré-processada (samples/processados/, gerada por scripts/gerar_base_demo.py),
+    o que é instantâneo. Devolve as amostras sem base válida, que serão processadas em segundo plano."""
     if repo.list():
-        return
+        return []
+    pendentes = []
+    for name in sorted(_sample_names()):
+        path = SAMPLES_DIR / name
+        snap = load_snapshot(DEMO_BASE_DIR, path)
+        if snap is None:
+            pendentes.append(name)
+            continue
+        try:
+            aid = import_policy(repo, snap)
+            _upload_path(snap["sha256"], name).write_bytes(path.read_bytes())
+            log.info("Amostra importada da base pré-processada: %s -> #%s (%s)", name, aid, snap["provedor_llm"])
+        except Exception:  # noqa: BLE001 - base com problema: processa a amostra do zero
+            log.exception("Falha ao importar a base de %s", name)
+            pendentes.append(name)
+    return pendentes
+
+
+def _process_samples(names: list[str]) -> None:
+    """Amostras sem base pré-processada: processadas por regras, digitais primeiro (o OCR é lento)."""
     pipe = Pipeline(llm=get_provider("offline", settings=settings), settings=settings, repo=repo)
-    # digitais primeiro (instantâneos); os digitalizados passam por OCR e levam alguns segundos
-    for name in sorted(_sample_names(), key=lambda n: ("digitalizad" in n, n)):
+    for name in sorted(names, key=lambda n: ("digitalizad" in n, n)):
         try:
             data = (SAMPLES_DIR / name).read_bytes()
             r = pipe.process(name, data)
             _upload_path(repo.get_row(r.apolice_id)["sha256"], name).write_bytes(data)
-            log.info("Amostra carregada: %s -> #%s", name, r.apolice_id)
+            log.info("Amostra processada: %s -> #%s", name, r.apolice_id)
         except Exception:  # noqa: BLE001 - uma amostra com problema não impede o servidor de subir
             log.exception("Falha ao carregar a amostra %s", name)
 
@@ -66,9 +89,10 @@ def _seed_samples() -> None:
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     if settings.demo_mode:
-        # Em segundo plano: o servidor responde já, sem esperar o OCR das amostras digitalizadas
-        # (importante no plano gratuito, que reinicia o servidor a cada vez que ele "acorda").
-        threading.Thread(target=_seed_samples, name="amostras", daemon=True).start()
+        pendentes = _seed_samples()
+        if pendentes:
+            # Em segundo plano: o servidor responde já, sem esperar o OCR
+            threading.Thread(target=_process_samples, args=(pendentes,), name="amostras", daemon=True).start()
     yield
 
 

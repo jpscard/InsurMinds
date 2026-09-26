@@ -1,0 +1,1979 @@
+{
+ "versao": 1,
+ "arquivo": "condicoes_gerais_equinocio_do.pdf",
+ "sha256": "49061dfcd2995c4d0815b9cd600423545a8202df1dc051da38c6aceb64cc50fe",
+ "provedor_llm": "offline (heurístico)",
+ "processado_em": "2026-09-26T02:07:12",
+ "triagem": {
+  "eh_do": true,
+  "tipo_documento": "condicoes_gerais",
+  "seguradora": null,
+  "confianca": 0.7,
+  "justificativa": "7 ocorrências de termos típicos de D&O (modo heurístico)."
+ },
+ "alertas": [
+  {
+   "nivel": "aviso",
+   "mensagem": "Número da apólice não identificado(a) no documento."
+  },
+  {
+   "nivel": "aviso",
+   "mensagem": "Tomador não identificado(a) no documento."
+  },
+  {
+   "nivel": "aviso",
+   "mensagem": "Início de vigência não identificado(a) no documento."
+  },
+  {
+   "nivel": "aviso",
+   "mensagem": "Fim de vigência não identificado(a) no documento."
+  },
+  {
+   "nivel": "aviso",
+   "mensagem": "Limite Máximo de Garantia (LMG) não identificado."
+  },
+  {
+   "nivel": "aviso",
+   "mensagem": "Nenhuma cobertura extraída."
+  },
+  {
+   "nivel": "info",
+   "mensagem": "Cobertura 'Lado A' não identificada explicitamente."
+  }
+ ],
+ "dados": {
+  "identificacao": {
+   "seguradora": "EQUINÓCIO SEGUROS S.A. (FICTÍCIA)",
+   "numero_apolice": null,
+   "produto": null,
+   "processo_susep": null,
+   "tomador": null,
+   "cnpj_tomador": null,
+   "corretor": null,
+   "vigencia_inicio": null,
+   "vigencia_fim": null
+  },
+  "limite_maximo_garantia": null,
+  "premio_total": null,
+  "base_cobertura": null,
+  "data_retroatividade": null,
+  "prazo_complementar": null,
+  "territorialidade": null,
+  "segurados": [],
+  "custos_defesa": null,
+  "coberturas": [],
+  "exclusoes": [
+   {
+    "titulo": "Atos dolosos ou fraudulentos",
+    "categoria": "Conduta dolosa/fraude",
+    "descricao": "Reclamações decorrentes de atos dolosos, fraudulentos ou praticados com a intenção de obter vantagem pessoal indevida. 5.1.1 Exceção: a exclusão só se aplica após decisão judicial ou arbitral definitiva que reconheça o ato; até lá, os Custos de Defesa são adiantados.",
+    "trecho_fonte": "5.1 Atos dolosos ou fraudulentos: Reclamações decorrentes de atos dolosos, fraudulentos ou praticados com a intenção de obter vantagem pessoal indevida. 5.1.1 Exceção: a exclusão só se aplica após dec"
+   },
+   {
+    "titulo": "Danos corporais e materiais",
+    "categoria": "Danos corporais/materiais",
+    "descricao": "Reclamações por danos corporais, morte, doença, danos materiais ou destruição de bens. 5.2.1 Exceção: ficam cobertos os Custos de Defesa em reclamações de acionistas relacionadas a esses eventos.",
+    "trecho_fonte": "5.2 Danos corporais e materiais: Reclamações por danos corporais, morte, doença, danos materiais ou destruição de bens. 5.2.1 Exceção: ficam cobertos os Custos de Defesa em reclamações de acionistas r"
+   },
+   {
+    "titulo": "Reclamações prévias e circunstâncias conhecidas",
+    "categoria": "Reclamações prévias",
+    "descricao": "Reclamações ou circunstâncias conhecidas pelos Segurados antes do início de vigência, ou já notificadas em apólice anterior.",
+    "trecho_fonte": "5.3 Reclamações prévias e circunstâncias conhecidas: Reclamações ou circunstâncias conhecidas pelos Segurados antes do início de vigência, ou já notificadas em apólice anterior."
+   },
+   {
+    "titulo": "Multas e penalidades",
+    "categoria": "Multas e penalidades",
+    "descricao": "Multas, penalidades e tributos impostos ao Segurado. 5.4.1 Exceção: ficam cobertas as multas civis e administrativas aplicadas ao Segurado quando o reembolso for permitido pela legislação e contratada a cobertura adicional correspondente.",
+    "trecho_fonte": "5.4 Multas e penalidades: Multas, penalidades e tributos impostos ao Segurado. 5.4.1 Exceção: ficam cobertas as multas civis e administrativas aplicadas ao Segurado quando o reembolso for permitido pe"
+   },
+   {
+    "titulo": "Poluição ambiental",
+    "categoria": "Ambiental",
+    "descricao": "Reclamações relativas a poluição ou contaminação ambiental. 5.5.1 Exceção: ficam cobertos os Custos de Defesa do Segurado, até o sublimite das Condições Particulares.",
+    "trecho_fonte": "5.5 Poluição ambiental: Reclamações relativas a poluição ou contaminação ambiental. 5.5.1 Exceção: ficam cobertos os Custos de Defesa do Segurado, até o sublimite das Condições Particulares."
+   },
+   {
+    "titulo": "Segurado contra Segurado",
+    "categoria": "Segurado vs. Segurado",
+    "descricao": "Reclamações movidas por um Segurado ou pela Sociedade contra outro Segurado. 5.6.1 Exceção: não se aplica a ações derivativas de acionistas minoritários, a reclamações de ex-administradores e às movidas por administrador judicial em recuperação ou falência.",
+    "trecho_fonte": "5.6 Segurado contra Segurado: Reclamações movidas por um Segurado ou pela Sociedade contra outro Segurado. 5.6.1 Exceção: não se aplica a ações derivativas de acionistas minoritários, a reclamações de"
+   },
+   {
+    "titulo": "Remuneração indevida",
+    "categoria": "Outra",
+    "descricao": "Reclamações por remuneração, gratificação ou benefício recebido pelo Segurado sem a aprovação dos órgãos societários competentes.",
+    "trecho_fonte": "5.7 Remuneração indevida: Reclamações por remuneração, gratificação ou benefício recebido pelo Segurado sem a aprovação dos órgãos societários competentes."
+   },
+   {
+    "titulo": "Guerra e terrorismo",
+    "categoria": "Outra",
+    "descricao": "Perdas decorrentes de guerra, invasão, atos de inimigo estrangeiro, rebelião ou terrorismo.",
+    "trecho_fonte": "5.8 Guerra e terrorismo: Perdas decorrentes de guerra, invasão, atos de inimigo estrangeiro, rebelião ou terrorismo."
+   },
+   {
+    "titulo": "Contratos",
+    "categoria": "Contratual",
+    "descricao": "Reclamações por descumprimento de obrigação contratual assumida pela Sociedade. 5.9.1 Exceção: a exclusão não se aplica à responsabilidade pessoal do Segurado que decorra de Ato Danoso na gestão do contrato.",
+    "trecho_fonte": "5.9 Contratos: Reclamações por descumprimento de obrigação contratual assumida pela Sociedade. 5.9.1 Exceção: a exclusão não se aplica à responsabilidade pessoal do Segurado que decorra de Ato Danoso "
+   },
+   {
+    "titulo": "Informações privilegiadas",
+    "categoria": "Outra",
+    "descricao": "Reclamações decorrentes de negociação de Valores Mobiliários com uso de informação privilegiada pelo Segurado. 5.10.1 Exceção: ficam cobertos os Custos de Defesa até a decisão definitiva.",
+    "trecho_fonte": "5.10 Informações privilegiadas: Reclamações decorrentes de negociação de Valores Mobiliários com uso de informação privilegiada pelo Segurado. 5.10.1 Exceção: ficam cobertos os Custos de Defesa até a "
+   },
+   {
+    "titulo": "Legislação trabalhista e previdenciária",
+    "categoria": "Trabalhista",
+    "descricao": "Reclamações baseadas em legislação trabalhista, previdenciária ou de planos de pensão. 5.11.1 Exceção: cobertas as reclamações por assédio e discriminação contra Administradores.",
+    "trecho_fonte": "5.11 Legislação trabalhista e previdenciária: Reclamações baseadas em legislação trabalhista, previdenciária ou de planos de pensão. 5.11.1 Exceção: cobertas as reclamações por assédio e discriminação"
+   }
+  ],
+  "franquias": [],
+  "clausulas_relevantes": [],
+  "observacoes": "Extraído em modo offline (regras heurísticas, sem LLM)."
+ },
+ "paginas": [
+  {
+   "numero": 1,
+   "metodo": "texto",
+   "texto": "CONDIÇÕES GERAIS – SEGURO DE RESPONSABILIDADE CIVIL DE\nADMINISTRADORES E DIRETORES (D&O)\nEQUINÓCIO SEGUROS S.A. (FICTÍCIA) · Processo SUSEP nº 15414.000004/2026-44 (fictício) · Versão 3.2\nDocumento fictício gerado para fins acadêmicos. Não possui validade jurídica.\nÍNDICE\nCláusula 1 – Objeto Do Seguro\nCláusula 2 – Definições\nCláusula 3 – Coberturas Básicas\nCláusula 4 – Coberturas Adicionais\nCláusula 5 – Riscos Excluídos\nCláusula 6 – Franquia\nCláusula 7 – Limite Máximo De Garantia\nCláusula 8 – Retroatividade E Prazo Complementar\nCláusula 9 – Aviso De Reclamação\nCláusula 10 – Adiantamento De Custos De Defesa\nCláusula 11 – Alocação\nCláusula 12 – Ordem De Pagamento\nCláusula 13 – Sub-Rogação\nCláusula 14 – Perda De Direitos\nCláusula 15 – Cancelamento\nCláusula 16 – Foro"
+  },
+  {
+   "numero": 2,
+   "metodo": "texto",
+   "texto": "CLÁUSULA 1 – OBJETO DO SEGURO\n1.1 Este seguro garante ao Segurado, até o Limite Máximo de Garantia, o pagamento das Perdas decorrentes\nde Reclamações apresentadas durante a vigência ou o Prazo Complementar, por Atos Danosos praticados no\nexercício de suas funções.\n1.2 A cobertura é concedida à base de reclamações (claims made): importa a data em que a Reclamação é\napresentada, e não a data do Ato Danoso, observado o Período de Retroatividade.\n1.3 As Condições Particulares prevalecem sobre as Especiais, e estas sobre as Gerais.\nCLÁUSULA 2 – DEFINIÇÕES\n2.1 Administrador: pessoa física eleita ou nomeada para cargo de diretor, conselheiro de administração ou\nmembro de órgão estatutário da Sociedade, inclusive quando o cargo for exercido de fato.\n2.2 Apólice: documento que formaliza o contrato de seguro, composto por estas Condições Gerais, pelas\nCondições Especiais e pelas Condições Particulares, além de eventuais endossos.\n2.3 Ato Danoso: qualquer ato, omissão, erro, declaração inexata ou violação de dever praticado pelo Segurado\nno exercício de suas funções de gestão, real ou alegado.\n2.4 Custos de Defesa: honorários advocatícios, periciais e demais despesas razoáveis e necessárias incorridas\nna defesa do Segurado em Reclamação coberta, com anuência prévia da Seguradora.\n2.5 Franquia: valor ou percentual, previsto nas Condições Particulares, que fica a cargo da Sociedade ou do\nSegurado em cada Reclamação, antes do pagamento da indenização.\n2.6 Limite Máximo de Garantia: valor máximo, agregado para todo o período de vigência, que a Seguradora\npagará em decorrência de todas as Reclamações cobertas, incluídos os Custos de Defesa.\n2.7 Perda: valor que o Segurado seja legalmente obrigado a pagar em razão de sentença judicial, laudo arbitral\nou acordo aprovado pela Seguradora, inclusive Custos de Defesa.\n2.8 Período de Retroatividade: período anterior ao início de vigência dentro do qual deve ter ocorrido o Ato\nDanoso para que a Reclamação esteja coberta.\n2.9 Prazo Complementar: período, contado do fim da vigência, durante o qual o Segurado pode apresentar\nReclamações referentes a Atos Danosos ocorridos durante a vigência.\n2.10 Reclamação: procedimento judicial, arbitral ou administrativo, ou notificação escrita, em que se atribua ao\nSegurado a responsabilidade por um Ato Danoso.\n2.11 Segurado: o Administrador, o empregado em cargo de gestão quando corréu com Administrador e as\ndemais pessoas indicadas nas Condições Particulares.\n2.12 Sociedade: a pessoa jurídica Tomadora do seguro e suas Subsidiárias relacionadas no Anexo I.\n2.13 Subsidiária: sociedade na qual a Tomadora detenha, direta ou indiretamente, mais de 50% do capital\nvotante, ou o direito de eleger a maioria dos administradores.\n2.14 Tomador: a pessoa jurídica que contrata o seguro em favor dos Segurados e é responsável pelo\npagamento do prêmio.\n2.15 Valores Mobiliários: ações, debêntures, bônus de subscrição e demais títulos definidos na legislação do\nmercado de capitais, emitidos pela Sociedade.\nCLÁUSULA 3 – COBERTURAS BÁSICAS\n3.1 Cobertura A – Pagamento direto aos Segurados: A Seguradora pagará, em nome do Segurado, as Perdas\ndecorrentes de Reclamações por Atos Danosos quando a Sociedade não o indenizar, por impedimento legal ou\ninsolvência.\n3.1.1 Condição: a cobertura aplica-se ainda que a Sociedade esteja em recuperação judicial ou falência.\n3.1.2 Prioridade: esta cobertura tem prioridade de pagamento sobre as demais, conforme a Cláusula de\nOrdem de Pagamento."
+  },
+  {
+   "numero": 3,
+   "metodo": "texto",
+   "texto": "3.2 Cobertura B – Reembolso à Sociedade: A Seguradora reembolsará a Sociedade pelos valores que esta\ntenha pago ao Segurado, a título de indenização por Perdas cobertas, quando permitido por lei ou pelo\nestatuto.\n3.2.1 Franquia: aplica-se a franquia indicada nas Condições Particulares para esta cobertura.\n3.3 Cobertura C – Reclamações contra a Sociedade: Quando contratada, a Seguradora pagará as Perdas da\nprópria Sociedade decorrentes de Reclamações relativas a Valores Mobiliários por ela emitidos.\n3.3.1 Abrangência: a cobertura compreende Reclamações de investidores, acionistas e órgãos reguladores\ndo mercado de capitais.\nCLÁUSULA 4 – COBERTURAS ADICIONAIS\nAplicam-se somente quando indicadas nas Condições Particulares, com os sublimites ali previstos.\n4.1 Custos Emergenciais: custos de defesa incorridos antes da anuência da Seguradora, quando a urgência\nimpedir a consulta prévia, limitados ao sublimite das Condições Particulares.\n4.2 Penhora on-line e bloqueio de bens: valores bloqueados judicialmente em contas ou bens do Segurado em\nrazão de Reclamação coberta, até a decisão definitiva.\n4.3 Custos de Publicidade: despesas com assessoria de comunicação para mitigar danos à reputação do\nSegurado decorrentes de Reclamação coberta.\n4.4 Extensão a Cônjuges, Herdeiros e Espólio: Reclamações contra cônjuges, companheiros, herdeiros ou\nespólio do Segurado exclusivamente em razão de Ato Danoso deste.\n4.5 Investigações: custos de defesa em inquéritos e investigações conduzidos por autoridades e órgãos\nreguladores, ainda que não exista acusação formal.\nCLÁUSULA 5 – RISCOS EXCLUÍDOS\nEste seguro não cobre Perdas decorrentes de:\n5.1 Atos dolosos ou fraudulentos: Reclamações decorrentes de atos dolosos, fraudulentos ou praticados com a\nintenção de obter vantagem pessoal indevida.\n5.1.1 Exceção: a exclusão só se aplica após decisão judicial ou arbitral definitiva que reconheça o ato; até\nlá, os Custos de Defesa são adiantados.\n5.2 Danos corporais e materiais: Reclamações por danos corporais, morte, doença, danos materiais ou\ndestruição de bens.\n5.2.1 Exceção: ficam cobertos os Custos de Defesa em reclamações de acionistas relacionadas a esses\neventos.\n5.3 Reclamações prévias e circunstâncias conhecidas: Reclamações ou circunstâncias conhecidas pelos\nSegurados antes do início de vigência, ou já notificadas em apólice anterior.\n5.4 Multas e penalidades: Multas, penalidades e tributos impostos ao Segurado.\n5.4.1 Exceção: ficam cobertas as multas civis e administrativas aplicadas ao Segurado quando o reembolso\nfor permitido pela legislação e contratada a cobertura adicional correspondente.\n5.5 Poluição ambiental: Reclamações relativas a poluição ou contaminação ambiental.\n5.5.1 Exceção: ficam cobertos os Custos de Defesa do Segurado, até o sublimite das Condições\nParticulares.\n5.6 Segurado contra Segurado: Reclamações movidas por um Segurado ou pela Sociedade contra outro\nSegurado.\n5.6.1 Exceção: não se aplica a ações derivativas de acionistas minoritários, a reclamações de\nex-administradores e às movidas por administrador judicial em recuperação ou falência.\n5.7 Remuneração indevida: Reclamações por remuneração, gratificação ou benefício recebido pelo Segurado\nsem a aprovação dos órgãos societários competentes."
+  },
+  {
+   "numero": 4,
+   "metodo": "texto",
+   "texto": "5.8 Guerra e terrorismo: Perdas decorrentes de guerra, invasão, atos de inimigo estrangeiro, rebelião ou\nterrorismo.\n5.9 Contratos: Reclamações por descumprimento de obrigação contratual assumida pela Sociedade.\n5.9.1 Exceção: a exclusão não se aplica à responsabilidade pessoal do Segurado que decorra de Ato\nDanoso na gestão do contrato.\n5.10 Informações privilegiadas: Reclamações decorrentes de negociação de Valores Mobiliários com uso de\ninformação privilegiada pelo Segurado.\n5.10.1 Exceção: ficam cobertos os Custos de Defesa até a decisão definitiva.\n5.11 Legislação trabalhista e previdenciária: Reclamações baseadas em legislação trabalhista, previdenciária\nou de planos de pensão.\n5.11.1 Exceção: cobertas as reclamações por assédio e discriminação contra Administradores.\nCLÁUSULA 6 – FRANQUIA\n6.1 A franquia prevista nas Condições Particulares será deduzida de cada Reclamação, incluindo os Custos de\nDefesa, e ficará a cargo da Sociedade.\n6.2 Não se aplica franquia à Cobertura A – Pagamento direto aos Segurados.\n6.3 Reclamações decorrentes do mesmo Ato Danoso ou de Atos Danosos relacionados serão consideradas\numa única Reclamação, com uma única franquia.\nCLÁUSULA 7 – LIMITE MÁXIMO DE GARANTIA\n7.1 O Limite Máximo de Garantia é agregado e único para todas as coberturas, Segurados e Reclamações do\nperíodo de vigência, salvo limites adicionais expressamente previstos.\n7.2 Os Custos de Defesa são pagos em adição ao Limite Máximo de Garantia, quando assim previsto nas\nCondições Particulares; caso contrário, integram o limite.\n7.3 Os sublimites das coberturas adicionais integram o Limite Máximo de Garantia e não o ampliam.\nCLÁUSULA 8 – RETROATIVIDADE E PRAZO COMPLEMENTAR\n8.1 Estão cobertos os Atos Danosos ocorridos a partir da data de retroatividade indicada nas Condições\nParticulares.\n8.2 Em caso de não renovação, o Tomador poderá contratar Prazo Complementar de 36 meses, mediante\nsolicitação em até 30 dias do fim da vigência.\n8.3 Será concedido Prazo Suplementar gratuito de 90 dias, que não se soma ao Prazo Complementar\ncontratado.\nCLÁUSULA 9 – AVISO DE RECLAMAÇÃO\n9.1 O Segurado deverá comunicar à Seguradora qualquer Reclamação em até 60 dias do seu conhecimento, e\nem qualquer caso antes do fim do Prazo Complementar.\n9.2 O Segurado poderá notificar circunstâncias que possam originar Reclamação; a Reclamação posterior será\nconsiderada apresentada na data da notificação.\n9.3 O descumprimento dos prazos só afasta a indenização se causar prejuízo à Seguradora.\nCLÁUSULA 10 – ADIANTAMENTO DE CUSTOS DE DEFESA\n10.1 A Seguradora adiantará os Custos de Defesa em até 10 dias da apresentação dos comprovantes, mesmo\nantes de definida a cobertura.\n10.2 Se ficar comprovado que a Perda não estava coberta, os valores adiantados deverão ser devolvidos pelo\nSegurado."
+  },
+  {
+   "numero": 5,
+   "metodo": "texto",
+   "texto": "10.3 A escolha dos advogados cabe ao Segurado, com anuência da Seguradora, que não poderá ser negada\nsem justificativa.\nCLÁUSULA 11 – ALOCAÇÃO\n11.1 Em Reclamações que envolvam partes cobertas e não cobertas, a Seguradora arcará com 100% dos\nCustos de Defesa e com a parcela de Perdas atribuível aos Segurados.\n11.2 Na falta de acordo sobre a alocação, a questão será submetida a arbitragem, sem prejuízo do\nadiantamento dos Custos de Defesa.\nCLÁUSULA 12 – ORDEM DE PAGAMENTO\n12.1 Havendo Perdas simultâneas, a Seguradora pagará primeiro as Perdas da Cobertura A, depois as da\nCobertura B e, por último, as da Cobertura C.\nCLÁUSULA 13 – SUB-ROGAÇÃO\n13.1 Paga a indenização, a Seguradora sub-roga-se nos direitos do Segurado contra terceiros responsáveis,\nexceto contra outro Segurado, salvo em caso de dolo reconhecido.\nCLÁUSULA 14 – PERDA DE DIREITOS\n14.1 O Segurado perderá o direito à indenização se agravar intencionalmente o risco, fizer declarações\ninexatas que influam na aceitação da proposta ou deixar de comunicar a Reclamação.\n14.2 Não-imputação: as declarações e o conhecimento de um Segurado não serão imputados aos demais para\nfins de perda de direitos.\nCLÁUSULA 15 – CANCELAMENTO\n15.1 O seguro poderá ser cancelado pelo Tomador a qualquer tempo, com devolução do prêmio proporcional\nao prazo decorrido.\n15.2 Em caso de alteração de controle da Sociedade durante a vigência, a cobertura permanece para Atos\nDanosos anteriores à alteração, cessando para os posteriores.\nCLÁUSULA 16 – FORO\n16.1 Fica eleito o foro do domicílio do Segurado para dirimir questões oriundas deste contrato.\nCLÁUSULA 17 – OBRIGAÇÕES DO SEGURADO\n17.1 Colaborar com a Seguradora na defesa, fornecendo documentos e informações solicitados.\n17.2 Não admitir responsabilidade, fazer acordos ou assumir obrigações sem anuência da Seguradora.\n17.3 Adotar as medidas razoáveis para reduzir as consequências do Ato Danoso.\n17.4 Informar à Seguradora, durante a vigência, alterações relevantes no risco, como fusões, aquisições,\nemissão de Valores Mobiliários e mudança de controle.\nCLÁUSULA 18 – LIQUIDAÇÃO DE SINISTROS\n18.1 A Seguradora pagará a indenização em até 30 dias da entrega de todos os documentos necessários.\n18.2 Documentos básicos: aviso de Reclamação, cópia da Reclamação, contratos de honorários,\ncomprovantes de despesas e, quando houver, sentença, laudo ou acordo.\n18.2.1 A Seguradora poderá solicitar documentos complementares uma única vez, suspendendo o prazo\naté o seu recebimento.\n18.3 O não pagamento no prazo sujeita a Seguradora a atualização monetária e juros de mora."
+  },
+  {
+   "numero": 6,
+   "metodo": "texto",
+   "texto": "CLÁUSULA 19 – CONCORRÊNCIA DE APÓLICES\n19.1 Havendo outros seguros para o mesmo risco, esta apólice responderá proporcionalmente, salvo quando\ncontratada como apólice de excesso.\n19.2 Para a Cobertura A, esta apólice atuará em excesso de qualquer outro seguro válido e cobrável.\nCLÁUSULA 20 – PRESCRIÇÃO\n20.1 Os prazos prescricionais são os previstos no Código Civil para as relações de seguro.\nCLÁUSULA 21 – DISPOSIÇÕES GERAIS\n21.1 A aceitação do seguro está sujeita à análise do risco pela Seguradora.\n21.2 O registro deste plano na SUSEP não implica incentivo ou recomendação à sua comercialização.\n21.3 O Segurado poderá consultar a situação cadastral do corretor e da Seguradora no site da SUSEP."
+  },
+  {
+   "numero": 7,
+   "metodo": "texto",
+   "texto": "CONDIÇÕES ESPECIAIS\nCONDIÇÕES ESPECIAIS – COBERTURA C – RECLAMAÇÕES CONTRA A SOCIEDADE\n1. Objeto: esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Cobertura C –\nReclamações contra a Sociedade, quando indicada no Quadro de Coberturas das Condições Particulares.\n2. Riscos cobertos: Perdas decorrentes de Reclamações relacionadas a cobertura c – reclamações contra a\nsociedade, apresentadas durante a vigência ou o Prazo Complementar, por Atos Danosos ocorridos após a\ndata de retroatividade.\n3. Riscos excluídos: além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já\nindenizadas por outra cobertura desta apólice, nem valores sem relação direta com a Reclamação.\n4. Limite: o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de\nGarantia e não o amplia.\n5. Franquia: aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação,\na cobertura é concedida sem franquia.\n6. Documentos para indenização: aviso de Reclamação em até 60 dias, cópia integral da Reclamação,\ncomprovantes das despesas e manifestação do Segurado sobre os fatos.\n7. Ratificação: permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido\nexpressamente modificadas por esta Condição Especial.\nCONDIÇÕES ESPECIAIS – CUSTOS EMERGENCIAIS\n1. Objeto: esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Custos\nEmergenciais, quando indicada no Quadro de Coberturas das Condições Particulares.\n2. Riscos cobertos: Perdas decorrentes de Reclamações relacionadas a custos emergenciais, apresentadas\ndurante a vigência ou o Prazo Complementar, por Atos Danosos ocorridos após a data de retroatividade.\n3. Riscos excluídos: além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já\nindenizadas por outra cobertura desta apólice, nem valores sem relação direta com a Reclamação.\n4. Limite: o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de\nGarantia e não o amplia.\n5. Franquia: aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação,\na cobertura é concedida sem franquia.\n6. Documentos para indenização: aviso de Reclamação em até 60 dias, cópia integral da Reclamação,\ncomprovantes das despesas e manifestação do Segurado sobre os fatos.\n7. Ratificação: permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido\nexpressamente modificadas por esta Condição Especial.\nCONDIÇÕES ESPECIAIS – PENHORA ON-LINE E BLOQUEIO DE BENS\n1. Objeto: esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Penhora on-line e\nbloqueio de bens, quando indicada no Quadro de Coberturas das Condições Particulares.\n2. Riscos cobertos: Perdas decorrentes de Reclamações relacionadas a penhora on-line e bloqueio de bens,\napresentadas durante a vigência ou o Prazo Complementar, por Atos Danosos ocorridos após a data de\nretroatividade.\n3. Riscos excluídos: além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já\nindenizadas por outra cobertura desta apólice, nem valores sem relação direta com a Reclamação.\n4. Limite: o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de\nGarantia e não o amplia.\n5. Franquia: aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação,\na cobertura é concedida sem franquia."
+  },
+  {
+   "numero": 8,
+   "metodo": "texto",
+   "texto": "6. Documentos para indenização: aviso de Reclamação em até 60 dias, cópia integral da Reclamação,\ncomprovantes das despesas e manifestação do Segurado sobre os fatos.\n7. Ratificação: permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido\nexpressamente modificadas por esta Condição Especial.\nCONDIÇÕES ESPECIAIS – CUSTOS DE PUBLICIDADE\n1. Objeto: esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Custos de\nPublicidade, quando indicada no Quadro de Coberturas das Condições Particulares.\n2. Riscos cobertos: Perdas decorrentes de Reclamações relacionadas a custos de publicidade, apresentadas\ndurante a vigência ou o Prazo Complementar, por Atos Danosos ocorridos após a data de retroatividade.\n3. Riscos excluídos: além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já\nindenizadas por outra cobertura desta apólice, nem valores sem relação direta com a Reclamação.\n4. Limite: o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de\nGarantia e não o amplia.\n5. Franquia: aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação,\na cobertura é concedida sem franquia.\n6. Documentos para indenização: aviso de Reclamação em até 60 dias, cópia integral da Reclamação,\ncomprovantes das despesas e manifestação do Segurado sobre os fatos.\n7. Ratificação: permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido\nexpressamente modificadas por esta Condição Especial.\nCONDIÇÕES ESPECIAIS – EXTENSÃO A CÔNJUGES, HERDEIROS E ESPÓLIO\n1. Objeto: esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Extensão a\nCônjuges, Herdeiros e Espólio, quando indicada no Quadro de Coberturas das Condições Particulares.\n2. Riscos cobertos: Perdas decorrentes de Reclamações relacionadas a extensão a cônjuges, herdeiros e\nespólio, apresentadas durante a vigência ou o Prazo Complementar, por Atos Danosos ocorridos após a data\nde retroatividade.\n3. Riscos excluídos: além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já\nindenizadas por outra cobertura desta apólice, nem valores sem relação direta com a Reclamação.\n4. Limite: o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de\nGarantia e não o amplia.\n5. Franquia: aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação,\na cobertura é concedida sem franquia.\n6. Documentos para indenização: aviso de Reclamação em até 60 dias, cópia integral da Reclamação,\ncomprovantes das despesas e manifestação do Segurado sobre os fatos.\n7. Ratificação: permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido\nexpressamente modificadas por esta Condição Especial.\nCONDIÇÕES ESPECIAIS – INVESTIGAÇÕES\n1. Objeto: esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Investigações,\nquando indicada no Quadro de Coberturas das Condições Particulares.\n2. Riscos cobertos: Perdas decorrentes de Reclamações relacionadas a investigações, apresentadas durante a\nvigência ou o Prazo Complementar, por Atos Danosos ocorridos após a data de retroatividade.\n3. Riscos excluídos: além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já\nindenizadas por outra cobertura desta apólice, nem valores sem relação direta com a Reclamação.\n4. Limite: o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de\nGarantia e não o amplia."
+  },
+  {
+   "numero": 9,
+   "metodo": "texto",
+   "texto": "5. Franquia: aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação,\na cobertura é concedida sem franquia.\n6. Documentos para indenização: aviso de Reclamação em até 60 dias, cópia integral da Reclamação,\ncomprovantes das despesas e manifestação do Segurado sobre os fatos.\n7. Ratificação: permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido\nexpressamente modificadas por esta Condição Especial."
+  },
+  {
+   "numero": 10,
+   "metodo": "texto",
+   "texto": "ANEXO – QUESTIONÁRIO DE AVALIAÇÃO DE RISCO\nA proposta deve ser acompanhada deste questionário, respondido e assinado pelo representante legal da\nSociedade. Respostas inexatas podem acarretar a perda de direitos (Cláusula 14).\n1. A Sociedade possui ações negociadas em bolsa no Brasil ou no exterior? Resposta:\n____________________________\n2. Há previsão de oferta pública de Valores Mobiliários nos próximos 12 meses? Resposta:\n____________________________\n3. A Sociedade realizou fusão, aquisição ou cisão nos últimos 24 meses? Resposta:\n____________________________\n4. Algum Administrador responde a processo relacionado à sua gestão? Resposta:\n____________________________\n5. Existe Reclamação, investigação ou circunstância conhecida que possa gerar Reclamação? Resposta:\n____________________________\n6. A Sociedade possui comitê de auditoria e auditoria independente? Resposta:\n____________________________\n7. As demonstrações financeiras dos últimos 3 anos tiveram ressalvas? Resposta:\n____________________________\n8. A Sociedade está em recuperação judicial ou extrajudicial? Resposta: ____________________________\n9. Há operações relevantes nos Estados Unidos ou no Canadá? Resposta: ____________________________\n10. A Sociedade possui programa de integridade (compliance) formalizado? Resposta:\n____________________________\n11. Houve demissão de Administrador por justa causa nos últimos 3 anos? Resposta:\n____________________________\n12. A Sociedade trata dados pessoais em larga escala? Resposta: ____________________________\n13. Existem passivos ambientais conhecidos? Resposta: ____________________________\n14. Houve autuação de órgão regulador nos últimos 5 anos? Resposta: ____________________________\n15. Qual o número de empregados e o faturamento anual consolidado? Resposta:\n____________________________"
+  },
+  {
+   "numero": 11,
+   "metodo": "texto",
+   "texto": "GLOSSÁRIO COMPLEMENTAR\nAdministrador. pessoa física eleita ou nomeada para cargo de diretor, conselheiro de administração ou\nmembro de órgão estatutário da Sociedade, inclusive quando o cargo for exercido de fato. Este termo, quando\ngrafado com inicial maiúscula, tem o significado aqui atribuído em todas as Condições.\nApólice. documento que formaliza o contrato de seguro, composto por estas Condições Gerais, pelas\nCondições Especiais e pelas Condições Particulares, além de eventuais endossos. Este termo, quando grafado\ncom inicial maiúscula, tem o significado aqui atribuído em todas as Condições.\nAto Danoso. qualquer ato, omissão, erro, declaração inexata ou violação de dever praticado pelo Segurado no\nexercício de suas funções de gestão, real ou alegado. Este termo, quando grafado com inicial maiúscula, tem o\nsignificado aqui atribuído em todas as Condições.\nCustos de Defesa. honorários advocatícios, periciais e demais despesas razoáveis e necessárias incorridas na\ndefesa do Segurado em Reclamação coberta, com anuência prévia da Seguradora. Este termo, quando\ngrafado com inicial maiúscula, tem o significado aqui atribuído em todas as Condições.\nFranquia. valor ou percentual, previsto nas Condições Particulares, que fica a cargo da Sociedade ou do\nSegurado em cada Reclamação, antes do pagamento da indenização. Este termo, quando grafado com inicial\nmaiúscula, tem o significado aqui atribuído em todas as Condições.\nLimite Máximo de Garantia. valor máximo, agregado para todo o período de vigência, que a Seguradora\npagará em decorrência de todas as Reclamações cobertas, incluídos os Custos de Defesa. Este termo, quando\ngrafado com inicial maiúscula, tem o significado aqui atribuído em todas as Condições.\nPerda. valor que o Segurado seja legalmente obrigado a pagar em razão de sentença judicial, laudo arbitral ou\nacordo aprovado pela Seguradora, inclusive Custos de Defesa. Este termo, quando grafado com inicial\nmaiúscula, tem o significado aqui atribuído em todas as Condições.\nPeríodo de Retroatividade. período anterior ao início de vigência dentro do qual deve ter ocorrido o Ato\nDanoso para que a Reclamação esteja coberta. Este termo, quando grafado com inicial maiúscula, tem o\nsignificado aqui atribuído em todas as Condições.\nPrazo Complementar. período, contado do fim da vigência, durante o qual o Segurado pode apresentar\nReclamações referentes a Atos Danosos ocorridos durante a vigência. Este termo, quando grafado com inicial\nmaiúscula, tem o significado aqui atribuído em todas as Condições.\nReclamação. procedimento judicial, arbitral ou administrativo, ou notificação escrita, em que se atribua ao\nSegurado a responsabilidade por um Ato Danoso. Este termo, quando grafado com inicial maiúscula, tem o\nsignificado aqui atribuído em todas as Condições.\nSegurado. o Administrador, o empregado em cargo de gestão quando corréu com Administrador e as demais\npessoas indicadas nas Condições Particulares. Este termo, quando grafado com inicial maiúscula, tem o\nsignificado aqui atribuído em todas as Condições.\nSociedade. a pessoa jurídica Tomadora do seguro e suas Subsidiárias relacionadas no Anexo I. Este termo,\nquando grafado com inicial maiúscula, tem o significado aqui atribuído em todas as Condições.\nSubsidiária. sociedade na qual a Tomadora detenha, direta ou indiretamente, mais de 50% do capital votante,\nou o direito de eleger a maioria dos administradores. Este termo, quando grafado com inicial maiúscula, tem o\nsignificado aqui atribuído em todas as Condições.\nTomador. a pessoa jurídica que contrata o seguro em favor dos Segurados e é responsável pelo pagamento\ndo prêmio. Este termo, quando grafado com inicial maiúscula, tem o significado aqui atribuído em todas as\nCondições.\nValores Mobiliários. ações, debêntures, bônus de subscrição e demais títulos definidos na legislação do\nmercado de capitais, emitidos pela Sociedade. Este termo, quando grafado com inicial maiúscula, tem o\nsignificado aqui atribuído em todas as Condições."
+  }
+ ],
+ "indice": {
+  "metodo": "estrutura",
+  "nos": [
+   {
+    "id": "0001",
+    "titulo": "CONDIÇÕES GERAIS – SEGURO DE RESPONSABILIDADE CIVIL DE ADMINISTRADORES E DIRETORES (D&O)",
+    "nivel": 1,
+    "pagina_inicio": 1,
+    "pagina_fim": 1,
+    "resumo": "EQUINÓCIO SEGUROS S.A. (FICTÍCIA) · Processo SUSEP nº 15414.000004/2026-44 (fictício) · Versão 3.2 Documento fictício gerado para fins acadêmicos. Não possui…",
+    "texto": "CONDIÇÕES GERAIS – SEGURO DE RESPONSABILIDADE CIVIL DE ADMINISTRADORES E DIRETORES (D&O)\nEQUINÓCIO SEGUROS S.A. (FICTÍCIA) · Processo SUSEP nº 15414.000004/2026-44 (fictício) · Versão 3.2\nDocumento fictício gerado para fins acadêmicos. Não possui validade jurídica.",
+    "filhos": []
+   },
+   {
+    "id": "0002",
+    "titulo": "ÍNDICE Cláusula 1 – Objeto Do Seguro Cláusula 2 – Definições Cláusula 3 – Coberturas Básicas Cláusula 4 – Coberturas Adicionais Cláusula 5 – Riscos Excluídos Cláusula 6 – Franquia Cláusula 7 – Limite Máximo De Garantia Cláusula 8 – Retroatividade E Prazo Complementar Cláusula 9 – Aviso De Reclamação Cláusula 10 – Adiantamento De Custos De Defesa Cláusula 11 – Alocação Cláusula 12 – Ordem De Pagamento Cláusula 13 – Sub-Rogação Cláusula 14 – Perda De Direitos Cláusula 15 – Cancelamento Cláusula 16 – Foro CLÁUSULA 1 – OBJETO DO SEGURO",
+    "nivel": 1,
+    "pagina_inicio": 1,
+    "pagina_fim": 2,
+    "resumo": "",
+    "texto": "ÍNDICE Cláusula 1 – Objeto Do Seguro Cláusula 2 – Definições Cláusula 3 – Coberturas Básicas Cláusula 4 – Coberturas Adicionais Cláusula 5 – Riscos Excluídos Cláusula 6 – Franquia Cláusula 7 – Limite Máximo De Garantia Cláusula 8 – Retroatividade E Prazo Complementar Cláusula 9 – Aviso De Reclamação Cláusula 10 – Adiantamento De Custos De Defesa Cláusula 11 – Alocação Cláusula 12 – Ordem De Pagamento Cláusula 13 – Sub-Rogação Cláusula 14 – Perda De Direitos Cláusula 15 – Cancelamento Cláusula 16 – Foro CLÁUSULA 1 – OBJETO DO SEGURO",
+    "filhos": [
+     {
+      "id": "0003",
+      "titulo": "1.1. Este seguro garante ao Segurado, até o Limite Máximo de Garantia, o pagamento…",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "1.1 Este seguro garante ao Segurado, até o Limite Máximo de Garantia, o pagamento das Perdas decorrentes de Reclamações apresentadas durante a vigência ou o…",
+      "texto": "1.1 Este seguro garante ao Segurado, até o Limite Máximo de Garantia, o pagamento das Perdas decorrentes\nde Reclamações apresentadas durante a vigência ou o Prazo Complementar, por Atos Danosos praticados no\nexercício de suas funções.",
+      "filhos": []
+     },
+     {
+      "id": "0004",
+      "titulo": "1.2. A cobertura é concedida à base de reclamações (claims made)",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "1.2 A cobertura é concedida à base de reclamações (claims made): importa a data em que a Reclamação é apresentada, e não a data do Ato Danoso, observado o…",
+      "texto": "1.2 A cobertura é concedida à base de reclamações (claims made): importa a data em que a Reclamação é\napresentada, e não a data do Ato Danoso, observado o Período de Retroatividade.",
+      "filhos": []
+     },
+     {
+      "id": "0005",
+      "titulo": "1.3. As Condições Particulares prevalecem sobre as Especiais, e estas sobre as Ger…",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "1.3 As Condições Particulares prevalecem sobre as Especiais, e estas sobre as Gerais.",
+      "texto": "1.3 As Condições Particulares prevalecem sobre as Especiais, e estas sobre as Gerais.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0006",
+    "titulo": "CLÁUSULA 2 – DEFINIÇÕES",
+    "nivel": 1,
+    "pagina_inicio": 2,
+    "pagina_fim": 2,
+    "resumo": "",
+    "texto": "CLÁUSULA 2 – DEFINIÇÕES",
+    "filhos": [
+     {
+      "id": "0007",
+      "titulo": "2.1. Administrador",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.1 Administrador: pessoa física eleita ou nomeada para cargo de diretor, conselheiro de administração ou membro de órgão estatutário da Sociedade, inclusive…",
+      "texto": "2.1 Administrador: pessoa física eleita ou nomeada para cargo de diretor, conselheiro de administração ou\nmembro de órgão estatutário da Sociedade, inclusive quando o cargo for exercido de fato.",
+      "filhos": []
+     },
+     {
+      "id": "0008",
+      "titulo": "2.2. Apólice",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.2 Apólice: documento que formaliza o contrato de seguro, composto por estas Condições Gerais, pelas Condições Especiais e pelas Condições Particulares, além…",
+      "texto": "2.2 Apólice: documento que formaliza o contrato de seguro, composto por estas Condições Gerais, pelas\nCondições Especiais e pelas Condições Particulares, além de eventuais endossos.",
+      "filhos": []
+     },
+     {
+      "id": "0009",
+      "titulo": "2.3. Ato Danoso",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.3 Ato Danoso: qualquer ato, omissão, erro, declaração inexata ou violação de dever praticado pelo Segurado no exercício de suas funções de gestão, real ou…",
+      "texto": "2.3 Ato Danoso: qualquer ato, omissão, erro, declaração inexata ou violação de dever praticado pelo Segurado\nno exercício de suas funções de gestão, real ou alegado.",
+      "filhos": []
+     },
+     {
+      "id": "0010",
+      "titulo": "2.4. Custos de Defesa",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.4 Custos de Defesa: honorários advocatícios, periciais e demais despesas razoáveis e necessárias incorridas na defesa do Segurado em Reclamação coberta, com…",
+      "texto": "2.4 Custos de Defesa: honorários advocatícios, periciais e demais despesas razoáveis e necessárias incorridas\nna defesa do Segurado em Reclamação coberta, com anuência prévia da Seguradora.",
+      "filhos": []
+     },
+     {
+      "id": "0011",
+      "titulo": "2.5. Franquia",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.5 Franquia: valor ou percentual, previsto nas Condições Particulares, que fica a cargo da Sociedade ou do Segurado em cada Reclamação, antes do pagamento da…",
+      "texto": "2.5 Franquia: valor ou percentual, previsto nas Condições Particulares, que fica a cargo da Sociedade ou do\nSegurado em cada Reclamação, antes do pagamento da indenização.",
+      "filhos": []
+     },
+     {
+      "id": "0012",
+      "titulo": "2.6. Limite Máximo de Garantia",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.6 Limite Máximo de Garantia: valor máximo, agregado para todo o período de vigência, que a Seguradora pagará em decorrência de todas as Reclamações cobertas,…",
+      "texto": "2.6 Limite Máximo de Garantia: valor máximo, agregado para todo o período de vigência, que a Seguradora\npagará em decorrência de todas as Reclamações cobertas, incluídos os Custos de Defesa.",
+      "filhos": []
+     },
+     {
+      "id": "0013",
+      "titulo": "2.7. Perda",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.7 Perda: valor que o Segurado seja legalmente obrigado a pagar em razão de sentença judicial, laudo arbitral ou acordo aprovado pela Seguradora, inclusive…",
+      "texto": "2.7 Perda: valor que o Segurado seja legalmente obrigado a pagar em razão de sentença judicial, laudo arbitral\nou acordo aprovado pela Seguradora, inclusive Custos de Defesa.",
+      "filhos": []
+     },
+     {
+      "id": "0014",
+      "titulo": "2.8. Período de Retroatividade",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.8 Período de Retroatividade: período anterior ao início de vigência dentro do qual deve ter ocorrido o Ato Danoso para que a Reclamação esteja coberta.",
+      "texto": "2.8 Período de Retroatividade: período anterior ao início de vigência dentro do qual deve ter ocorrido o Ato\nDanoso para que a Reclamação esteja coberta.",
+      "filhos": []
+     },
+     {
+      "id": "0015",
+      "titulo": "2.9. Prazo Complementar",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.9 Prazo Complementar: período, contado do fim da vigência, durante o qual o Segurado pode apresentar Reclamações referentes a Atos Danosos ocorridos durante…",
+      "texto": "2.9 Prazo Complementar: período, contado do fim da vigência, durante o qual o Segurado pode apresentar\nReclamações referentes a Atos Danosos ocorridos durante a vigência.",
+      "filhos": []
+     },
+     {
+      "id": "0016",
+      "titulo": "2.10. Reclamação",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.10 Reclamação: procedimento judicial, arbitral ou administrativo, ou notificação escrita, em que se atribua ao Segurado a responsabilidade por um Ato Danoso.",
+      "texto": "2.10 Reclamação: procedimento judicial, arbitral ou administrativo, ou notificação escrita, em que se atribua ao\nSegurado a responsabilidade por um Ato Danoso.",
+      "filhos": []
+     },
+     {
+      "id": "0017",
+      "titulo": "2.11. Segurado",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.11 Segurado: o Administrador, o empregado em cargo de gestão quando corréu com Administrador e as demais pessoas indicadas nas Condições Particulares.",
+      "texto": "2.11 Segurado: o Administrador, o empregado em cargo de gestão quando corréu com Administrador e as\ndemais pessoas indicadas nas Condições Particulares.",
+      "filhos": []
+     },
+     {
+      "id": "0018",
+      "titulo": "2.12. Sociedade",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.12 Sociedade: a pessoa jurídica Tomadora do seguro e suas Subsidiárias relacionadas no Anexo I.",
+      "texto": "2.12 Sociedade: a pessoa jurídica Tomadora do seguro e suas Subsidiárias relacionadas no Anexo I.",
+      "filhos": []
+     },
+     {
+      "id": "0019",
+      "titulo": "2.13. Subsidiária",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.13 Subsidiária: sociedade na qual a Tomadora detenha, direta ou indiretamente, mais de 50% do capital votante, ou o direito de eleger a maioria dos…",
+      "texto": "2.13 Subsidiária: sociedade na qual a Tomadora detenha, direta ou indiretamente, mais de 50% do capital\nvotante, ou o direito de eleger a maioria dos administradores.",
+      "filhos": []
+     },
+     {
+      "id": "0020",
+      "titulo": "2.14. Tomador",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.14 Tomador: a pessoa jurídica que contrata o seguro em favor dos Segurados e é responsável pelo pagamento do prêmio.",
+      "texto": "2.14 Tomador: a pessoa jurídica que contrata o seguro em favor dos Segurados e é responsável pelo\npagamento do prêmio.",
+      "filhos": []
+     },
+     {
+      "id": "0021",
+      "titulo": "2.15. Valores Mobiliários",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "2.15 Valores Mobiliários: ações, debêntures, bônus de subscrição e demais títulos definidos na legislação do mercado de capitais, emitidos pela Sociedade.",
+      "texto": "2.15 Valores Mobiliários: ações, debêntures, bônus de subscrição e demais títulos definidos na legislação do\nmercado de capitais, emitidos pela Sociedade.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0022",
+    "titulo": "CLÁUSULA 3 – COBERTURAS BÁSICAS",
+    "nivel": 1,
+    "pagina_inicio": 2,
+    "pagina_fim": 3,
+    "resumo": "",
+    "texto": "CLÁUSULA 3 – COBERTURAS BÁSICAS",
+    "filhos": [
+     {
+      "id": "0023",
+      "titulo": "3.1. Cobertura A – Pagamento direto aos Segurados",
+      "nivel": 2,
+      "pagina_inicio": 2,
+      "pagina_fim": 2,
+      "resumo": "3.1 Cobertura A – Pagamento direto aos Segurados: A Seguradora pagará, em nome do Segurado, as Perdas decorrentes de Reclamações por Atos Danosos quando a…",
+      "texto": "3.1 Cobertura A – Pagamento direto aos Segurados: A Seguradora pagará, em nome do Segurado, as Perdas\ndecorrentes de Reclamações por Atos Danosos quando a Sociedade não o indenizar, por impedimento legal ou\ninsolvência.",
+      "filhos": [
+       {
+        "id": "0024",
+        "titulo": "3.1.1. Condição",
+        "nivel": 3,
+        "pagina_inicio": 2,
+        "pagina_fim": 2,
+        "resumo": "3.1.1 Condição: a cobertura aplica-se ainda que a Sociedade esteja em recuperação judicial ou falência.",
+        "texto": "3.1.1 Condição: a cobertura aplica-se ainda que a Sociedade esteja em recuperação judicial ou falência.",
+        "filhos": []
+       },
+       {
+        "id": "0025",
+        "titulo": "3.1.2. Prioridade",
+        "nivel": 3,
+        "pagina_inicio": 2,
+        "pagina_fim": 2,
+        "resumo": "3.1.2 Prioridade: esta cobertura tem prioridade de pagamento sobre as demais, conforme a Cláusula de Ordem de Pagamento.",
+        "texto": "3.1.2 Prioridade: esta cobertura tem prioridade de pagamento sobre as demais, conforme a Cláusula de\nOrdem de Pagamento.",
+        "filhos": []
+       }
+      ]
+     },
+     {
+      "id": "0026",
+      "titulo": "3.2. Cobertura B – Reembolso à Sociedade",
+      "nivel": 2,
+      "pagina_inicio": 3,
+      "pagina_fim": 3,
+      "resumo": "3.2 Cobertura B – Reembolso à Sociedade: A Seguradora reembolsará a Sociedade pelos valores que esta tenha pago ao Segurado, a título de indenização por Perdas…",
+      "texto": "3.2 Cobertura B – Reembolso à Sociedade: A Seguradora reembolsará a Sociedade pelos valores que esta\ntenha pago ao Segurado, a título de indenização por Perdas cobertas, quando permitido por lei ou pelo\nestatuto.",
+      "filhos": [
+       {
+        "id": "0027",
+        "titulo": "3.2.1. Franquia",
+        "nivel": 3,
+        "pagina_inicio": 3,
+        "pagina_fim": 3,
+        "resumo": "3.2.1 Franquia: aplica-se a franquia indicada nas Condições Particulares para esta cobertura.",
+        "texto": "3.2.1 Franquia: aplica-se a franquia indicada nas Condições Particulares para esta cobertura.",
+        "filhos": []
+       }
+      ]
+     },
+     {
+      "id": "0028",
+      "titulo": "3.3. Cobertura C – Reclamações contra a Sociedade",
+      "nivel": 2,
+      "pagina_inicio": 3,
+      "pagina_fim": 3,
+      "resumo": "3.3 Cobertura C – Reclamações contra a Sociedade: Quando contratada, a Seguradora pagará as Perdas da própria Sociedade decorrentes de Reclamações relativas a…",
+      "texto": "3.3 Cobertura C – Reclamações contra a Sociedade: Quando contratada, a Seguradora pagará as Perdas da\nprópria Sociedade decorrentes de Reclamações relativas a Valores Mobiliários por ela emitidos.",
+      "filhos": [
+       {
+        "id": "0029",
+        "titulo": "3.3.1. Abrangência",
+        "nivel": 3,
+        "pagina_inicio": 3,
+        "pagina_fim": 3,
+        "resumo": "3.3.1 Abrangência: a cobertura compreende Reclamações de investidores, acionistas e órgãos reguladores do mercado de capitais.",
+        "texto": "3.3.1 Abrangência: a cobertura compreende Reclamações de investidores, acionistas e órgãos reguladores\ndo mercado de capitais.",
+        "filhos": []
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "0030",
+    "titulo": "CLÁUSULA 4 – COBERTURAS ADICIONAIS",
+    "nivel": 1,
+    "pagina_inicio": 3,
+    "pagina_fim": 3,
+    "resumo": "Aplicam-se somente quando indicadas nas Condições Particulares, com os sublimites ali previstos.",
+    "texto": "CLÁUSULA 4 – COBERTURAS ADICIONAIS\nAplicam-se somente quando indicadas nas Condições Particulares, com os sublimites ali previstos.",
+    "filhos": [
+     {
+      "id": "0031",
+      "titulo": "4.1. Custos Emergenciais",
+      "nivel": 2,
+      "pagina_inicio": 3,
+      "pagina_fim": 3,
+      "resumo": "4.1 Custos Emergenciais: custos de defesa incorridos antes da anuência da Seguradora, quando a urgência impedir a consulta prévia, limitados ao sublimite das…",
+      "texto": "4.1 Custos Emergenciais: custos de defesa incorridos antes da anuência da Seguradora, quando a urgência\nimpedir a consulta prévia, limitados ao sublimite das Condições Particulares.",
+      "filhos": []
+     },
+     {
+      "id": "0032",
+      "titulo": "4.2. Penhora on-line e bloqueio de bens",
+      "nivel": 2,
+      "pagina_inicio": 3,
+      "pagina_fim": 3,
+      "resumo": "4.2 Penhora on-line e bloqueio de bens: valores bloqueados judicialmente em contas ou bens do Segurado em razão de Reclamação coberta, até a decisão definitiva.",
+      "texto": "4.2 Penhora on-line e bloqueio de bens: valores bloqueados judicialmente em contas ou bens do Segurado em\nrazão de Reclamação coberta, até a decisão definitiva.",
+      "filhos": []
+     },
+     {
+      "id": "0033",
+      "titulo": "4.3. Custos de Publicidade",
+      "nivel": 2,
+      "pagina_inicio": 3,
+      "pagina_fim": 3,
+      "resumo": "4.3 Custos de Publicidade: despesas com assessoria de comunicação para mitigar danos à reputação do Segurado decorrentes de Reclamação coberta.",
+      "texto": "4.3 Custos de Publicidade: despesas com assessoria de comunicação para mitigar danos à reputação do\nSegurado decorrentes de Reclamação coberta.",
+      "filhos": []
+     },
+     {
+      "id": "0034",
+      "titulo": "4.4. Extensão a Cônjuges, Herdeiros e Espólio",
+      "nivel": 2,
+      "pagina_inicio": 3,
+      "pagina_fim": 3,
+      "resumo": "4.4 Extensão a Cônjuges, Herdeiros e Espólio: Reclamações contra cônjuges, companheiros, herdeiros ou espólio do Segurado exclusivamente em razão de Ato Danoso…",
+      "texto": "4.4 Extensão a Cônjuges, Herdeiros e Espólio: Reclamações contra cônjuges, companheiros, herdeiros ou\nespólio do Segurado exclusivamente em razão de Ato Danoso deste.",
+      "filhos": []
+     },
+     {
+      "id": "0035",
+      "titulo": "4.5. Investigações",
+      "nivel": 2,
+      "pagina_inicio": 3,
+      "pagina_fim": 3,
+      "resumo": "4.5 Investigações: custos de defesa em inquéritos e investigações conduzidos por autoridades e órgãos reguladores, ainda que não exista acusação formal.",
+      "texto": "4.5 Investigações: custos de defesa em inquéritos e investigações conduzidos por autoridades e órgãos\nreguladores, ainda que não exista acusação formal.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0036",
+    "titulo": "CLÁUSULA 5 – RISCOS EXCLUÍDOS",
+    "nivel": 1,
+    "pagina_inicio": 3,
+    "pagina_fim": 4,
+    "resumo": "Este seguro não cobre Perdas decorrentes de:",
+    "texto": "CLÁUSULA 5 – RISCOS EXCLUÍDOS\nEste seguro não cobre Perdas decorrentes de:",
+    "filhos": [
+     {
+      "id": "0037",
+      "titulo": "5.1. Atos dolosos ou fraudulentos",
+      "nivel": 2,
+      "pagina_inicio": 3,
+      "pagina_fim": 3,
+      "resumo": "5.1 Atos dolosos ou fraudulentos: Reclamações decorrentes de atos dolosos, fraudulentos ou praticados com a intenção de obter vantagem pessoal indevida.",
+      "texto": "5.1 Atos dolosos ou fraudulentos: Reclamações decorrentes de atos dolosos, fraudulentos ou praticados com a\nintenção de obter vantagem pessoal indevida.",
+      "filhos": [
+       {
+        "id": "0038",
+        "titulo": "5.1.1. Exceção",
+        "nivel": 3,
+        "pagina_inicio": 3,
+        "pagina_fim": 3,
+        "resumo": "5.1.1 Exceção: a exclusão só se aplica após decisão judicial ou arbitral definitiva que reconheça o ato; até lá, os Custos de Defesa são adiantados.",
+        "texto": "5.1.1 Exceção: a exclusão só se aplica após decisão judicial ou arbitral definitiva que reconheça o ato; até\nlá, os Custos de Defesa são adiantados.",
+        "filhos": []
+       }
+      ]
+     },
+     {
+      "id": "0039",
+      "titulo": "5.2. Danos corporais e materiais",
+      "nivel": 2,
+      "pagina_inicio": 3,
+      "pagina_fim": 3,
+      "resumo": "5.2 Danos corporais e materiais: Reclamações por danos corporais, morte, doença, danos materiais ou destruição de bens.",
+      "texto": "5.2 Danos corporais e materiais: Reclamações por danos corporais, morte, doença, danos materiais ou\ndestruição de bens.",
+      "filhos": [
+       {
+        "id": "0040",
+        "titulo": "5.2.1. Exceção",
+        "nivel": 3,
+        "pagina_inicio": 3,
+        "pagina_fim": 3,
+        "resumo": "5.2.1 Exceção: ficam cobertos os Custos de Defesa em reclamações de acionistas relacionadas a esses eventos.",
+        "texto": "5.2.1 Exceção: ficam cobertos os Custos de Defesa em reclamações de acionistas relacionadas a esses\neventos.",
+        "filhos": []
+       }
+      ]
+     },
+     {
+      "id": "0041",
+      "titulo": "5.3. Reclamações prévias e circunstâncias conhecidas",
+      "nivel": 2,
+      "pagina_inicio": 3,
+      "pagina_fim": 3,
+      "resumo": "5.3 Reclamações prévias e circunstâncias conhecidas: Reclamações ou circunstâncias conhecidas pelos Segurados antes do início de vigência, ou já notificadas em…",
+      "texto": "5.3 Reclamações prévias e circunstâncias conhecidas: Reclamações ou circunstâncias conhecidas pelos\nSegurados antes do início de vigência, ou já notificadas em apólice anterior.",
+      "filhos": []
+     },
+     {
+      "id": "0042",
+      "titulo": "5.4. Multas e penalidades",
+      "nivel": 2,
+      "pagina_inicio": 3,
+      "pagina_fim": 3,
+      "resumo": "5.4 Multas e penalidades: Multas, penalidades e tributos impostos ao Segurado.",
+      "texto": "5.4 Multas e penalidades: Multas, penalidades e tributos impostos ao Segurado.",
+      "filhos": [
+       {
+        "id": "0043",
+        "titulo": "5.4.1. Exceção",
+        "nivel": 3,
+        "pagina_inicio": 3,
+        "pagina_fim": 3,
+        "resumo": "5.4.1 Exceção: ficam cobertas as multas civis e administrativas aplicadas ao Segurado quando o reembolso for permitido pela legislação e contratada a cobertura…",
+        "texto": "5.4.1 Exceção: ficam cobertas as multas civis e administrativas aplicadas ao Segurado quando o reembolso\nfor permitido pela legislação e contratada a cobertura adicional correspondente.",
+        "filhos": []
+       }
+      ]
+     },
+     {
+      "id": "0044",
+      "titulo": "5.5. Poluição ambiental",
+      "nivel": 2,
+      "pagina_inicio": 3,
+      "pagina_fim": 3,
+      "resumo": "5.5 Poluição ambiental: Reclamações relativas a poluição ou contaminação ambiental.",
+      "texto": "5.5 Poluição ambiental: Reclamações relativas a poluição ou contaminação ambiental.",
+      "filhos": [
+       {
+        "id": "0045",
+        "titulo": "5.5.1. Exceção",
+        "nivel": 3,
+        "pagina_inicio": 3,
+        "pagina_fim": 3,
+        "resumo": "5.5.1 Exceção: ficam cobertos os Custos de Defesa do Segurado, até o sublimite das Condições Particulares.",
+        "texto": "5.5.1 Exceção: ficam cobertos os Custos de Defesa do Segurado, até o sublimite das Condições\nParticulares.",
+        "filhos": []
+       }
+      ]
+     },
+     {
+      "id": "0046",
+      "titulo": "5.6. Segurado contra Segurado",
+      "nivel": 2,
+      "pagina_inicio": 3,
+      "pagina_fim": 3,
+      "resumo": "5.6 Segurado contra Segurado: Reclamações movidas por um Segurado ou pela Sociedade contra outro Segurado.",
+      "texto": "5.6 Segurado contra Segurado: Reclamações movidas por um Segurado ou pela Sociedade contra outro\nSegurado.",
+      "filhos": [
+       {
+        "id": "0047",
+        "titulo": "5.6.1. Exceção",
+        "nivel": 3,
+        "pagina_inicio": 3,
+        "pagina_fim": 3,
+        "resumo": "5.6.1 Exceção: não se aplica a ações derivativas de acionistas minoritários, a reclamações de ex-administradores e às movidas por administrador judicial em…",
+        "texto": "5.6.1 Exceção: não se aplica a ações derivativas de acionistas minoritários, a reclamações de\nex-administradores e às movidas por administrador judicial em recuperação ou falência.",
+        "filhos": []
+       }
+      ]
+     },
+     {
+      "id": "0048",
+      "titulo": "5.7. Remuneração indevida",
+      "nivel": 2,
+      "pagina_inicio": 3,
+      "pagina_fim": 3,
+      "resumo": "5.7 Remuneração indevida: Reclamações por remuneração, gratificação ou benefício recebido pelo Segurado sem a aprovação dos órgãos societários competentes.",
+      "texto": "5.7 Remuneração indevida: Reclamações por remuneração, gratificação ou benefício recebido pelo Segurado\nsem a aprovação dos órgãos societários competentes.",
+      "filhos": []
+     },
+     {
+      "id": "0049",
+      "titulo": "5.8. Guerra e terrorismo",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "5.8 Guerra e terrorismo: Perdas decorrentes de guerra, invasão, atos de inimigo estrangeiro, rebelião ou terrorismo.",
+      "texto": "5.8 Guerra e terrorismo: Perdas decorrentes de guerra, invasão, atos de inimigo estrangeiro, rebelião ou\nterrorismo.",
+      "filhos": []
+     },
+     {
+      "id": "0050",
+      "titulo": "5.9. Contratos",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "5.9 Contratos: Reclamações por descumprimento de obrigação contratual assumida pela Sociedade.",
+      "texto": "5.9 Contratos: Reclamações por descumprimento de obrigação contratual assumida pela Sociedade.",
+      "filhos": [
+       {
+        "id": "0051",
+        "titulo": "5.9.1. Exceção",
+        "nivel": 3,
+        "pagina_inicio": 4,
+        "pagina_fim": 4,
+        "resumo": "5.9.1 Exceção: a exclusão não se aplica à responsabilidade pessoal do Segurado que decorra de Ato Danoso na gestão do contrato.",
+        "texto": "5.9.1 Exceção: a exclusão não se aplica à responsabilidade pessoal do Segurado que decorra de Ato\nDanoso na gestão do contrato.",
+        "filhos": []
+       }
+      ]
+     },
+     {
+      "id": "0052",
+      "titulo": "5.10. Informações privilegiadas",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "5.10 Informações privilegiadas: Reclamações decorrentes de negociação de Valores Mobiliários com uso de informação privilegiada pelo Segurado.",
+      "texto": "5.10 Informações privilegiadas: Reclamações decorrentes de negociação de Valores Mobiliários com uso de\ninformação privilegiada pelo Segurado.",
+      "filhos": [
+       {
+        "id": "0053",
+        "titulo": "5.10.1. Exceção",
+        "nivel": 3,
+        "pagina_inicio": 4,
+        "pagina_fim": 4,
+        "resumo": "5.10.1 Exceção: ficam cobertos os Custos de Defesa até a decisão definitiva.",
+        "texto": "5.10.1 Exceção: ficam cobertos os Custos de Defesa até a decisão definitiva.",
+        "filhos": []
+       }
+      ]
+     },
+     {
+      "id": "0054",
+      "titulo": "5.11. Legislação trabalhista e previdenciária",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "5.11 Legislação trabalhista e previdenciária: Reclamações baseadas em legislação trabalhista, previdenciária ou de planos de pensão.",
+      "texto": "5.11 Legislação trabalhista e previdenciária: Reclamações baseadas em legislação trabalhista, previdenciária\nou de planos de pensão.",
+      "filhos": [
+       {
+        "id": "0055",
+        "titulo": "5.11.1. Exceção",
+        "nivel": 3,
+        "pagina_inicio": 4,
+        "pagina_fim": 4,
+        "resumo": "5.11.1 Exceção: cobertas as reclamações por assédio e discriminação contra Administradores.",
+        "texto": "5.11.1 Exceção: cobertas as reclamações por assédio e discriminação contra Administradores.",
+        "filhos": []
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "0056",
+    "titulo": "CLÁUSULA 6 – FRANQUIA",
+    "nivel": 1,
+    "pagina_inicio": 4,
+    "pagina_fim": 4,
+    "resumo": "",
+    "texto": "CLÁUSULA 6 – FRANQUIA",
+    "filhos": [
+     {
+      "id": "0057",
+      "titulo": "6.1. A franquia prevista nas Condições Particulares será deduzida de cada Reclamaç…",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "6.1 A franquia prevista nas Condições Particulares será deduzida de cada Reclamação, incluindo os Custos de Defesa, e ficará a cargo da Sociedade.",
+      "texto": "6.1 A franquia prevista nas Condições Particulares será deduzida de cada Reclamação, incluindo os Custos de\nDefesa, e ficará a cargo da Sociedade.",
+      "filhos": []
+     },
+     {
+      "id": "0058",
+      "titulo": "6.2. Não se aplica franquia à Cobertura A – Pagamento direto aos Segurados.",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "6.2 Não se aplica franquia à Cobertura A – Pagamento direto aos Segurados.",
+      "texto": "6.2 Não se aplica franquia à Cobertura A – Pagamento direto aos Segurados.",
+      "filhos": []
+     },
+     {
+      "id": "0059",
+      "titulo": "6.3. Reclamações decorrentes do mesmo Ato Danoso ou de Atos Danosos relacionados s…",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "6.3 Reclamações decorrentes do mesmo Ato Danoso ou de Atos Danosos relacionados serão consideradas uma única Reclamação, com uma única franquia.",
+      "texto": "6.3 Reclamações decorrentes do mesmo Ato Danoso ou de Atos Danosos relacionados serão consideradas\numa única Reclamação, com uma única franquia.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0060",
+    "titulo": "CLÁUSULA 7 – LIMITE MÁXIMO DE GARANTIA",
+    "nivel": 1,
+    "pagina_inicio": 4,
+    "pagina_fim": 4,
+    "resumo": "",
+    "texto": "CLÁUSULA 7 – LIMITE MÁXIMO DE GARANTIA",
+    "filhos": [
+     {
+      "id": "0061",
+      "titulo": "7.1. O Limite Máximo de Garantia é agregado e único para todas as coberturas, Segu…",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "7.1 O Limite Máximo de Garantia é agregado e único para todas as coberturas, Segurados e Reclamações do período de vigência, salvo limites adicionais…",
+      "texto": "7.1 O Limite Máximo de Garantia é agregado e único para todas as coberturas, Segurados e Reclamações do\nperíodo de vigência, salvo limites adicionais expressamente previstos.",
+      "filhos": []
+     },
+     {
+      "id": "0062",
+      "titulo": "7.2. Os Custos de Defesa são pagos em adição ao Limite Máximo de Garantia, quando…",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "7.2 Os Custos de Defesa são pagos em adição ao Limite Máximo de Garantia, quando assim previsto nas Condições Particulares; caso contrário, integram o limite.",
+      "texto": "7.2 Os Custos de Defesa são pagos em adição ao Limite Máximo de Garantia, quando assim previsto nas\nCondições Particulares; caso contrário, integram o limite.",
+      "filhos": []
+     },
+     {
+      "id": "0063",
+      "titulo": "7.3. Os sublimites das coberturas adicionais integram o Limite Máximo de Garantia…",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "7.3 Os sublimites das coberturas adicionais integram o Limite Máximo de Garantia e não o ampliam.",
+      "texto": "7.3 Os sublimites das coberturas adicionais integram o Limite Máximo de Garantia e não o ampliam.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0064",
+    "titulo": "CLÁUSULA 8 – RETROATIVIDADE E PRAZO COMPLEMENTAR",
+    "nivel": 1,
+    "pagina_inicio": 4,
+    "pagina_fim": 4,
+    "resumo": "",
+    "texto": "CLÁUSULA 8 – RETROATIVIDADE E PRAZO COMPLEMENTAR",
+    "filhos": [
+     {
+      "id": "0065",
+      "titulo": "8.1. Estão cobertos os Atos Danosos ocorridos a partir da data de retroatividade i…",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "8.1 Estão cobertos os Atos Danosos ocorridos a partir da data de retroatividade indicada nas Condições Particulares.",
+      "texto": "8.1 Estão cobertos os Atos Danosos ocorridos a partir da data de retroatividade indicada nas Condições\nParticulares.",
+      "filhos": []
+     },
+     {
+      "id": "0066",
+      "titulo": "8.2. Em caso de não renovação, o Tomador poderá contratar Prazo Complementar de 36…",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "8.2 Em caso de não renovação, o Tomador poderá contratar Prazo Complementar de 36 meses, mediante solicitação em até 30 dias do fim da vigência.",
+      "texto": "8.2 Em caso de não renovação, o Tomador poderá contratar Prazo Complementar de 36 meses, mediante\nsolicitação em até 30 dias do fim da vigência.",
+      "filhos": []
+     },
+     {
+      "id": "0067",
+      "titulo": "8.3. Será concedido Prazo Suplementar gratuito de 90 dias, que não se soma ao Praz…",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "8.3 Será concedido Prazo Suplementar gratuito de 90 dias, que não se soma ao Prazo Complementar contratado.",
+      "texto": "8.3 Será concedido Prazo Suplementar gratuito de 90 dias, que não se soma ao Prazo Complementar\ncontratado.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0068",
+    "titulo": "CLÁUSULA 9 – AVISO DE RECLAMAÇÃO",
+    "nivel": 1,
+    "pagina_inicio": 4,
+    "pagina_fim": 4,
+    "resumo": "",
+    "texto": "CLÁUSULA 9 – AVISO DE RECLAMAÇÃO",
+    "filhos": [
+     {
+      "id": "0069",
+      "titulo": "9.1. O Segurado deverá comunicar à Seguradora qualquer Reclamação em até 60 dias d…",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "9.1 O Segurado deverá comunicar à Seguradora qualquer Reclamação em até 60 dias do seu conhecimento, e em qualquer caso antes do fim do Prazo Complementar.",
+      "texto": "9.1 O Segurado deverá comunicar à Seguradora qualquer Reclamação em até 60 dias do seu conhecimento, e\nem qualquer caso antes do fim do Prazo Complementar.",
+      "filhos": []
+     },
+     {
+      "id": "0070",
+      "titulo": "9.2. O Segurado poderá notificar circunstâncias que possam originar Reclamação; a…",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "9.2 O Segurado poderá notificar circunstâncias que possam originar Reclamação; a Reclamação posterior será considerada apresentada na data da notificação.",
+      "texto": "9.2 O Segurado poderá notificar circunstâncias que possam originar Reclamação; a Reclamação posterior será\nconsiderada apresentada na data da notificação.",
+      "filhos": []
+     },
+     {
+      "id": "0071",
+      "titulo": "9.3. O descumprimento dos prazos só afasta a indenização se causar prejuízo à Segu…",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "9.3 O descumprimento dos prazos só afasta a indenização se causar prejuízo à Seguradora.",
+      "texto": "9.3 O descumprimento dos prazos só afasta a indenização se causar prejuízo à Seguradora.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0072",
+    "titulo": "CLÁUSULA 10 – ADIANTAMENTO DE CUSTOS DE DEFESA",
+    "nivel": 1,
+    "pagina_inicio": 4,
+    "pagina_fim": 5,
+    "resumo": "",
+    "texto": "CLÁUSULA 10 – ADIANTAMENTO DE CUSTOS DE DEFESA",
+    "filhos": [
+     {
+      "id": "0073",
+      "titulo": "10.1. A Seguradora adiantará os Custos de Defesa em até 10 dias da apresentação dos…",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "10.1 A Seguradora adiantará os Custos de Defesa em até 10 dias da apresentação dos comprovantes, mesmo antes de definida a cobertura.",
+      "texto": "10.1 A Seguradora adiantará os Custos de Defesa em até 10 dias da apresentação dos comprovantes, mesmo\nantes de definida a cobertura.",
+      "filhos": []
+     },
+     {
+      "id": "0074",
+      "titulo": "10.2. Se ficar comprovado que a Perda não estava coberta, os valores adiantados dev…",
+      "nivel": 2,
+      "pagina_inicio": 4,
+      "pagina_fim": 4,
+      "resumo": "10.2 Se ficar comprovado que a Perda não estava coberta, os valores adiantados deverão ser devolvidos pelo Segurado.",
+      "texto": "10.2 Se ficar comprovado que a Perda não estava coberta, os valores adiantados deverão ser devolvidos pelo\nSegurado.",
+      "filhos": []
+     },
+     {
+      "id": "0075",
+      "titulo": "10.3. A escolha dos advogados cabe ao Segurado, com anuência da Seguradora, que não…",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "10.3 A escolha dos advogados cabe ao Segurado, com anuência da Seguradora, que não poderá ser negada sem justificativa.",
+      "texto": "10.3 A escolha dos advogados cabe ao Segurado, com anuência da Seguradora, que não poderá ser negada\nsem justificativa.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0076",
+    "titulo": "CLÁUSULA 11 – ALOCAÇÃO",
+    "nivel": 1,
+    "pagina_inicio": 5,
+    "pagina_fim": 5,
+    "resumo": "",
+    "texto": "CLÁUSULA 11 – ALOCAÇÃO",
+    "filhos": [
+     {
+      "id": "0077",
+      "titulo": "11.1. Em Reclamações que envolvam partes cobertas e não cobertas, a Seguradora arca…",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "11.1 Em Reclamações que envolvam partes cobertas e não cobertas, a Seguradora arcará com 100% dos Custos de Defesa e com a parcela de Perdas atribuível aos…",
+      "texto": "11.1 Em Reclamações que envolvam partes cobertas e não cobertas, a Seguradora arcará com 100% dos\nCustos de Defesa e com a parcela de Perdas atribuível aos Segurados.",
+      "filhos": []
+     },
+     {
+      "id": "0078",
+      "titulo": "11.2. Na falta de acordo sobre a alocação, a questão será submetida a arbitragem, s…",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "11.2 Na falta de acordo sobre a alocação, a questão será submetida a arbitragem, sem prejuízo do adiantamento dos Custos de Defesa.",
+      "texto": "11.2 Na falta de acordo sobre a alocação, a questão será submetida a arbitragem, sem prejuízo do\nadiantamento dos Custos de Defesa.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0079",
+    "titulo": "CLÁUSULA 12 – ORDEM DE PAGAMENTO",
+    "nivel": 1,
+    "pagina_inicio": 5,
+    "pagina_fim": 5,
+    "resumo": "",
+    "texto": "CLÁUSULA 12 – ORDEM DE PAGAMENTO",
+    "filhos": [
+     {
+      "id": "0080",
+      "titulo": "12.1. Havendo Perdas simultâneas, a Seguradora pagará primeiro as Perdas da Cobertu…",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "12.1 Havendo Perdas simultâneas, a Seguradora pagará primeiro as Perdas da Cobertura A, depois as da Cobertura B e, por último, as da Cobertura C.",
+      "texto": "12.1 Havendo Perdas simultâneas, a Seguradora pagará primeiro as Perdas da Cobertura A, depois as da\nCobertura B e, por último, as da Cobertura C.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0081",
+    "titulo": "CLÁUSULA 13 – SUB-ROGAÇÃO",
+    "nivel": 1,
+    "pagina_inicio": 5,
+    "pagina_fim": 5,
+    "resumo": "",
+    "texto": "CLÁUSULA 13 – SUB-ROGAÇÃO",
+    "filhos": [
+     {
+      "id": "0082",
+      "titulo": "13.1. Paga a indenização, a Seguradora sub-roga-se nos direitos do Segurado contra…",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "13.1 Paga a indenização, a Seguradora sub-roga-se nos direitos do Segurado contra terceiros responsáveis, exceto contra outro Segurado, salvo em caso de dolo…",
+      "texto": "13.1 Paga a indenização, a Seguradora sub-roga-se nos direitos do Segurado contra terceiros responsáveis,\nexceto contra outro Segurado, salvo em caso de dolo reconhecido.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0083",
+    "titulo": "CLÁUSULA 14 – PERDA DE DIREITOS",
+    "nivel": 1,
+    "pagina_inicio": 5,
+    "pagina_fim": 5,
+    "resumo": "",
+    "texto": "CLÁUSULA 14 – PERDA DE DIREITOS",
+    "filhos": [
+     {
+      "id": "0084",
+      "titulo": "14.1. O Segurado perderá o direito à indenização se agravar intencionalmente o risc…",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "14.1 O Segurado perderá o direito à indenização se agravar intencionalmente o risco, fizer declarações inexatas que influam na aceitação da proposta ou deixar…",
+      "texto": "14.1 O Segurado perderá o direito à indenização se agravar intencionalmente o risco, fizer declarações\ninexatas que influam na aceitação da proposta ou deixar de comunicar a Reclamação.",
+      "filhos": []
+     },
+     {
+      "id": "0085",
+      "titulo": "14.2. Não-imputação",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "14.2 Não-imputação: as declarações e o conhecimento de um Segurado não serão imputados aos demais para fins de perda de direitos.",
+      "texto": "14.2 Não-imputação: as declarações e o conhecimento de um Segurado não serão imputados aos demais para\nfins de perda de direitos.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0086",
+    "titulo": "CLÁUSULA 15 – CANCELAMENTO",
+    "nivel": 1,
+    "pagina_inicio": 5,
+    "pagina_fim": 5,
+    "resumo": "",
+    "texto": "CLÁUSULA 15 – CANCELAMENTO",
+    "filhos": [
+     {
+      "id": "0087",
+      "titulo": "15.1. O seguro poderá ser cancelado pelo Tomador a qualquer tempo, com devolução do…",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "15.1 O seguro poderá ser cancelado pelo Tomador a qualquer tempo, com devolução do prêmio proporcional ao prazo decorrido.",
+      "texto": "15.1 O seguro poderá ser cancelado pelo Tomador a qualquer tempo, com devolução do prêmio proporcional\nao prazo decorrido.",
+      "filhos": []
+     },
+     {
+      "id": "0088",
+      "titulo": "15.2. Em caso de alteração de controle da Sociedade durante a vigência, a cobertura…",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "15.2 Em caso de alteração de controle da Sociedade durante a vigência, a cobertura permanece para Atos Danosos anteriores à alteração, cessando para os…",
+      "texto": "15.2 Em caso de alteração de controle da Sociedade durante a vigência, a cobertura permanece para Atos\nDanosos anteriores à alteração, cessando para os posteriores.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0089",
+    "titulo": "CLÁUSULA 16 – FORO",
+    "nivel": 1,
+    "pagina_inicio": 5,
+    "pagina_fim": 5,
+    "resumo": "",
+    "texto": "CLÁUSULA 16 – FORO",
+    "filhos": [
+     {
+      "id": "0090",
+      "titulo": "16.1. Fica eleito o foro do domicílio do Segurado para dirimir questões oriundas de…",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "16.1 Fica eleito o foro do domicílio do Segurado para dirimir questões oriundas deste contrato.",
+      "texto": "16.1 Fica eleito o foro do domicílio do Segurado para dirimir questões oriundas deste contrato.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0091",
+    "titulo": "CLÁUSULA 17 – OBRIGAÇÕES DO SEGURADO",
+    "nivel": 1,
+    "pagina_inicio": 5,
+    "pagina_fim": 5,
+    "resumo": "",
+    "texto": "CLÁUSULA 17 – OBRIGAÇÕES DO SEGURADO",
+    "filhos": [
+     {
+      "id": "0092",
+      "titulo": "17.1. Colaborar com a Seguradora na defesa, fornecendo documentos e informações sol…",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "17.1 Colaborar com a Seguradora na defesa, fornecendo documentos e informações solicitados.",
+      "texto": "17.1 Colaborar com a Seguradora na defesa, fornecendo documentos e informações solicitados.",
+      "filhos": []
+     },
+     {
+      "id": "0093",
+      "titulo": "17.2. Não admitir responsabilidade, fazer acordos ou assumir obrigações sem anuênci…",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "17.2 Não admitir responsabilidade, fazer acordos ou assumir obrigações sem anuência da Seguradora.",
+      "texto": "17.2 Não admitir responsabilidade, fazer acordos ou assumir obrigações sem anuência da Seguradora.",
+      "filhos": []
+     },
+     {
+      "id": "0094",
+      "titulo": "17.3. Adotar as medidas razoáveis para reduzir as consequências do Ato Danoso.",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "17.3 Adotar as medidas razoáveis para reduzir as consequências do Ato Danoso.",
+      "texto": "17.3 Adotar as medidas razoáveis para reduzir as consequências do Ato Danoso.",
+      "filhos": []
+     },
+     {
+      "id": "0095",
+      "titulo": "17.4. Informar à Seguradora, durante a vigência, alterações relevantes no risco, co…",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "17.4 Informar à Seguradora, durante a vigência, alterações relevantes no risco, como fusões, aquisições, emissão de Valores Mobiliários e mudança de controle.",
+      "texto": "17.4 Informar à Seguradora, durante a vigência, alterações relevantes no risco, como fusões, aquisições,\nemissão de Valores Mobiliários e mudança de controle.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0096",
+    "titulo": "CLÁUSULA 18 – LIQUIDAÇÃO DE SINISTROS",
+    "nivel": 1,
+    "pagina_inicio": 5,
+    "pagina_fim": 5,
+    "resumo": "",
+    "texto": "CLÁUSULA 18 – LIQUIDAÇÃO DE SINISTROS",
+    "filhos": [
+     {
+      "id": "0097",
+      "titulo": "18.1. A Seguradora pagará a indenização em até 30 dias da entrega de todos os docum…",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "18.1 A Seguradora pagará a indenização em até 30 dias da entrega de todos os documentos necessários.",
+      "texto": "18.1 A Seguradora pagará a indenização em até 30 dias da entrega de todos os documentos necessários.",
+      "filhos": []
+     },
+     {
+      "id": "0098",
+      "titulo": "18.2. Documentos básicos",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "18.2 Documentos básicos: aviso de Reclamação, cópia da Reclamação, contratos de honorários, comprovantes de despesas e, quando houver, sentença, laudo ou…",
+      "texto": "18.2 Documentos básicos: aviso de Reclamação, cópia da Reclamação, contratos de honorários,\ncomprovantes de despesas e, quando houver, sentença, laudo ou acordo.",
+      "filhos": [
+       {
+        "id": "0099",
+        "titulo": "18.2.1. A Seguradora poderá solicitar documentos complementares uma única vez, suspen…",
+        "nivel": 3,
+        "pagina_inicio": 5,
+        "pagina_fim": 5,
+        "resumo": "18.2.1 A Seguradora poderá solicitar documentos complementares uma única vez, suspendendo o prazo até o seu recebimento.",
+        "texto": "18.2.1 A Seguradora poderá solicitar documentos complementares uma única vez, suspendendo o prazo\naté o seu recebimento.",
+        "filhos": []
+       }
+      ]
+     },
+     {
+      "id": "0100",
+      "titulo": "18.3. O não pagamento no prazo sujeita a Seguradora a atualização monetária e juros…",
+      "nivel": 2,
+      "pagina_inicio": 5,
+      "pagina_fim": 5,
+      "resumo": "18.3 O não pagamento no prazo sujeita a Seguradora a atualização monetária e juros de mora.",
+      "texto": "18.3 O não pagamento no prazo sujeita a Seguradora a atualização monetária e juros de mora.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0101",
+    "titulo": "CLÁUSULA 19 – CONCORRÊNCIA DE APÓLICES",
+    "nivel": 1,
+    "pagina_inicio": 6,
+    "pagina_fim": 6,
+    "resumo": "",
+    "texto": "CLÁUSULA 19 – CONCORRÊNCIA DE APÓLICES",
+    "filhos": [
+     {
+      "id": "0102",
+      "titulo": "19.1. Havendo outros seguros para o mesmo risco, esta apólice responderá proporcion…",
+      "nivel": 2,
+      "pagina_inicio": 6,
+      "pagina_fim": 6,
+      "resumo": "19.1 Havendo outros seguros para o mesmo risco, esta apólice responderá proporcionalmente, salvo quando contratada como apólice de excesso.",
+      "texto": "19.1 Havendo outros seguros para o mesmo risco, esta apólice responderá proporcionalmente, salvo quando\ncontratada como apólice de excesso.",
+      "filhos": []
+     },
+     {
+      "id": "0103",
+      "titulo": "19.2. Para a Cobertura A, esta apólice atuará em excesso de qualquer outro seguro v…",
+      "nivel": 2,
+      "pagina_inicio": 6,
+      "pagina_fim": 6,
+      "resumo": "19.2 Para a Cobertura A, esta apólice atuará em excesso de qualquer outro seguro válido e cobrável.",
+      "texto": "19.2 Para a Cobertura A, esta apólice atuará em excesso de qualquer outro seguro válido e cobrável.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0104",
+    "titulo": "CLÁUSULA 20 – PRESCRIÇÃO",
+    "nivel": 1,
+    "pagina_inicio": 6,
+    "pagina_fim": 6,
+    "resumo": "",
+    "texto": "CLÁUSULA 20 – PRESCRIÇÃO",
+    "filhos": [
+     {
+      "id": "0105",
+      "titulo": "20.1. Os prazos prescricionais são os previstos no Código Civil para as relações de…",
+      "nivel": 2,
+      "pagina_inicio": 6,
+      "pagina_fim": 6,
+      "resumo": "20.1 Os prazos prescricionais são os previstos no Código Civil para as relações de seguro.",
+      "texto": "20.1 Os prazos prescricionais são os previstos no Código Civil para as relações de seguro.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0106",
+    "titulo": "CLÁUSULA 21 – DISPOSIÇÕES GERAIS",
+    "nivel": 1,
+    "pagina_inicio": 6,
+    "pagina_fim": 6,
+    "resumo": "",
+    "texto": "CLÁUSULA 21 – DISPOSIÇÕES GERAIS",
+    "filhos": [
+     {
+      "id": "0107",
+      "titulo": "21.1. A aceitação do seguro está sujeita à análise do risco pela Seguradora.",
+      "nivel": 2,
+      "pagina_inicio": 6,
+      "pagina_fim": 6,
+      "resumo": "21.1 A aceitação do seguro está sujeita à análise do risco pela Seguradora.",
+      "texto": "21.1 A aceitação do seguro está sujeita à análise do risco pela Seguradora.",
+      "filhos": []
+     },
+     {
+      "id": "0108",
+      "titulo": "21.2. O registro deste plano na SUSEP não implica incentivo ou recomendação à sua c…",
+      "nivel": 2,
+      "pagina_inicio": 6,
+      "pagina_fim": 6,
+      "resumo": "21.2 O registro deste plano na SUSEP não implica incentivo ou recomendação à sua comercialização.",
+      "texto": "21.2 O registro deste plano na SUSEP não implica incentivo ou recomendação à sua comercialização.",
+      "filhos": []
+     },
+     {
+      "id": "0109",
+      "titulo": "21.3. O Segurado poderá consultar a situação cadastral do corretor e da Seguradora…",
+      "nivel": 2,
+      "pagina_inicio": 6,
+      "pagina_fim": 6,
+      "resumo": "21.3 O Segurado poderá consultar a situação cadastral do corretor e da Seguradora no site da SUSEP.",
+      "texto": "21.3 O Segurado poderá consultar a situação cadastral do corretor e da Seguradora no site da SUSEP.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0110",
+    "titulo": "CONDIÇÕES ESPECIAIS CONDIÇÕES ESPECIAIS – COBERTURA C – RECLAMAÇÕES CONTRA A SOCIEDADE",
+    "nivel": 1,
+    "pagina_inicio": 7,
+    "pagina_fim": 7,
+    "resumo": "",
+    "texto": "CONDIÇÕES ESPECIAIS CONDIÇÕES ESPECIAIS – COBERTURA C – RECLAMAÇÕES CONTRA A SOCIEDADE",
+    "filhos": [
+     {
+      "id": "0111",
+      "titulo": "1. Objeto",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Cobertura C – Reclamações contra a Sociedade, quando indicada no Quadro de…",
+      "texto": "1. Objeto: esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Cobertura C –\nReclamações contra a Sociedade, quando indicada no Quadro de Coberturas das Condições Particulares.",
+      "filhos": []
+     },
+     {
+      "id": "0112",
+      "titulo": "2. Riscos cobertos",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "Perdas decorrentes de Reclamações relacionadas a cobertura c – reclamações contra a sociedade, apresentadas durante a vigência ou o Prazo Complementar, por…",
+      "texto": "2. Riscos cobertos: Perdas decorrentes de Reclamações relacionadas a cobertura c – reclamações contra a\nsociedade, apresentadas durante a vigência ou o Prazo Complementar, por Atos Danosos ocorridos após a\ndata de retroatividade.",
+      "filhos": []
+     },
+     {
+      "id": "0113",
+      "titulo": "3. Riscos excluídos",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já indenizadas por outra cobertura desta apólice, nem valores sem relação…",
+      "texto": "3. Riscos excluídos: além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já\nindenizadas por outra cobertura desta apólice, nem valores sem relação direta com a Reclamação.",
+      "filhos": []
+     },
+     {
+      "id": "0114",
+      "titulo": "4. Limite",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de Garantia e não o amplia.",
+      "texto": "4. Limite: o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de\nGarantia e não o amplia.",
+      "filhos": []
+     },
+     {
+      "id": "0115",
+      "titulo": "5. Franquia",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação, a cobertura é concedida sem franquia.",
+      "texto": "5. Franquia: aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação,\na cobertura é concedida sem franquia.",
+      "filhos": []
+     },
+     {
+      "id": "0116",
+      "titulo": "6. Documentos para indenização",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "aviso de Reclamação em até 60 dias, cópia integral da Reclamação, comprovantes das despesas e manifestação do Segurado sobre os fatos.",
+      "texto": "6. Documentos para indenização: aviso de Reclamação em até 60 dias, cópia integral da Reclamação,\ncomprovantes das despesas e manifestação do Segurado sobre os fatos.",
+      "filhos": []
+     },
+     {
+      "id": "0117",
+      "titulo": "7. Ratificação",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido expressamente modificadas por esta Condição Especial.",
+      "texto": "7. Ratificação: permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido\nexpressamente modificadas por esta Condição Especial.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0118",
+    "titulo": "CONDIÇÕES ESPECIAIS – CUSTOS EMERGENCIAIS",
+    "nivel": 1,
+    "pagina_inicio": 7,
+    "pagina_fim": 7,
+    "resumo": "",
+    "texto": "CONDIÇÕES ESPECIAIS – CUSTOS EMERGENCIAIS",
+    "filhos": [
+     {
+      "id": "0119",
+      "titulo": "1. Objeto",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Custos Emergenciais, quando indicada no Quadro de Coberturas das Condições…",
+      "texto": "1. Objeto: esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Custos\nEmergenciais, quando indicada no Quadro de Coberturas das Condições Particulares.",
+      "filhos": []
+     },
+     {
+      "id": "0120",
+      "titulo": "2. Riscos cobertos",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "Perdas decorrentes de Reclamações relacionadas a custos emergenciais, apresentadas durante a vigência ou o Prazo Complementar, por Atos Danosos ocorridos após…",
+      "texto": "2. Riscos cobertos: Perdas decorrentes de Reclamações relacionadas a custos emergenciais, apresentadas\ndurante a vigência ou o Prazo Complementar, por Atos Danosos ocorridos após a data de retroatividade.",
+      "filhos": []
+     },
+     {
+      "id": "0121",
+      "titulo": "3. Riscos excluídos",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já indenizadas por outra cobertura desta apólice, nem valores sem relação…",
+      "texto": "3. Riscos excluídos: além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já\nindenizadas por outra cobertura desta apólice, nem valores sem relação direta com a Reclamação.",
+      "filhos": []
+     },
+     {
+      "id": "0122",
+      "titulo": "4. Limite",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de Garantia e não o amplia.",
+      "texto": "4. Limite: o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de\nGarantia e não o amplia.",
+      "filhos": []
+     },
+     {
+      "id": "0123",
+      "titulo": "5. Franquia",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação, a cobertura é concedida sem franquia.",
+      "texto": "5. Franquia: aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação,\na cobertura é concedida sem franquia.",
+      "filhos": []
+     },
+     {
+      "id": "0124",
+      "titulo": "6. Documentos para indenização",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "aviso de Reclamação em até 60 dias, cópia integral da Reclamação, comprovantes das despesas e manifestação do Segurado sobre os fatos.",
+      "texto": "6. Documentos para indenização: aviso de Reclamação em até 60 dias, cópia integral da Reclamação,\ncomprovantes das despesas e manifestação do Segurado sobre os fatos.",
+      "filhos": []
+     },
+     {
+      "id": "0125",
+      "titulo": "7. Ratificação",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido expressamente modificadas por esta Condição Especial.",
+      "texto": "7. Ratificação: permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido\nexpressamente modificadas por esta Condição Especial.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0126",
+    "titulo": "CONDIÇÕES ESPECIAIS – PENHORA ON-LINE E BLOQUEIO DE BENS",
+    "nivel": 1,
+    "pagina_inicio": 7,
+    "pagina_fim": 8,
+    "resumo": "",
+    "texto": "CONDIÇÕES ESPECIAIS – PENHORA ON-LINE E BLOQUEIO DE BENS",
+    "filhos": [
+     {
+      "id": "0127",
+      "titulo": "1. Objeto",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Penhora on-line e bloqueio de bens, quando indicada no Quadro de Coberturas das…",
+      "texto": "1. Objeto: esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Penhora on-line e\nbloqueio de bens, quando indicada no Quadro de Coberturas das Condições Particulares.",
+      "filhos": []
+     },
+     {
+      "id": "0128",
+      "titulo": "2. Riscos cobertos",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "Perdas decorrentes de Reclamações relacionadas a penhora on-line e bloqueio de bens, apresentadas durante a vigência ou o Prazo Complementar, por Atos Danosos…",
+      "texto": "2. Riscos cobertos: Perdas decorrentes de Reclamações relacionadas a penhora on-line e bloqueio de bens,\napresentadas durante a vigência ou o Prazo Complementar, por Atos Danosos ocorridos após a data de\nretroatividade.",
+      "filhos": []
+     },
+     {
+      "id": "0129",
+      "titulo": "3. Riscos excluídos",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já indenizadas por outra cobertura desta apólice, nem valores sem relação…",
+      "texto": "3. Riscos excluídos: além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já\nindenizadas por outra cobertura desta apólice, nem valores sem relação direta com a Reclamação.",
+      "filhos": []
+     },
+     {
+      "id": "0130",
+      "titulo": "4. Limite",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de Garantia e não o amplia.",
+      "texto": "4. Limite: o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de\nGarantia e não o amplia.",
+      "filhos": []
+     },
+     {
+      "id": "0131",
+      "titulo": "5. Franquia",
+      "nivel": 2,
+      "pagina_inicio": 7,
+      "pagina_fim": 7,
+      "resumo": "aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação, a cobertura é concedida sem franquia.",
+      "texto": "5. Franquia: aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação,\na cobertura é concedida sem franquia.",
+      "filhos": []
+     },
+     {
+      "id": "0132",
+      "titulo": "6. Documentos para indenização",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "aviso de Reclamação em até 60 dias, cópia integral da Reclamação, comprovantes das despesas e manifestação do Segurado sobre os fatos.",
+      "texto": "6. Documentos para indenização: aviso de Reclamação em até 60 dias, cópia integral da Reclamação,\ncomprovantes das despesas e manifestação do Segurado sobre os fatos.",
+      "filhos": []
+     },
+     {
+      "id": "0133",
+      "titulo": "7. Ratificação",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido expressamente modificadas por esta Condição Especial.",
+      "texto": "7. Ratificação: permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido\nexpressamente modificadas por esta Condição Especial.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0134",
+    "titulo": "CONDIÇÕES ESPECIAIS – CUSTOS DE PUBLICIDADE",
+    "nivel": 1,
+    "pagina_inicio": 8,
+    "pagina_fim": 8,
+    "resumo": "",
+    "texto": "CONDIÇÕES ESPECIAIS – CUSTOS DE PUBLICIDADE",
+    "filhos": [
+     {
+      "id": "0135",
+      "titulo": "1. Objeto",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Custos de Publicidade, quando indicada no Quadro de Coberturas das Condições…",
+      "texto": "1. Objeto: esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Custos de\nPublicidade, quando indicada no Quadro de Coberturas das Condições Particulares.",
+      "filhos": []
+     },
+     {
+      "id": "0136",
+      "titulo": "2. Riscos cobertos",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "Perdas decorrentes de Reclamações relacionadas a custos de publicidade, apresentadas durante a vigência ou o Prazo Complementar, por Atos Danosos ocorridos…",
+      "texto": "2. Riscos cobertos: Perdas decorrentes de Reclamações relacionadas a custos de publicidade, apresentadas\ndurante a vigência ou o Prazo Complementar, por Atos Danosos ocorridos após a data de retroatividade.",
+      "filhos": []
+     },
+     {
+      "id": "0137",
+      "titulo": "3. Riscos excluídos",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já indenizadas por outra cobertura desta apólice, nem valores sem relação…",
+      "texto": "3. Riscos excluídos: além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já\nindenizadas por outra cobertura desta apólice, nem valores sem relação direta com a Reclamação.",
+      "filhos": []
+     },
+     {
+      "id": "0138",
+      "titulo": "4. Limite",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de Garantia e não o amplia.",
+      "texto": "4. Limite: o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de\nGarantia e não o amplia.",
+      "filhos": []
+     },
+     {
+      "id": "0139",
+      "titulo": "5. Franquia",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação, a cobertura é concedida sem franquia.",
+      "texto": "5. Franquia: aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação,\na cobertura é concedida sem franquia.",
+      "filhos": []
+     },
+     {
+      "id": "0140",
+      "titulo": "6. Documentos para indenização",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "aviso de Reclamação em até 60 dias, cópia integral da Reclamação, comprovantes das despesas e manifestação do Segurado sobre os fatos.",
+      "texto": "6. Documentos para indenização: aviso de Reclamação em até 60 dias, cópia integral da Reclamação,\ncomprovantes das despesas e manifestação do Segurado sobre os fatos.",
+      "filhos": []
+     },
+     {
+      "id": "0141",
+      "titulo": "7. Ratificação",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido expressamente modificadas por esta Condição Especial.",
+      "texto": "7. Ratificação: permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido\nexpressamente modificadas por esta Condição Especial.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0142",
+    "titulo": "CONDIÇÕES ESPECIAIS – EXTENSÃO A CÔNJUGES, HERDEIROS E ESPÓLIO",
+    "nivel": 1,
+    "pagina_inicio": 8,
+    "pagina_fim": 8,
+    "resumo": "",
+    "texto": "CONDIÇÕES ESPECIAIS – EXTENSÃO A CÔNJUGES, HERDEIROS E ESPÓLIO",
+    "filhos": [
+     {
+      "id": "0143",
+      "titulo": "1. Objeto",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Extensão a Cônjuges, Herdeiros e Espólio, quando indicada no Quadro de…",
+      "texto": "1. Objeto: esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Extensão a\nCônjuges, Herdeiros e Espólio, quando indicada no Quadro de Coberturas das Condições Particulares.",
+      "filhos": []
+     },
+     {
+      "id": "0144",
+      "titulo": "2. Riscos cobertos",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "Perdas decorrentes de Reclamações relacionadas a extensão a cônjuges, herdeiros e espólio, apresentadas durante a vigência ou o Prazo Complementar, por Atos…",
+      "texto": "2. Riscos cobertos: Perdas decorrentes de Reclamações relacionadas a extensão a cônjuges, herdeiros e\nespólio, apresentadas durante a vigência ou o Prazo Complementar, por Atos Danosos ocorridos após a data\nde retroatividade.",
+      "filhos": []
+     },
+     {
+      "id": "0145",
+      "titulo": "3. Riscos excluídos",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já indenizadas por outra cobertura desta apólice, nem valores sem relação…",
+      "texto": "3. Riscos excluídos: além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já\nindenizadas por outra cobertura desta apólice, nem valores sem relação direta com a Reclamação.",
+      "filhos": []
+     },
+     {
+      "id": "0146",
+      "titulo": "4. Limite",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de Garantia e não o amplia.",
+      "texto": "4. Limite: o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de\nGarantia e não o amplia.",
+      "filhos": []
+     },
+     {
+      "id": "0147",
+      "titulo": "5. Franquia",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação, a cobertura é concedida sem franquia.",
+      "texto": "5. Franquia: aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação,\na cobertura é concedida sem franquia.",
+      "filhos": []
+     },
+     {
+      "id": "0148",
+      "titulo": "6. Documentos para indenização",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "aviso de Reclamação em até 60 dias, cópia integral da Reclamação, comprovantes das despesas e manifestação do Segurado sobre os fatos.",
+      "texto": "6. Documentos para indenização: aviso de Reclamação em até 60 dias, cópia integral da Reclamação,\ncomprovantes das despesas e manifestação do Segurado sobre os fatos.",
+      "filhos": []
+     },
+     {
+      "id": "0149",
+      "titulo": "7. Ratificação",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido expressamente modificadas por esta Condição Especial.",
+      "texto": "7. Ratificação: permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido\nexpressamente modificadas por esta Condição Especial.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0150",
+    "titulo": "CONDIÇÕES ESPECIAIS – INVESTIGAÇÕES",
+    "nivel": 1,
+    "pagina_inicio": 8,
+    "pagina_fim": 9,
+    "resumo": "",
+    "texto": "CONDIÇÕES ESPECIAIS – INVESTIGAÇÕES",
+    "filhos": [
+     {
+      "id": "0151",
+      "titulo": "1. Objeto",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Investigações, quando indicada no Quadro de Coberturas das Condições…",
+      "texto": "1. Objeto: esta Condição Especial garante, nos termos das Condições Gerais, a cobertura de Investigações,\nquando indicada no Quadro de Coberturas das Condições Particulares.",
+      "filhos": []
+     },
+     {
+      "id": "0152",
+      "titulo": "2. Riscos cobertos",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "Perdas decorrentes de Reclamações relacionadas a investigações, apresentadas durante a vigência ou o Prazo Complementar, por Atos Danosos ocorridos após a data…",
+      "texto": "2. Riscos cobertos: Perdas decorrentes de Reclamações relacionadas a investigações, apresentadas durante a\nvigência ou o Prazo Complementar, por Atos Danosos ocorridos após a data de retroatividade.",
+      "filhos": []
+     },
+     {
+      "id": "0153",
+      "titulo": "3. Riscos excluídos",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já indenizadas por outra cobertura desta apólice, nem valores sem relação…",
+      "texto": "3. Riscos excluídos: além das exclusões da Cláusula 5 das Condições Gerais, não estão cobertas Perdas já\nindenizadas por outra cobertura desta apólice, nem valores sem relação direta com a Reclamação.",
+      "filhos": []
+     },
+     {
+      "id": "0154",
+      "titulo": "4. Limite",
+      "nivel": 2,
+      "pagina_inicio": 8,
+      "pagina_fim": 8,
+      "resumo": "o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de Garantia e não o amplia.",
+      "texto": "4. Limite: o sublimite desta cobertura é o indicado no Quadro de Coberturas; ele integra o Limite Máximo de\nGarantia e não o amplia.",
+      "filhos": []
+     },
+     {
+      "id": "0155",
+      "titulo": "5. Franquia",
+      "nivel": 2,
+      "pagina_inicio": 9,
+      "pagina_fim": 9,
+      "resumo": "aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação, a cobertura é concedida sem franquia.",
+      "texto": "5. Franquia: aplica-se a franquia indicada no Quadro de Coberturas, por Reclamação; não havendo indicação,\na cobertura é concedida sem franquia.",
+      "filhos": []
+     },
+     {
+      "id": "0156",
+      "titulo": "6. Documentos para indenização",
+      "nivel": 2,
+      "pagina_inicio": 9,
+      "pagina_fim": 9,
+      "resumo": "aviso de Reclamação em até 60 dias, cópia integral da Reclamação, comprovantes das despesas e manifestação do Segurado sobre os fatos.",
+      "texto": "6. Documentos para indenização: aviso de Reclamação em até 60 dias, cópia integral da Reclamação,\ncomprovantes das despesas e manifestação do Segurado sobre os fatos.",
+      "filhos": []
+     },
+     {
+      "id": "0157",
+      "titulo": "7. Ratificação",
+      "nivel": 2,
+      "pagina_inicio": 9,
+      "pagina_fim": 9,
+      "resumo": "permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido expressamente modificadas por esta Condição Especial.",
+      "texto": "7. Ratificação: permanecem inalteradas as demais disposições das Condições Gerais que não tenham sido\nexpressamente modificadas por esta Condição Especial.",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0158",
+    "titulo": "ANEXO – QUESTIONÁRIO DE AVALIAÇÃO DE RISCO",
+    "nivel": 1,
+    "pagina_inicio": 10,
+    "pagina_fim": 10,
+    "resumo": "A proposta deve ser acompanhada deste questionário, respondido e assinado pelo representante legal da Sociedade. Respostas inexatas podem acarretar a perda de…",
+    "texto": "ANEXO – QUESTIONÁRIO DE AVALIAÇÃO DE RISCO\nA proposta deve ser acompanhada deste questionário, respondido e assinado pelo representante legal da\nSociedade. Respostas inexatas podem acarretar a perda de direitos (Cláusula 14).",
+    "filhos": [
+     {
+      "id": "0159",
+      "titulo": "1. A Sociedade possui ações negociadas em bolsa no Brasil ou no exterior? Resposta",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "____________________________",
+      "texto": "1. A Sociedade possui ações negociadas em bolsa no Brasil ou no exterior? Resposta:\n____________________________",
+      "filhos": []
+     },
+     {
+      "id": "0160",
+      "titulo": "2. Há previsão de oferta pública de Valores Mobiliários nos próximos 12 meses? R…",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "2. Há previsão de oferta pública de Valores Mobiliários nos próximos 12 meses? Resposta: ____________________________",
+      "texto": "2. Há previsão de oferta pública de Valores Mobiliários nos próximos 12 meses? Resposta:\n____________________________",
+      "filhos": []
+     },
+     {
+      "id": "0161",
+      "titulo": "3. A Sociedade realizou fusão, aquisição ou cisão nos últimos 24 meses? Resposta",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "____________________________",
+      "texto": "3. A Sociedade realizou fusão, aquisição ou cisão nos últimos 24 meses? Resposta:\n____________________________",
+      "filhos": []
+     },
+     {
+      "id": "0162",
+      "titulo": "4. Algum Administrador responde a processo relacionado à sua gestão? Resposta",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "____________________________",
+      "texto": "4. Algum Administrador responde a processo relacionado à sua gestão? Resposta:\n____________________________",
+      "filhos": []
+     },
+     {
+      "id": "0163",
+      "titulo": "5. Existe Reclamação, investigação ou circunstância conhecida que possa gerar Re…",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "5. Existe Reclamação, investigação ou circunstância conhecida que possa gerar Reclamação? Resposta: ____________________________",
+      "texto": "5. Existe Reclamação, investigação ou circunstância conhecida que possa gerar Reclamação? Resposta:\n____________________________",
+      "filhos": []
+     },
+     {
+      "id": "0164",
+      "titulo": "6. A Sociedade possui comitê de auditoria e auditoria independente? Resposta",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "____________________________",
+      "texto": "6. A Sociedade possui comitê de auditoria e auditoria independente? Resposta:\n____________________________",
+      "filhos": []
+     },
+     {
+      "id": "0165",
+      "titulo": "7. As demonstrações financeiras dos últimos 3 anos tiveram ressalvas? Resposta",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "____________________________",
+      "texto": "7. As demonstrações financeiras dos últimos 3 anos tiveram ressalvas? Resposta:\n____________________________",
+      "filhos": []
+     },
+     {
+      "id": "0166",
+      "titulo": "8. A Sociedade está em recuperação judicial ou extrajudicial? Resposta",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "____________________________",
+      "texto": "8. A Sociedade está em recuperação judicial ou extrajudicial? Resposta: ____________________________",
+      "filhos": []
+     },
+     {
+      "id": "0167",
+      "titulo": "9. Há operações relevantes nos Estados Unidos ou no Canadá? Resposta",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "____________________________",
+      "texto": "9. Há operações relevantes nos Estados Unidos ou no Canadá? Resposta: ____________________________",
+      "filhos": []
+     },
+     {
+      "id": "0168",
+      "titulo": "10. A Sociedade possui programa de integridade (compliance) formalizado? Resposta",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "____________________________",
+      "texto": "10. A Sociedade possui programa de integridade (compliance) formalizado? Resposta:\n____________________________",
+      "filhos": []
+     },
+     {
+      "id": "0169",
+      "titulo": "11. Houve demissão de Administrador por justa causa nos últimos 3 anos? Resposta",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "____________________________",
+      "texto": "11. Houve demissão de Administrador por justa causa nos últimos 3 anos? Resposta:\n____________________________",
+      "filhos": []
+     },
+     {
+      "id": "0170",
+      "titulo": "12. A Sociedade trata dados pessoais em larga escala? Resposta",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "____________________________",
+      "texto": "12. A Sociedade trata dados pessoais em larga escala? Resposta: ____________________________",
+      "filhos": []
+     },
+     {
+      "id": "0171",
+      "titulo": "13. Existem passivos ambientais conhecidos? Resposta",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "____________________________",
+      "texto": "13. Existem passivos ambientais conhecidos? Resposta: ____________________________",
+      "filhos": []
+     },
+     {
+      "id": "0172",
+      "titulo": "14. Houve autuação de órgão regulador nos últimos 5 anos? Resposta",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "____________________________",
+      "texto": "14. Houve autuação de órgão regulador nos últimos 5 anos? Resposta: ____________________________",
+      "filhos": []
+     },
+     {
+      "id": "0173",
+      "titulo": "15. Qual o número de empregados e o faturamento anual consolidado? Resposta",
+      "nivel": 2,
+      "pagina_inicio": 10,
+      "pagina_fim": 10,
+      "resumo": "____________________________",
+      "texto": "15. Qual o número de empregados e o faturamento anual consolidado? Resposta:\n____________________________",
+      "filhos": []
+     }
+    ]
+   },
+   {
+    "id": "0174",
+    "titulo": "GLOSSÁRIO COMPLEMENTAR",
+    "nivel": 1,
+    "pagina_inicio": 11,
+    "pagina_fim": 11,
+    "resumo": "Administrador. pessoa física eleita ou nomeada para cargo de diretor, conselheiro de administração ou membro de órgão estatutário da Sociedade, inclusive…",
+    "texto": "GLOSSÁRIO COMPLEMENTAR\nAdministrador. pessoa física eleita ou nomeada para cargo de diretor, conselheiro de administração ou\nmembro de órgão estatutário da Sociedade, inclusive quando o cargo for exercido de fato. Este termo, quando\ngrafado com inicial maiúscula, tem o significado aqui atribuído em todas as Condições.\nApólice. documento que formaliza o contrato de seguro, composto por estas Condições Gerais, pelas\nCondições Especiais e pelas Condições Particulares, além de eventuais endossos. Este termo, quando grafado\ncom inicial maiúscula, tem o significado aqui atribuído em todas as Condições.\nAto Danoso. qualquer ato, omissão, erro, declaração inexata ou violação de dever praticado pelo Segurado no\nexercício de suas funções de gestão, real ou alegado. Este termo, quando grafado com inicial maiúscula, tem o\nsignificado aqui atribuído em todas as Condições.\nCustos de Defesa. honorários advocatícios, periciais e demais despesas razoáveis e necessárias incorridas na\ndefesa do Segurado em Reclamação coberta, com anuência prévia da Seguradora. Este termo, quando\ngrafado com inicial maiúscula, tem o significado aqui atribuído em todas as Condições.\nFranquia. valor ou percentual, previsto nas Condições Particulares, que fica a cargo da Sociedade ou do\nSegurado em cada Reclamação, antes do pagamento da indenização. Este termo, quando grafado com inicial\nmaiúscula, tem o significado aqui atribuído em todas as Condições.\nLimite Máximo de Garantia. valor máximo, agregado para todo o período de vigência, que a Seguradora\npagará em decorrência de todas as Reclamações cobertas, incluídos os Custos de Defesa. Este termo, quando\ngrafado com inicial maiúscula, tem o significado aqui atribuído em todas as Condições.\nPerda. valor que o Segurado seja legalmente obrigado a pagar em razão de sentença judicial, laudo arbitral ou\nacordo aprovado pela Seguradora, inclusive Custos de Defesa. Este termo, quando grafado com inicial\nmaiúscula, tem o significado aqui atribuído em todas as Condições.\nPeríodo de Retroatividade. período anterior ao início de vigência dentro do qual deve ter ocorrido o Ato\nDanoso para que a Reclamação esteja coberta. Este termo, quando grafado com inicial maiúscula, tem o\nsignificado aqui atribuído em todas as Condições.\nPrazo Complementar. período, contado do fim da vigência, durante o qual o Segurado pode apresentar\nReclamações referentes a Atos Danosos ocorridos durante a vigência. Este termo, quando grafado com inicial\nmaiúscula, tem o significado aqui atribuído em todas as Condições.\nReclamação. procedimento judicial, arbitral ou administrativo, ou notificação escrita, em que se atribua ao\nSegurado a responsabilidade por um Ato Danoso. Este termo, quando grafado com inicial maiúscula, tem o\nsignificado aqui atribuído em todas as Condições.\nSegurado. o Administrador, o empregado em cargo de gestão quando corréu com Administrador e as demais\npessoas indicadas nas Condições Particulares. Este termo, quando grafado com inicial maiúscula, tem o\nsignificado aqui atribuído em todas as Condições.\nSociedade. a pessoa jurídica Tomadora do seguro e suas Subsidiárias relacionadas no Anexo I. Este termo,\nquando grafado com inicial maiúscula, tem o significado aqui atribuído em todas as Condições.\nSubsidiária. sociedade na qual a Tomadora detenha, direta ou indiretamente, mais de 50% do capital votante,\nou o direito de eleger a maioria dos administradores. Este termo, quando grafado com inicial maiúscula, tem o\nsignificado aqui atribuído em todas as Condições.\nTomador. a pessoa jurídica que contrata o seguro em favor dos Segurados e é responsável pelo pagamento\ndo prêmio. Este termo, quando grafado com inicial maiúscula, tem o significado aqui atribuído em todas as\nCondições.\nValores Mobiliários. ações, debêntures, bônus de subscrição e demais títulos definidos na legislação do\nmercado de capitais, emitidos pela Sociedade. Este termo, quando grafado com inicial maiúscula, tem o\nsignificado aqui atribuído em todas as Condições.",
+    "filhos": []
+   }
+  ]
+ }
+}

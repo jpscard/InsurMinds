@@ -132,7 +132,7 @@ Pergunta: *"Existe exclusão de Segurado contra Segurado?"*. No modo offline, o 
 
 ### Demonstração 5 — Ambiente público de demonstração
 
-No site publicado, o servidor processa os sete documentos de exemplo ao iniciar, em segundo plano, para responder imediatamente mesmo quando "acorda" (o disco do plano gratuito é apagado a cada reinício). As amostras são **protegidas**: a tentativa de excluir ou editar uma delas retorna erro 403 com uma mensagem explicativa. Os envios são limitados a 20 MB por arquivo, e o servidor não tem nenhuma chave de API configurada: cada visitante usa o modo offline ou a própria chave.
+No site publicado, os sete documentos de exemplo vêm de uma **base pré-processada**, gerada fora do servidor e importada ao iniciar: tudo fica disponível em cerca de 2 segundos, sem OCR nem chamadas à IA, mesmo quando o servidor "acorda" (o disco do plano gratuito é apagado a cada reinício). Antes, só o OCR das amostras digitalizadas levava minutos na CPU do plano gratuito. As amostras são **protegidas**: a tentativa de excluir ou editar uma delas retorna erro 403 com uma mensagem explicativa. Os envios são limitados a 20 MB por arquivo, e o servidor não tem nenhuma chave de API configurada: cada visitante usa o modo offline ou a própria chave.
 
 ## 7. Demonstração visual das telas
 
