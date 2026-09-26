@@ -9,7 +9,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PORT=8000 \
     LLM_PROVIDER=offline \
-    DEMO_MODE=true
+    DEMO_MODE=true \
+    MAX_PAGES=60
 
 WORKDIR /app
 COPY requirements.txt .

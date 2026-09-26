@@ -366,12 +366,24 @@ def health():
 
 
 # --------------------------------------------------------------------------- interface web
+# Só scripts do próprio app: mesmo que um dado malicioso escape da interface, não executa.
+CSP = ("default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+       "font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-src 'self'; "
+       "object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'")
+
+
 @app.middleware("http")
-async def _revalidate_static(request: Request, call_next):
-    """A interface é servida sem build: o navegador revalida (ETag) para pegar sempre a versão atual."""
+async def _headers(request: Request, call_next):
     response = await call_next(request)
-    if request.url.path in {"/", "/app"} or request.url.path.startswith("/static/"):
+    path = request.url.path
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "same-origin"
+    if path in {"/", "/app"} or path.startswith("/static/"):
+        # A interface é servida sem build: o navegador revalida (ETag) para pegar sempre a versão atual.
         response.headers["Cache-Control"] = "no-cache"
+    if path in {"/", "/app"}:
+        response.headers["Content-Security-Policy"] = CSP
+        response.headers["X-Frame-Options"] = "DENY"
     return response
 
 

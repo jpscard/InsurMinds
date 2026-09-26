@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+import time
 from contextlib import contextmanager
 from datetime import datetime
 from pathlib import Path
@@ -206,13 +207,22 @@ class Repository:
                 "SELECT numero, metodo, texto FROM paginas WHERE apolice_id = ? ORDER BY numero",
                 (apolice_id,))]
 
-    def query(self, sql: str, params: tuple = ()) -> list[dict]:
-        """Consulta SQL somente leitura (usada na aba de consultas estruturadas)."""
+    def query(self, sql: str, params: tuple = (), timeout_s: float = 3.0, max_rows: int = 5000) -> list[dict]:
+        """Consulta SQL somente leitura (usada na aba de consultas estruturadas).
+
+        Abre o banco em modo somente leitura, aceita um único SELECT/WITH e interrompe consultas
+        que passem de `timeout_s` (ex.: um WITH RECURSIVE sem fim travaria o servidor)."""
         if not sql.strip().lower().startswith(("select", "with")):
             raise ValueError("Apenas consultas SELECT são permitidas")
         conn = sqlite3.connect(f"file:{self.db_path}?mode=ro", uri=True)
         conn.row_factory = sqlite3.Row
+        limite = time.monotonic() + timeout_s
+        conn.set_progress_handler(lambda: int(time.monotonic() > limite), 10_000)
         try:
-            return [dict(r) for r in conn.execute(sql, params).fetchall()]
+            return [dict(r) for r in conn.execute(sql, params).fetchmany(max_rows)]
+        except sqlite3.OperationalError as exc:
+            if "interrupted" in str(exc):
+                raise ValueError(f"A consulta passou de {timeout_s:g} s e foi interrompida.") from exc
+            raise
         finally:
             conn.close()

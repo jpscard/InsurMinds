@@ -66,7 +66,7 @@ export async function render(view, { id, query }) {
         ['Vigência', vigencia(idt.vigencia_inicio, idt.vigencia_fim)],
       ])}</div>
       <div>${kv([
-        ['Base de cobertura', esc(ap.base_cobertura || '—')], ['Retroatividade', esc(date(ap.data_retroatividade))],
+        ['Base de cobertura', esc(ap.base_cobertura || '—')], ['Retroatividade', date(ap.data_retroatividade)],
         ['Prazo complementar', esc(ap.prazo_complementar || '—')], ['Territorialidade', esc(ap.territorialidade || '—')],
         ['Custos de defesa', esc(ap.custos_defesa || '—')],
       ])}</div></div>

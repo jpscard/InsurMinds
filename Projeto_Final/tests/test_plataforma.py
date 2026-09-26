@@ -210,3 +210,10 @@ def test_triagem_heuristica_usa_o_titulo_do_documento():
     assert triage_heuristic(apolice)["tipo_documento"] == "apolice"
     cg = "CONDIÇÕES GERAIS DO SEGURO DE RESPONSABILIDADE CIVIL D&O\nCláusula 1 – Objeto da apólice"
     assert triage_heuristic(cg)["tipo_documento"] == "condicoes_gerais"
+
+
+def test_limite_de_paginas(settings):
+    pdf = (SAMPLES / "apolice_aurora_do.pdf").read_bytes()  # 2 páginas
+    with pytest.raises(IngestionError, match="limite"):
+        load_document("a.pdf", pdf, settings.model_copy(update={"max_pages": 1}))
+    assert len(load_document("a.pdf", pdf, settings).pages) == 2

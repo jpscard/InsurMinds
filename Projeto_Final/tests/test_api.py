@@ -166,3 +166,18 @@ def test_indice_da_apolice_e_caminho_da_consulta(client):
     assert a["rota"] == "lexical" and a["caminho"][0]["etapa"] == "Roteador"
     assert a["trechos"][0]["secao"] == "6. Segurado contra Segurado"
     assert client.get("/api/policies/999/index").status_code == 404
+
+
+def test_cabecalhos_de_seguranca(client):
+    for path in ("/", "/app"):
+        h = client.get(path).headers
+        assert "script-src 'self'" in h["content-security-policy"]
+        assert h["x-frame-options"] == "DENY" and h["x-content-type-options"] == "nosniff"
+    assert client.get("/api/health").headers["x-content-type-options"] == "nosniff"
+    # nenhum script inline: a CSP bloquearia
+    assert "<script>" not in client.get("/app").text and "<script>" not in client.get("/").text
+
+
+def test_sql_sem_fim_e_interrompida(client):
+    r = client.post("/api/sql", json={"sql": "WITH RECURSIVE c(x) AS (SELECT 1 UNION ALL SELECT x+1 FROM c) SELECT count(*) FROM c"})
+    assert r.status_code == 400 and "interrompida" in r.json()["detail"]

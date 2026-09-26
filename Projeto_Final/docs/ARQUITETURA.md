@@ -41,8 +41,9 @@ comando usam apenas o `Pipeline`, nunca os agentes diretamente.
 | `agents/` | Agentes especializados (abaixo) e seus prompts (`prompts.py`). |
 | `indexing.py` | Índice hierárquico de cada documento (abordagem PageIndex): árvore de seções detectada pelo layout. |
 | `comparison/` | Comparação determinística: alinhamento de coberturas/exclusões e cálculo das diferenças. |
+| `exports.py` | Exportação da comparação em Excel e Markdown, a partir do resultado já calculado (sem chamar o LLM de novo). |
 | `storage/` | Repositório SQLite. |
-| `api/main.py` + `web/` | API REST (FastAPI) e interface web servida por ela. O provedor, o modelo e a chave de LLM chegam em cabeçalhos a cada requisição; o servidor não guarda a chave. |
+| `api/main.py` + `web/` | API REST (FastAPI) e interface web servida por ela: landing page em `/`, plataforma em `/app`, documentação da API em `/docs`. O provedor, o modelo e a chave de LLM chegam em cabeçalhos a cada requisição; o servidor não guarda a chave. |
 | `app.py` / `cli.py` | Interface Streamlit (legada) e linha de comando. |
 
 ## Agentes
@@ -126,6 +127,17 @@ versão open source só aceita OpenAI.
 8. **Tratamento de erros em camadas.** Erros de configuração (`LLMError`) param cedo com mensagem clara;
    falhas transitórias têm retentativa com backoff; triagem e análise comparativa têm fallback por
    regras para não bloquear o fluxo; cada arquivo em lote é processado de forma independente.
+
+## Deploy e modo demonstração
+
+- **Imagem Docker** (`Dockerfile`): Python 3.12 com Tesseract e o idioma português; serve a API e a
+  interface com Uvicorn na porta `$PORT`.
+- **Render**: serviço Docker com *Root Directory* `Projeto_Final`, deploy automático a cada push no
+  `main`. Link público: https://insurminds.onrender.com.
+- **Modo demonstração** (`DEMO_MODE=true`, ligado na imagem): como o disco do plano gratuito é apagado a
+  cada reinício, as apólices de exemplo são processadas na inicialização; elas ficam protegidas contra
+  edição e exclusão, os envios são limitados (`MAX_UPLOAD_MB`, padrão 20) e a interface mostra o selo
+  "Demonstração". O servidor não tem chave de API: cada visitante usa o modo offline ou a própria chave.
 
 ## Modelo de dados (SQLite)
 

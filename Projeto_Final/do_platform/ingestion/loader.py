@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import hashlib
 import io
+import math
 import logging
 import os
 import shutil
@@ -26,6 +27,7 @@ log = logging.getLogger(__name__)
 PDF_EXT = {".pdf"}
 IMG_EXT = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".webp"}
 SUPPORTED_EXT = PDF_EXT | IMG_EXT
+MAX_OCR_PIXELS = 30_000_000  # ~ uma página A3 a 300 dpi
 
 
 class IngestionError(RuntimeError):
@@ -109,6 +111,8 @@ def _load_pdf(data: bytes, s: Settings) -> list[PageText]:
 
     pdf_render = None
     with pdf_plumb:
+        if len(pdf_plumb.pages) > s.max_pages:
+            raise IngestionError(f"O documento tem {len(pdf_plumb.pages)} páginas; o limite é {s.max_pages}.")
         for i, page in enumerate(pdf_plumb.pages, start=1):
             text = (page.extract_text() or "").strip()
             if len(text) >= s.min_chars_per_page:
@@ -117,7 +121,10 @@ def _load_pdf(data: bytes, s: Settings) -> list[PageText]:
             # Página digitalizada: OCR sobre a renderização
             if pdf_render is None:
                 pdf_render = pdfium.PdfDocument(data)
-            img = pdf_render[i - 1].render(scale=s.ocr_dpi / 72).to_pil()
+            w, h = pdf_render[i - 1].get_size()  # em pontos (1/72")
+            # Limita o tamanho da imagem: uma página gigante a 300 dpi esgotaria a memória.
+            scale = min(s.ocr_dpi / 72, math.sqrt(MAX_OCR_PIXELS / max(w * h, 1)))
+            img = pdf_render[i - 1].render(scale=scale).to_pil()
             ocr_text = _ocr_image(img, s).strip()
             pages.append(PageText(i, ocr_text or text, "ocr"))
     if pdf_render is not None:

@@ -5,7 +5,9 @@ usa **IA generativa** para estruturar as informações (coberturas, limites, fra
 vigência, retroatividade...), armazena tudo em **SQLite** e permite **consultar** e **comparar**
 duas ou mais apólices em uma **aplicação web** (API FastAPI + interface própria, tema claro/escuro).
 
-A arquitetura, os agentes e as decisões técnicas estão em [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md).
+A arquitetura, os agentes e as decisões técnicas estão em [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md) e,
+de forma visual, na página **Sobre a solução** da plataforma. O relatório técnico fica em
+[`docs/relatorio/`](docs/relatorio/) (veja [Relatório](#relatório)).
 
 ## Demonstração online
 
@@ -28,6 +30,8 @@ e é refeito automaticamente a cada push no `main`.
   em LangGraph): a IA navega o sumário da apólice, abre as seções certas e cita seção e página; e consultas SQL
 - Revisão humana: correção do JSON extraído pela interface
 - Exportação da comparação em Excel e Markdown
+- Landing page de apresentação e página **Sobre a solução** com os diagramas da arquitetura
+- Modo demonstração para o deploy público: amostras carregadas e protegidas, limite de envio
 - Linha de comando (`cli.py`) e testes automatizados (`pytest`)
 
 ## Estrutura
@@ -36,6 +40,9 @@ e é refeito automaticamente a cada push no `main`.
 Projeto_Final/
 ├── api/main.py             API REST (FastAPI) que também serve a interface
 ├── web/                    Interface web (HTML/CSS/JS, sem build)
+│   ├── landing.html        Landing page (/)
+│   ├── index.html          Plataforma (/app)
+│   └── js/pages/           Uma página por tela (painel, carteira, comparar, consultar, sobre...)
 ├── app.py                  Interface Streamlit (legada)
 ├── cli.py                  Linha de comando
 ├── do_platform/
@@ -44,13 +51,20 @@ Projeto_Final/
 │   ├── pipeline.py         Orquestrador
 │   ├── llm/                Provedores de LLM
 │   ├── ingestion/          PDF/imagem + OCR
-│   ├── agents/             Triagem, Extração, Validação, Comparação, Consulta, prompts
+│   ├── agents/             Triagem, Extração, Validação, Indexação, Comparação, Consulta (grafo), prompts
+│   ├── indexing.py         Índice hierárquico do documento (PageIndex)
 │   ├── comparison/         Diferenças determinísticas
+│   ├── exports.py          Comparação em Excel e Markdown
 │   └── storage/            Repositório SQLite
 ├── samples/                Apólices fictícias de exemplo
-├── scripts/gerar_amostras.py
+├── scripts/
+│   ├── gerar_amostras.py   Gera as apólices de exemplo
+│   └── gerar_relatorio.py  Gera o relatório (.docx e .pdf)
 ├── tests/
-└── docs/ARQUITETURA.md
+├── Dockerfile              Imagem do deploy (Tesseract com português)
+└── docs/
+    ├── ARQUITETURA.md
+    └── relatorio/          Texto do relatório, imagens e diagramas
 ```
 
 ## Instalação
@@ -104,8 +118,8 @@ ANTHROPIC_API_KEY=sua-chave
 ```
 
 Sem chave, use `LLM_PROVIDER=offline` para ver a interface funcionando (extração por regras). O
-provedor e a chave também podem ser trocados na barra lateral da interface; a chave digitada ali
-fica só na memória da sessão.
+provedor, o modelo e a chave também podem ser escolhidos em **Modelo de IA**, na interface; a chave
+digitada ali fica só na aba do navegador.
 
 ## Execução
 
@@ -113,13 +127,23 @@ fica só na memória da sessão.
 python -m api
 ```
 
-Abra http://localhost:8000. No **Painel**, use **Usar apólices de exemplo** (ou arraste seus PDFs em
+Abra http://localhost:8000 (landing page) e clique em **Abrir a plataforma**, ou vá direto a
+http://localhost:8000/app. No **Painel**, use **Usar apólices de exemplo** (ou arraste seus PDFs em
 **Enviar documentos**) e depois vá para **Comparar**. O provedor, o modelo e a chave de API são
 escolhidos em **Modelo de IA** (menu lateral ou selo no topo): a lista de modelos vem da própria API
 do provedor, e a chave fica só na aba do navegador — nunca é gravada no servidor.
 
 A documentação interativa da API fica em http://localhost:8000/docs. Para desenvolvimento, com
 recarga automática: `uvicorn api.main:app --reload`.
+
+Links diretos para um resultado (úteis em apresentações):
+
+| Link | Abre |
+|---|---|
+| `/app#/comparar?ids=1,2,3&run=1` | a comparação dessas apólices, já executada |
+| `/app#/consultar?q=Existe exclusão de Segurado contra Segurado?` | a consulta, já respondida |
+| `/app#/apolices/2?tab=idx` | a apólice 2 na aba Índice (também `cob`, `exc`, `fra`, `txt`, `rev`) |
+| `/app#/sobre?tab=consulta` | a página Sobre na aba do grafo (também `agentes`, `decisoes`, `dados`) |
 
 A interface Streamlit anterior continua disponível com `streamlit run app.py`.
 
@@ -155,7 +179,21 @@ Para regenerar: `python scripts/gerar_amostras.py`. Para testar com documentos r
 apólices e condições gerais D&O publicados por seguradoras ou consultados na SUSEP, citando a fonte no
 relatório.
 
+## Relatório
+
+O relatório técnico é escrito em [`docs/relatorio/relatorio.md`](docs/relatorio/relatorio.md), com as
+imagens em `docs/relatorio/img/` e os diagramas em `docs/relatorio/diagramas/`. Para gerar o
+`.docx` e o `.pdf` (o PDF é exportado pelo Microsoft Word, no Windows):
+
+```bash
+pip install python-docx
+python scripts/gerar_relatorio.py
+```
+
 ## Segurança
 
-- Chaves de API só no `.env` (ignorado pelo Git) ou na memória da sessão.
+- Chaves de API só no `.env` (ignorado pelo Git) ou na aba do navegador; o servidor não grava a
+  chave digitada na interface.
 - A consulta SQL da interface abre o banco em modo somente leitura e aceita apenas `SELECT`.
+- No modo demonstração (`DEMO_MODE=true`), as apólices de exemplo não podem ser editadas nem
+  excluídas e os envios são limitados a `MAX_UPLOAD_MB`.

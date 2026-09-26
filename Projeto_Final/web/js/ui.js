@@ -77,14 +77,16 @@ export function $(sel, root = document) { return root.querySelector(sel); }
 export function $$(sel, root = document) { return [...root.querySelectorAll(sel)]; }
 
 // ─── Formatação ────────────────────────────────────────────
+// Estas funções devolvem HTML seguro: tudo que vem dos dados (extraídos de documentos enviados
+// por qualquer pessoa) é escapado. `valor` e `shortInsurer` devolvem texto cru: escape ao usar.
 const CUR = { BRL: 'R$', USD: 'US$', EUR: '€' };
 export function money(v, moeda = 'BRL') {
   if (v === null || v === undefined) return '—';
-  return `${CUR[moeda || 'BRL'] || moeda} ${Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  return `${esc(CUR[moeda || 'BRL'] || moeda)} ${Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 export function moneyShort(v, moeda = 'BRL') {
   if (v === null || v === undefined) return '—';
-  const p = CUR[moeda || 'BRL'] || moeda;
+  const p = esc(CUR[moeda || 'BRL'] || moeda);
   const a = Math.abs(v);
   const f = (n) => n.toLocaleString('pt-BR', { maximumFractionDigits: 1 });
   if (a >= 1e9) return `${p} ${f(v / 1e9)} bi`;
@@ -102,12 +104,12 @@ export function pct(v, digits = 3) {
 export function date(iso) {
   if (!iso) return '—';
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
-  return m ? `${m[3]}/${m[2]}/${m[1]}` : iso;
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : esc(iso);
 }
 export function dateTime(iso) {
   if (!iso) return '—';
   const d = new Date(iso);
-  return isNaN(d) ? iso : d.toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+  return isNaN(d) ? esc(iso) : d.toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
 }
 export function bytes(n) {
   if (n < 1024) return `${n} B`;

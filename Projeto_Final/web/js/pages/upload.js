@@ -14,6 +14,7 @@ export async function render(view, { query }) {
       <div><h1 class="page-title">Enviar documentos</h1>
       <p class="page-sub">Cada documento passa por leitura (OCR quando preciso), triagem, extração, validação e armazenamento.</p></div>
     </div>
+    ${state.config.demo_mode ? `<div style="margin-bottom:16px">${alertBox('warn', '<strong>Ambiente público de demonstração.</strong> Os documentos enviados ficam visíveis para outros visitantes até o servidor reiniciar. Não envie apólices reais ou com dados confidenciais: use as apólices de exemplo ou documentos fictícios.')}</div>` : ''}
     <div class="grid grid-main">
       <div class="stack">
         <div class="card"><div class="card-body stack">
