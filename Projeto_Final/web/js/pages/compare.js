@@ -51,7 +51,7 @@ export async function render(view, { query }) {
   });
   paintPicks();
 
-  $('#goBtn', view).addEventListener('click', async () => {
+  const compararAgora = async (rolar = true) => {
     const ids = rows.filter((r) => sel.has(r.id)).map((r) => r.id);
     const btn = $('#goBtn', view);
     btn.disabled = true;
@@ -59,13 +59,15 @@ export async function render(view, { query }) {
     try {
       last = await api.compare(ids);
       paintResult();
-      $('#result', view).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (rolar) $('#result', view).scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch (e) {
       $('#result', view).innerHTML = alertBox('error', `Falha na comparação: ${esc(e.message)}`);
     } finally { btn.disabled = sel.size < 2; }
-  });
+  };
+  $('#goBtn', view).addEventListener('click', () => compararAgora());
 
-  if (last && !fromQuery.length) paintResult();
+  if (query.get('run') && sel.size >= 2) compararAgora(false);  // link direto para um resultado
+  else if (last && !fromQuery.length) paintResult();
 
   function paintResult() {
     const { resultado: res, analise, trace } = last;

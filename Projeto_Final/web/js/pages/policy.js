@@ -7,7 +7,7 @@ import {
 
 const CAT_CLS = { 'Lado A': 'blue', 'Lado B': 'violet', 'Lado C': 'green' };
 
-export async function render(view, { id }) {
+export async function render(view, { id, query }) {
   crumbs([{ label: 'Carteira', href: '#/apolices' }, { label: `Apólice #${id}` }]);
   view.innerHTML = loading();
   const d = await api.policy(id);
@@ -154,7 +154,9 @@ export async function render(view, { id }) {
     else await out;
   };
   tabs($('#tabs', view), show);
-  show('geral');
+  const aba = query?.get('tab');
+  const btn = aba && $(`.tab[data-tab="${aba}"]`, view);
+  if (btn) btn.click(); else show('geral');
 
   $('#delBtn', view)?.addEventListener('click', async () => {
     if (!await confirmDialog({ title: 'Excluir apólice?', message: `“${title}” e todo o texto extraído serão removidos. Esta ação não pode ser desfeita.`, confirm: 'Excluir', danger: true })) return;

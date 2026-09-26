@@ -202,3 +202,11 @@ def test_provedor_sem_chave_da_erro_claro(settings):
     s = settings.model_copy(update={"anthropic_api_key": None})
     with pytest.raises(LLMError, match="ANTHROPIC_API_KEY"):
         get_provider("anthropic", settings=s)
+
+
+def test_triagem_heuristica_usa_o_titulo_do_documento():
+    from do_platform.agents.heuristics import triage_heuristic
+    apolice = "APÓLICE DE SEGURO D&O\n" + "texto " * 200 + "Além das exclusões das Condições Gerais, não cobre..."
+    assert triage_heuristic(apolice)["tipo_documento"] == "apolice"
+    cg = "CONDIÇÕES GERAIS DO SEGURO DE RESPONSABILIDADE CIVIL D&O\nCláusula 1 – Objeto da apólice"
+    assert triage_heuristic(cg)["tipo_documento"] == "condicoes_gerais"

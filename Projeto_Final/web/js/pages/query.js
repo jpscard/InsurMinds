@@ -12,7 +12,7 @@ const SUGGESTIONS = [
   'Como cada apólice trata os custos de defesa?',
 ];
 
-export async function render(view) {
+export async function render(view, { query } = {}) {
   crumbs([{ label: 'Consultar' }]);
   view.innerHTML = loading();
   const rows = await api.policies();
@@ -37,7 +37,13 @@ export async function render(view) {
     mode === 'ask' ? ask() : sql();
   };
   $('#mode', view).addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) { mode = b.dataset.m; paintMode(); } });
+  const pergunta = query?.get('q');  // link direto para uma pergunta
+  if (pergunta) mode = 'ask';
   paintMode();
+  if (pergunta && !history.some((h) => h.q === pergunta)) {
+    $('#q', view).value = pergunta;
+    $('#send', view).click();
+  }
 
   // ─── Pergunta ───────────────────────────────────────────
   function ask() {

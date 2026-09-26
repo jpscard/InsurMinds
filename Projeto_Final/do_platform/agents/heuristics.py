@@ -206,12 +206,21 @@ _DO_TERMS = ["d&o", "administradores", "diretores", "directors and officers",
 def triage_heuristic(text: str) -> dict:
     low = text.lower()
     hits = sum(low.count(t) for t in _DO_TERMS)
-    if "condições gerais" in low or "condicoes gerais" in low:
+    # O tipo vem do título (início do documento): toda apólice cita as "Condições Gerais" no corpo.
+    head = low[:600]
+    gerais = ("condições gerais", "condicoes gerais")
+    if any(t in head for t in gerais):
         tipo = "condicoes_gerais"
+    elif "proposta" in head:
+        tipo = "proposta"
+    elif "apólice" in head or "apolice" in head:
+        tipo = "apolice"
     elif "proposta" in low[:3000]:
         tipo = "proposta"
     elif "apólice" in low or "apolice" in low:
         tipo = "apolice"
+    elif any(t in low for t in gerais):
+        tipo = "condicoes_gerais"
     else:
         tipo = "outro"
     return {
