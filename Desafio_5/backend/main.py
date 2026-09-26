@@ -23,6 +23,7 @@ from backend.agents.event_analyzer import EventAnalyzerAgent
 from backend.agents.message_generator import MessageGeneratorAgent
 from backend.agents.rules_engine import RulesEngineAgent
 from backend.agents.weather_collector import WeatherCollectorAgent
+from backend.agents.orchestrator import PipelineOrchestrator
 from backend.models.notification import PipelineResult
 from backend.models.policyholder import (
     ContactChannel,
@@ -65,11 +66,18 @@ _policyholders: list[Policyholder] = []
 _assistance_protocols: list[dict] = []
 _audit_events: list[dict] = []
 
-# ─── Agentes ────────────────────────────────────────────────
+# ─── Agentes e Orquestrador ─────────────────────────────────
 collector_agent = WeatherCollectorAgent()
 analyzer_agent = EventAnalyzerAgent()
 rules_agent = RulesEngineAgent()
 message_agent = MessageGeneratorAgent()
+
+orchestrator = PipelineOrchestrator(
+    collector=collector_agent,
+    analyzer=analyzer_agent,
+    rules_engine=rules_agent,
+    message_generator=message_agent,
+)
 
 
 def _log_audit_event(topic: str, source: str, event_type: str, details: dict):
@@ -635,7 +643,7 @@ async def get_rules():
 @app.post("/api/pipeline/run")
 async def run_pipeline():
     """
-    Executa o pipeline completo de comunicação proativa.
+    Executa o pipeline completo de comunicação proativa via PipelineOrchestrator (Python Puro).
 
     Etapas:
     1. Coleta de dados meteorológicos (Agente Coletor)
@@ -645,201 +653,28 @@ async def run_pipeline():
     """
     global _last_pipeline_result
 
-    run_id = f"RUN-{uuid.uuid4().hex[:8].upper()}"
-    started_at = datetime.now()
-    steps: list[dict] = []
-    errors: list[str] = []
-
-    logger.info(f"═══ Pipeline {run_id} iniciado ═══")
-
-    # Resetar regras para novo ciclo
-    rules_agent.reset()
-
-    # ── Etapa 1: Coleta ─────────────────────────────────────
-    step1_start = datetime.now()
-    demo_mode = False
-    try:
-        raw_events = await collector_agent.collect_all()
-
-        # Se não há alertas ativos, usar dados de demonstração
-        if not raw_events:
-            raw_events = collector_agent.generate_demo_events()
-            demo_mode = True
-            detail_msg = (
-                f"{len(raw_events)} eventos de demonstração gerados "
-                "(INMET sem alertas ativos no momento)"
-            )
-        else:
-            detail_msg = f"{len(raw_events)} eventos brutos coletados do INMET"
-
-        steps.append({
-            "step": 1,
-            "name": "Coleta de Dados",
-            "agent": "Agente Coletor",
-            "status": "success",
-            "detail": detail_msg,
-            "demo_mode": demo_mode,
-            "duration_ms": (datetime.now() - step1_start).total_seconds() * 1000,
-        })
-        _log_audit_event("meteorology.inmet", "WeatherCollectorAgent", "ALERTS_FETCHED", {
-            "events_count": len(raw_events),
-            "demo_mode": demo_mode,
-        })
-        logger.info(f"[Etapa 1] Sucesso: {detail_msg}")
-    except Exception as e:
-        # Em caso de erro na API, ainda usar dados de demonstração
-        raw_events = collector_agent.generate_demo_events()
-        demo_mode = True
-        error_msg = f"API indisponível ({str(e)}). Usando dados de demonstração."
-        steps.append({
-            "step": 1,
-            "name": "Coleta de Dados",
-            "agent": "Agente Coletor",
-            "status": "success",
-            "detail": f"{len(raw_events)} eventos de demonstração gerados (fallback)",
-            "demo_mode": True,
-            "duration_ms": (datetime.now() - step1_start).total_seconds() * 1000,
-        })
-        _log_audit_event("meteorology.inmet", "WeatherCollectorAgent", "FALLBACK_DEMO_GENERATED", {
-            "events_count": len(raw_events),
-            "reason": str(e),
-        })
-        logger.warning(f"[Etapa 1] Aviso: {error_msg}")
-
-    # ── Etapa 2: Análise ────────────────────────────────────
-    step2_start = datetime.now()
-    try:
-        analyzed_events = analyzer_agent.analyze_events(raw_events)
-        steps.append({
-            "step": 2,
-            "name": "Análise de Eventos",
-            "agent": "Agente Analisador",
-            "status": "success",
-            "detail": f"{len(analyzed_events)} eventos relevantes identificados",
-            "duration_ms": (datetime.now() - step2_start).total_seconds() * 1000,
-        })
-        _log_audit_event("risk.analyzer", "EventAnalyzerAgent", "RELEVANT_EVENTS_FILTERED", {
-            "relevant_count": len(analyzed_events),
-            "total_raw": len(raw_events),
-        })
-        logger.info(f"[Etapa 2] Sucesso: {len(analyzed_events)} eventos relevantes")
-    except Exception as e:
-        error_msg = f"Erro na análise: {str(e)}"
-        errors.append(error_msg)
-        steps.append({
-            "step": 2,
-            "name": "Análise de Eventos",
-            "agent": "Agente Analisador",
-            "status": "error",
-            "detail": error_msg,
-            "duration_ms": (datetime.now() - step2_start).total_seconds() * 1000,
-        })
-        logger.error(f"[Etapa 2] Erro: {error_msg}")
-        analyzed_events = []
-
-    # ── Etapa 3: Regras de negócio ──────────────────────────
-    step3_start = datetime.now()
-    try:
-        matches = rules_agent.match_policyholders(analyzed_events, _policyholders)
-        unique_policyholders = len(set(m.policyholder.id for m in matches))
-        steps.append({
-            "step": 3,
-            "name": "Regras de Negócio",
-            "agent": "Agente de Regras",
-            "status": "success",
-            "detail": (
-                f"{len(matches)} matches encontrados — "
-                f"{unique_policyholders} segurados a notificar"
-            ),
-            "duration_ms": (datetime.now() - step3_start).total_seconds() * 1000,
-        })
-        _log_audit_event("rules.actuarial", "RulesEngineAgent", "POLICY_MATCHES_GENERATED", {
-            "matches_count": len(matches),
-            "unique_policyholders": unique_policyholders,
-        })
-        logger.info(
-            f"[Etapa 3] Sucesso: {len(matches)} matches, "
-            f"{unique_policyholders} segurados"
-        )
-    except Exception as e:
-        error_msg = f"Erro nas regras: {str(e)}"
-        errors.append(error_msg)
-        steps.append({
-            "step": 3,
-            "name": "Regras de Negócio",
-            "agent": "Agente de Regras",
-            "status": "error",
-            "detail": error_msg,
-            "duration_ms": (datetime.now() - step3_start).total_seconds() * 1000,
-        })
-        logger.error(f"[Etapa 3] Erro: {error_msg}")
-        matches = []
-
-    # ── Etapa 4: Geração de mensagens ───────────────────────
-    step4_start = datetime.now()
-    try:
-        notifications = await message_agent.generate_notifications(matches)
-        steps.append({
-            "step": 4,
-            "name": "Geração de Mensagens",
-            "agent": "Agente Comunicador",
-            "status": "success",
-            "detail": f"{len(notifications)} notificações geradas e enviadas (simulação)",
-            "duration_ms": (datetime.now() - step4_start).total_seconds() * 1000,
-        })
-        _log_audit_event("cpaas.multichannel", "MessageGeneratorAgent", "BROADCAST_DISPATCHED", {
-            "notifications_generated": len(notifications),
-            "channels": ["whatsapp_cloud_api", "sms_smpp", "email_smtp", "push_fcm"],
-        })
-        logger.info(f"[Etapa 4] Sucesso: {len(notifications)} notificações geradas")
-    except Exception as e:
-        error_msg = f"Erro na geração: {str(e)}"
-        errors.append(error_msg)
-        steps.append({
-            "step": 4,
-            "name": "Geração de Mensagens",
-            "agent": "Agente Comunicador",
-            "status": "error",
-            "detail": error_msg,
-            "duration_ms": (datetime.now() - step4_start).total_seconds() * 1000,
-        })
-        logger.error(f"[Etapa 4] Erro: {error_msg}")
-        notifications = []
-
-    # ── Resultado final ─────────────────────────────────────
-    completed_at = datetime.now()
-
-    _last_pipeline_result = PipelineResult(
-        run_id=run_id,
-        started_at=started_at,
-        completed_at=completed_at,
-        events_collected=len(raw_events),
-        events_relevant=len(analyzed_events),
-        policyholders_matched=len(set(m.policyholder.id for m in matches)) if matches else 0,
-        notifications_generated=len(notifications),
-        notifications=notifications,
-        events=[e.model_dump() for e in analyzed_events],
-        steps=steps,
-        errors=errors,
+    result = await orchestrator.run(
+        policyholders=_policyholders,
+        audit_callback=_log_audit_event,
     )
+    _last_pipeline_result = result
 
-    duration = (completed_at - started_at).total_seconds()
-    logger.info(f"═══ Pipeline {run_id} concluído em {duration:.2f}s ═══")
+    duration = (result.completed_at - result.started_at).total_seconds() if result.completed_at else 0
 
     return {
         "success": True,
-        "run_id": run_id,
+        "run_id": result.run_id,
         "duration_seconds": round(duration, 2),
         "summary": {
-            "events_collected": len(raw_events),
-            "events_relevant": len(analyzed_events),
-            "policyholders_matched": _last_pipeline_result.policyholders_matched,
-            "notifications_generated": len(notifications),
+            "events_collected": result.events_collected,
+            "events_relevant": result.events_relevant,
+            "policyholders_matched": result.policyholders_matched,
+            "notifications_generated": result.notifications_generated,
         },
-        "steps": steps,
-        "notifications": [n.model_dump() for n in notifications],
-        "events": [e.model_dump() for e in analyzed_events],
-        "errors": errors,
+        "steps": result.steps,
+        "notifications": [n.model_dump() for n in result.notifications],
+        "events": result.events,
+        "errors": result.errors,
     }
 
 
