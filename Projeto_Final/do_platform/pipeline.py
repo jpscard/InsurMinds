@@ -45,9 +45,9 @@ class Pipeline:
         self.llm = llm or get_provider(settings=self.settings)
         self.repo = repo or Repository(self.settings.database_path)
 
-    def process(self, filename: str, data: bytes, force: bool = False) -> ProcessResult:
-        """Executa o fluxo completo para um documento e o persiste."""
-        trace = Trace()
+    def process(self, filename: str, data: bytes, force: bool = False, on_step=None) -> ProcessResult:
+        """Executa o fluxo completo para um documento e o persiste. `on_step` recebe cada etapa concluída."""
+        trace = Trace(listener=on_step)
 
         t0 = time.perf_counter()
         doc = load_document(filename, data, self.settings)
@@ -91,8 +91,8 @@ class Pipeline:
             labels[aid] = lb
         return labels
 
-    def compare(self, ids: list[int]) -> tuple[ComparisonResult, dict, Trace]:
-        trace = Trace()
+    def compare(self, ids: list[int], on_step=None) -> tuple[ComparisonResult, dict, Trace]:
+        trace = Trace(listener=on_step)
         labels = self.labels_for(ids)
         apolices = {labels[i]: self.repo.get(i) for i in ids}
         res, analise = ComparisonAgent(self.llm, trace).run(apolices)
@@ -108,8 +108,8 @@ class Pipeline:
             self.repo.save_index(apolice_id, tree)
         return tree
 
-    def ask(self, pergunta: str, ids: list[int]) -> tuple[dict, Trace]:
-        trace = Trace()
+    def ask(self, pergunta: str, ids: list[int], on_step=None) -> tuple[dict, Trace]:
+        trace = Trace(listener=on_step)
         labels = self.labels_for(ids)
         estruturado = {labels[i]: self.repo.get(i).model_dump(exclude_none=True) for i in ids}
         paginas = [{"rotulo": labels[i], "pagina": p["numero"], "texto": p["texto"]}

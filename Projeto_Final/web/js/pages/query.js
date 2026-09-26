@@ -1,9 +1,24 @@
 import { api } from '../api.js';
-import { crumbs, llmLabel } from '../app.js';
-import { $, $$, alertBox, empty, esc, icon, loading, markdown, shortInsurer, table } from '../ui.js';
+import { crumbs, currentProvider, llmLabel, openSettings } from '../app.js';
+import { $, $$, alertBox, empty, esc, icon, liveSteps, loading, markdown, shortInsurer, table } from '../ui.js';
 
 const history = []; // conversa mantida ao navegar
 let mode = 'ask';
+
+/** O que o grafo está fazendo agora, a partir da última etapa concluída. */
+function proxima(steps) {
+  const u = steps[steps.length - 1];
+  if (!u) return 'Roteador: decidindo como responder…';
+  if (u.acao === 'Roteador') {
+    if (/ler o documento/.test(u.detalhe)) return 'Navegador: lendo o sumário das apólices…';
+    if (/palavras|offline/i.test(u.detalhe)) return 'Buscando por palavras nas seções…';
+    return 'Respondedor: redigindo a resposta…';
+  }
+  if (u.acao === 'Navegador') return /Nenhuma|Falhou/.test(u.detalhe) ? 'Buscando por palavras nas seções…' : 'Leitor: abrindo as seções escolhidas…';
+  if (u.acao === 'Leitor') return 'Avaliador: conferindo se a informação basta…';
+  if (u.acao === 'Avaliador') return /Nova navegação/.test(u.detalhe) ? 'Navegador: procurando o que faltou…' : 'Respondedor: redigindo a resposta com citações…';
+  return 'Preparando a resposta…';
+}
 
 const SUGGESTIONS = [
   'Qual apólice tem o maior prazo complementar?',
@@ -51,6 +66,7 @@ export async function render(view, { query } = {}) {
     $('#pane', view).innerHTML = `
       <div class="grid grid-main">
         <div class="card" style="display:flex;flex-direction:column;min-height:480px">
+          ${currentProvider() === 'offline' ? `<div class="card-body" style="padding-bottom:0">${alertBox('info', `<div class="row" style="flex-wrap:wrap"><span style="flex:1;min-width:220px"><strong>Modo offline.</strong> A consulta mostra as seções mais relevantes de cada apólice, sem redigir uma resposta. Com um modelo de IA, você recebe a resposta completa, com citação e o caminho percorrido.</span><button class="btn btn-sm" id="cfgOff">${icon('settings', 14)} Configurar IA</button></div>`)}</div>` : ''}
           <div class="card-body chat" id="chat" style="flex:1"></div>
           <div class="card-foot" style="display:block">
             <div class="composer">
@@ -70,6 +86,7 @@ export async function render(view, { query } = {}) {
       </div>`;
 
     const chat = $('#chat', view), q = $('#q', view), send = $('#send', view);
+    $('#cfgOff', view)?.addEventListener('click', openSettings);
     const paintChat = () => {
       if (!history.length) {
         chat.innerHTML = `<div class="empty" style="padding:24px 8px"><div class="empty-icon">${icon('sparkles', 24)}</div>
@@ -80,11 +97,11 @@ export async function render(view, { query } = {}) {
       chat.innerHTML = history.map((h) => `
         <div class="msg"><span class="avatar user">${icon('chat', 14)}</span><div class="bubble user">${esc(h.q)}</div></div>
         <div class="msg"><span class="avatar ai">${icon('sparkles', 14)}</span><div class="bubble">
-          ${h.pending ? '<span class="spinner"></span> <span class="subtle">Percorrendo o índice das apólices…</span>'
+          ${h.pending ? liveSteps(h.steps || [], { label: proxima(h.steps || []) })
             : h.error ? alertBox('error', esc(h.error))
             : `<div class="md">${markdown(h.a.resposta)}</div>
-               ${h.a.trechos?.length ? `<div class="cites">${h.a.trechos.map((t) => `
-                 <details class="cite"><summary>${icon('file', 14)} ${esc(t.rotulo)}${t.secao ? ` · ${esc(t.secao)}` : ''} · pág. ${esc(t.paginas || t.pagina)}</summary>
+               ${h.a.trechos?.length ? `<div class="cites">${h.a.trechos.map((t, i) => `
+                 <details class="cite" ${i === 0 && h.a.rota === 'lexical' ? 'open' : ''}><summary>${icon('file', 14)} ${esc(t.rotulo)}${t.secao ? ` · ${esc(t.secao)}` : ''} · pág. ${esc(t.paginas || t.pagina)}</summary>
                  ${t.motivo ? `<p class="subtle" style="padding:0 12px 6px">Aberta porque: ${esc(t.motivo)}</p>` : ''}<pre>${esc(t.texto)}</pre></details>`).join('')}</div>` : ''}
                ${h.a.caminho?.length ? `<details class="cite mt-8"><summary>${icon('layers', 14)} Caminho da consulta · ${h.a.caminho.length} etapa(s)</summary>
                  <div class="route">${h.a.caminho.map((c) => `<div class="route-step"><i></i><b>${esc(c.etapa)}</b><span>${esc(c.detalhe)}</span></div>`).join('')}</div></details>` : ''}`}
@@ -102,7 +119,9 @@ export async function render(view, { query } = {}) {
       history.push(h);
       paintChat();
       send.disabled = true;
-      try { h.a = await api.ask(pergunta, ids); } catch (e) { h.error = e.message; }
+      h.steps = [];
+      const onStep = (st) => { h.steps.push(st); if (document.body.contains(chat)) paintChat(); };
+      try { h.a = await api.askStream(pergunta, ids, onStep); } catch (e) { h.error = e.message; }
       h.pending = false;
       send.disabled = false;
       if (document.body.contains(chat)) paintChat();

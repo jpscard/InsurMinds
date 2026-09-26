@@ -12,13 +12,15 @@ import dataclasses
 import hashlib
 import json
 import logging
+import queue
+import threading
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, Request, UploadFile
-from fastapi.responses import FileResponse, JSONResponse, Response
+from fastapi.responses import FileResponse, JSONResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -164,10 +166,43 @@ def _trace(trace) -> list[dict]:
     return [dataclasses.asdict(s) for s in trace.steps]
 
 
-def _process(ctx: LLMContext, filename: str, data: bytes, force: bool) -> dict:
+def _stream(work) -> StreamingResponse:
+    """Executa `work(on_step)` numa thread e devolve NDJSON: uma linha por etapa concluída
+    ({"type": "step", ...}) e, no fim, {"type": "result", "data": ...} ou {"type": "error", ...}.
+    Permite à interface mostrar o progresso ao vivo durante chamadas longas à IA."""
+    fila: queue.Queue = queue.Queue()
+
+    def rodar():
+        try:
+            fila.put({"type": "result", "data": work(lambda st: fila.put({"type": "step", **dataclasses.asdict(st)}))})
+        except HTTPException as exc:
+            fila.put({"type": "error", "status": exc.status_code, "detail": exc.detail})
+        except LLMError as exc:
+            fila.put({"type": "error", "status": 502, "detail": str(exc)})
+        except IngestionError as exc:
+            fila.put({"type": "error", "status": 422, "detail": str(exc)})
+        except KeyError as exc:
+            fila.put({"type": "error", "status": 404, "detail": str(exc.args[0]) if exc.args else "Não encontrado"})
+        except Exception as exc:  # noqa: BLE001 - erro inesperado vai para a interface, com log
+            log.exception("Falha no processamento em streaming")
+            fila.put({"type": "error", "status": 500, "detail": f"Erro inesperado: {exc}"})
+        finally:
+            fila.put(None)
+
+    threading.Thread(target=rodar, daemon=True).start()
+
+    def linhas():
+        while (item := fila.get()) is not None:
+            yield json.dumps(item, ensure_ascii=False, default=str) + "\n"
+
+    return StreamingResponse(linhas(), media_type="application/x-ndjson",
+                             headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+
+def _process(ctx: LLMContext, filename: str, data: bytes, force: bool, on_step=None) -> dict:
     if Path(filename).suffix.lower() not in SUPPORTED_EXT:
         raise HTTPException(415, f"Formato não suportado: {filename}")
-    r = ctx.pipeline().process(filename, data, force=force)
+    r = ctx.pipeline().process(filename, data, force=force, on_step=on_step)
     row = repo.get_row(r.apolice_id)
     path = _upload_path(row["sha256"], filename)
     if not path.exists():
@@ -184,16 +219,28 @@ def list_policies():
     return repo.list()
 
 
-@app.post("/api/policies")
-def upload_policy(ctx: LLM, file: UploadFile = File(...), force: bool = Form(False)):
+def _read_upload(file: UploadFile, force: bool) -> tuple[str, bytes, bool]:
     limit = settings.max_upload_mb * 1024 * 1024
     data = file.file.read(limit + 1)
     if len(data) > limit:
         raise HTTPException(413, f"Arquivo maior que {settings.max_upload_mb} MB.")
     name = file.filename or "documento"
+    if Path(name).suffix.lower() not in SUPPORTED_EXT:
+        raise HTTPException(415, f"Formato não suportado: {name}")
     if settings.demo_mode and name in _sample_names():
         force = False  # não deixa reprocessar por cima das amostras protegidas
-    return _process(ctx, name, data, force)
+    return name, data, force
+
+
+@app.post("/api/policies")
+def upload_policy(ctx: LLM, file: UploadFile = File(...), force: bool = Form(False)):
+    return _process(ctx, *_read_upload(file, force))
+
+
+@app.post("/api/policies/stream")
+def upload_policy_stream(ctx: LLM, file: UploadFile = File(...), force: bool = Form(False)):
+    name, data, force = _read_upload(file, force)
+    return _stream(lambda on_step: _process(ctx, name, data, force, on_step))
 
 
 @app.get("/api/policies/{aid}")
@@ -259,12 +306,23 @@ def samples():
             for p in sorted(SAMPLES_DIR.rglob("*")) if p.suffix.lower() in SUPPORTED_EXT and p.parent == SAMPLES_DIR]
 
 
-@app.post("/api/samples/{name}")
-def process_sample(name: str, ctx: LLM, force: bool = False):
+def _sample_path(name: str) -> Path:
     path = SAMPLES_DIR / name
     if path.parent != SAMPLES_DIR or not path.is_file():
         raise HTTPException(404, "Amostra não encontrada")
+    return path
+
+
+@app.post("/api/samples/{name}")
+def process_sample(name: str, ctx: LLM, force: bool = False):
+    path = _sample_path(name)
     return _process(ctx, path.name, path.read_bytes(), force and not settings.demo_mode)
+
+
+@app.post("/api/samples/{name}/stream")
+def process_sample_stream(name: str, ctx: LLM, force: bool = False):
+    path = _sample_path(name)
+    return _stream(lambda on_step: _process(ctx, path.name, path.read_bytes(), force and not settings.demo_mode, on_step))
 
 
 # --------------------------------------------------------------------------- comparação
@@ -272,13 +330,29 @@ class CompareIn(BaseModel):
     ids: list[int] = Field(..., min_length=2)
 
 
-@app.post("/api/compare")
-def compare(body: CompareIn, ctx: LLM):
+def _check_compare(body: CompareIn) -> None:
+    if len(set(body.ids)) < 2:
+        raise HTTPException(400, "Selecione ao menos duas apólices diferentes.")
     for aid in body.ids:
         repo.get_row(aid)
-    res, analise, trace = ctx.pipeline().compare(body.ids)
+
+
+def _compare(body: CompareIn, ctx: LLMContext, on_step=None) -> dict:
+    res, analise, trace = ctx.pipeline().compare(body.ids, on_step=on_step)
     return {"resultado": dataclasses.asdict(res), "analise": analise, "trace": _trace(trace),
             "ids": body.ids}
+
+
+@app.post("/api/compare")
+def compare(body: CompareIn, ctx: LLM):
+    _check_compare(body)
+    return _compare(body, ctx)
+
+
+@app.post("/api/compare/stream")
+def compare_stream(body: CompareIn, ctx: LLM):
+    _check_compare(body)
+    return _stream(lambda on_step: _compare(body, ctx, on_step))
 
 
 class ExportIn(BaseModel):
@@ -305,10 +379,21 @@ class AskIn(BaseModel):
     ids: list[int] = Field(..., min_length=1)
 
 
+def _ask(body: AskIn, ctx: LLMContext, on_step=None) -> dict:
+    out, trace = ctx.pipeline().ask(body.pergunta, body.ids, on_step=on_step)
+    return {**out, "trace": _trace(trace)}
+
+
 @app.post("/api/ask")
 def ask(body: AskIn, ctx: LLM):
-    out, trace = ctx.pipeline().ask(body.pergunta, body.ids)
-    return {**out, "trace": _trace(trace)}
+    return _ask(body, ctx)
+
+
+@app.post("/api/ask/stream")
+def ask_stream(body: AskIn, ctx: LLM):
+    for aid in body.ids:
+        repo.get_row(aid)
+    return _stream(lambda on_step: _ask(body, ctx, on_step))
 
 
 SQL_EXAMPLES = {

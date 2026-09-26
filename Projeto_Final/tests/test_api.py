@@ -181,3 +181,41 @@ def test_cabecalhos_de_seguranca(client):
 def test_sql_sem_fim_e_interrompida(client):
     r = client.post("/api/sql", json={"sql": "WITH RECURSIVE c(x) AS (SELECT 1 UNION ALL SELECT x+1 FROM c) SELECT count(*) FROM c"})
     assert r.status_code == 400 and "interrompida" in r.json()["detail"]
+
+
+def _eventos(resp) -> list[dict]:
+    import json as _json
+    return [_json.loads(l) for l in resp.text.splitlines() if l.strip()]
+
+
+def test_streaming_mostra_etapas_e_resultado(client):
+    ev = _eventos(client.post("/api/samples/apolice_boreal_do.pdf/stream", headers=OFFLINE))
+    etapas = [e["agente"] for e in ev if e["type"] == "step"]
+    assert etapas[:2] == ["Ingestão", "Triagem"] and "Indexação" in etapas
+    assert ev[-1]["type"] == "result" and ev[-1]["data"]["id"]
+    aid = ev[-1]["data"]["id"]
+
+    ev = _eventos(client.post("/api/ask/stream", json={"pergunta": "Segurado contra Segurado", "ids": [aid]}, headers=OFFLINE))
+    assert [e["acao"] for e in ev if e["type"] == "step"][0] == "Roteador"
+    assert ev[-1]["type"] == "result" and ev[-1]["data"]["trechos"]
+
+    outra = client.post("/api/samples/apolice_aurora_do.pdf", headers=OFFLINE).json()["id"]
+    ev = _eventos(client.post("/api/compare/stream", json={"ids": [aid, outra]}, headers=OFFLINE))
+    assert ev[-1]["type"] == "result" and ev[-1]["data"]["analise"]["modo"] == "regras"
+    difs = ev[-1]["data"]["analise"]["diferencas_chave"]
+    assert difs[0]["impacto"] == "alto" and any(d["favorece"] != "neutro" for d in difs)
+    assert client.post("/api/compare/stream", json={"ids": [aid, aid]}, headers=OFFLINE).status_code == 400
+
+
+def test_streaming_erros(client):
+    # validação antes do stream: status HTTP normal
+    assert client.post("/api/ask/stream", json={"pergunta": "teste", "ids": [999]}, headers=OFFLINE).status_code == 404
+    bad = client.post("/api/policies/stream", files={"file": ("x.txt", b"oi", "text/plain")}, headers=OFFLINE)
+    assert bad.status_code == 415
+    # erro durante o processamento: vira um evento de erro com a mensagem
+    aid = client.post("/api/samples/apolice_aurora_do.pdf", headers=OFFLINE).json()["id"]
+    import api.main
+    api.main.settings.anthropic_api_key = None
+    ev = _eventos(client.post("/api/ask/stream", json={"pergunta": "teste", "ids": [aid]},
+                              headers={"X-LLM-Provider": "anthropic"}))
+    assert ev[-1]["type"] == "error" and ev[-1]["status"] == 502 and "ANTHROPIC_API_KEY" in ev[-1]["detail"]

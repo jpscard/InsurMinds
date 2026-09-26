@@ -1,9 +1,11 @@
 import { api } from '../api.js';
-import { crumbs, llmLabel } from '../app.js';
-import { $, $$, alertBox, download, empty, esc, icon, loading, moneyShort, pct, shortInsurer, tabs, toast, traceSteps } from '../ui.js';
+import { crumbs, currentProvider, llmLabel, openSettings } from '../app.js';
+import { $, $$, alertBox, download, empty, esc, icon, liveSteps, loading, moneyShort, pct, shortInsurer, tabs, toast, traceSteps } from '../ui.js';
 
 let last = null; // última comparação, mantida ao navegar
 
+const ORDEM = { alto: 0, medio: 1, 'médio': 1, baixo: 2 };
+const VISIVEIS = 6;  // diferenças-chave mostradas antes de "Ver todas"
 const IMPACT = { alto: ['red', 'Alto'], medio: ['amber', 'Médio'], 'médio': ['amber', 'Médio'], baixo: ['green', 'Baixo'] };
 
 export async function render(view, { query }) {
@@ -55,9 +57,15 @@ export async function render(view, { query }) {
     const ids = rows.filter((r) => sel.has(r.id)).map((r) => r.id);
     const btn = $('#goBtn', view);
     btn.disabled = true;
-    $('#result', view).innerHTML = `<div class="card">${loading(`Comparando com ${llmLabel()}…`)}</div>`;
+    const steps = [];
+    const paintLoading = () => {
+      const label = !steps.length ? 'Calculando as diferenças entre as apólices…'
+        : currentProvider() === 'offline' ? 'Classificando as diferenças por impacto…' : `Redigindo a análise executiva com ${llmLabel()}…`;
+      $('#result', view).innerHTML = `<div class="card"><div class="card-body"><div class="card-title">Comparando ${ids.length} apólices</div>${liveSteps(steps, { label })}</div></div>`;
+    };
+    paintLoading();
     try {
-      last = await api.compare(ids);
+      last = await api.compareStream(ids, (st) => { steps.push(st); paintLoading(); });
       paintResult();
       if (rolar) $('#result', view).scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch (e) {
@@ -93,7 +101,8 @@ export async function render(view, { query }) {
       </div>`;
     }).join('');
 
-    const dk = analise.diferencas_chave || [];
+    const dk = [...(analise.diferencas_chave || [])].sort((a, b) => (ORDEM[String(a.impacto).toLowerCase()] ?? 3) - (ORDEM[String(b.impacto).toLowerCase()] ?? 3));
+    const porRegras = analise.modo === 'regras';
     const pts = analise.pontos_de_atencao || [];
 
     $('#result', view).innerHTML = `
@@ -109,14 +118,15 @@ export async function render(view, { query }) {
         <div class="card">
           <div class="card-head"><span class="kpi-icon">${icon('sparkles', 16)}</span><div class="card-title">Análise executiva</div></div>
           <div class="card-body stack">
+            ${porRegras ? alertBox('info', `<div class="row" style="flex-wrap:wrap"><span style="flex:1;min-width:220px"><strong>Análise por regras (modo offline).</strong> As diferenças foram classificadas automaticamente pelo impacto. Com um modelo de IA, você recebe o resumo executivo redigido e uma recomendação.</span><button class="btn btn-sm" id="cfgCmp">${icon('settings', 14)} Configurar IA</button></div>`) : ''}
             <p class="summary">${esc(analise.resumo_executivo || '—')}</p>
-            ${analise.recomendacao ? `<div><div class="label" style="margin-bottom:6px">Recomendação</div><p class="muted">${esc(analise.recomendacao)}</p></div>` : ''}
+            ${analise.recomendacao && !porRegras ? `<div><div class="label" style="margin-bottom:6px">Recomendação</div><p class="muted">${esc(analise.recomendacao)}</p></div>` : ''}
           </div>
           ${dk.length ? `<div style="border-top:1px solid var(--border)"><div class="table-wrap"><table class="table">
             <thead><tr><th>Tema</th><th>Impacto</th><th>Favorece</th><th>Descrição</th></tr></thead>
-            <tbody>${dk.map((d) => { const im = IMPACT[String(d.impacto).toLowerCase()] || ['', d.impacto || '—'];
-              return `<tr><td class="strong">${esc(d.tema)}</td><td><span class="badge ${im[0]}">${esc(im[1])}</span></td><td>${esc(d.favorece || '—')}</td><td>${esc(d.descricao)}</td></tr>`; }).join('')}</tbody>
-          </table></div></div>` : ''}
+            <tbody id="dkBody">${dk.map((d, i) => { const im = IMPACT[String(d.impacto).toLowerCase()] || ['', d.impacto || '—'];
+              return `<tr ${i >= VISIVEIS ? 'hidden' : ''}><td class="strong">${esc(d.tema)}</td><td><span class="badge ${im[0]}">${esc(im[1])}</span></td><td>${esc(d.favorece || '—')}</td><td>${esc(d.descricao)}</td></tr>`; }).join('')}</tbody>
+          </table></div>${dk.length > VISIVEIS ? `<div class="card-foot" style="justify-content:center"><button class="btn btn-sm btn-ghost" id="dkMais">Ver todas as ${dk.length} diferenças ${icon('chevronRight', 14)}</button></div>` : ''}</div>` : ''}
         </div>
         <div class="card">
           <div class="card-head"><span class="kpi-icon" style="background:var(--warning-soft);color:var(--warning)">${icon('alert', 16)}</span><div class="card-title">Pontos de atenção</div></div>
@@ -150,6 +160,11 @@ export async function render(view, { query }) {
       exc: () => grid(res.exclusoes, ['Exclusão', 'Categoria'], ['Situação'], sit),
       fra: () => grid(res.franquias, ['Aplicação']),
     };
+    $('#cfgCmp', view)?.addEventListener('click', openSettings);
+    $('#dkMais', view)?.addEventListener('click', (e) => {
+      $$('#dkBody tr[hidden]', view).forEach((tr) => { tr.hidden = false; });
+      e.currentTarget.parentElement.remove();
+    });
     const cbody = $('#cbody', view);
     cbody.innerHTML = panes.geral();
     tabs($('#ctabs', view), (t) => { cbody.innerHTML = panes[t](); });

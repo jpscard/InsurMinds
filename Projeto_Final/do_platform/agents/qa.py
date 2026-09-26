@@ -243,8 +243,8 @@ class QAAgent(Agent):
     def _respondedor(self, s: ConsultaState) -> dict:
         t0 = time.perf_counter()
         if self.llm.is_offline:
-            resposta = ("Modo offline: sem LLM não é possível redigir uma resposta. "
-                        "Abaixo estão os trechos mais relevantes encontrados.")
+            resposta = ("**Modo offline:** estas são as seções mais relevantes para a sua pergunta. "
+                        "Para uma resposta redigida, com citação, configure um modelo de IA.")
             return {"resposta": resposta, "caminho": self._step(s, "Respondedor", "Sem LLM: só os trechos.", t0)}
         dados = json.dumps(s["estruturado"], ensure_ascii=False)
         caminho = s["caminho"]

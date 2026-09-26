@@ -59,6 +59,43 @@ async function request(method, path, { body, form, blob, quiet, headers = {} } =
   }
 }
 
+/** Requisição com progresso ao vivo: a API responde NDJSON, uma linha por etapa concluída
+ *  ({type: "step"}) e, no fim, {type: "result"} ou {type: "error"}. `onStep` recebe cada etapa. */
+async function stream(method, path, { body, form, onStep = () => {} } = {}) {
+  const opts = { method, headers: { ...llm.headers() } };
+  if (form) opts.body = form;
+  else if (body !== undefined) { opts.body = JSON.stringify(body); opts.headers['Content-Type'] = 'application/json'; }
+  let res;
+  try {
+    res = await fetch(path, opts);
+  } catch {
+    throw new ApiError('Não foi possível falar com o servidor. Ele está rodando?', 0);
+  }
+  if (!res.ok) {  // validação antes do processamento: erro HTTP comum
+    let msg = `${res.status} ${res.statusText}`;
+    try { const j = await res.json(); msg = typeof j.detail === 'string' ? j.detail : msg; } catch { /* sem JSON */ }
+    throw new ApiError(msg, res.status);
+  }
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buf = '';
+  for (;;) {
+    const { value, done } = await reader.read();
+    buf += decoder.decode(value || new Uint8Array(), { stream: !done });
+    let nl;
+    while ((nl = buf.indexOf('\n')) >= 0) {
+      const line = buf.slice(0, nl).trim();
+      buf = buf.slice(nl + 1);
+      if (!line) continue;
+      const ev = JSON.parse(line);
+      if (ev.type === 'step') onStep(ev);
+      else if (ev.type === 'result') return ev.data;
+      else if (ev.type === 'error') throw new ApiError(ev.detail, ev.status);
+    }
+    if (done) throw new ApiError('A conexão terminou antes do resultado.', 0);
+  }
+}
+
 export const api = {
   config: () => request('GET', '/api/config', { quiet: true }),
   providers: () => request('GET', '/api/llm/providers', { quiet: true }),
@@ -78,6 +115,15 @@ export const api = {
     f.append('force', force ? 'true' : 'false');
     return request('POST', '/api/policies', { form: f, quiet: true });
   },
+  uploadStream(file, force, onStep) {
+    const f = new FormData();
+    f.append('file', file);
+    f.append('force', force ? 'true' : 'false');
+    return stream('POST', '/api/policies/stream', { form: f, onStep });
+  },
+  processSampleStream: (name, force, onStep) => stream('POST', `/api/samples/${encodeURIComponent(name)}/stream?force=${!!force}`, { onStep }),
+  compareStream: (ids, onStep) => stream('POST', '/api/compare/stream', { body: { ids }, onStep }),
+  askStream: (pergunta, ids, onStep) => stream('POST', '/api/ask/stream', { body: { pergunta, ids }, onStep }),
   samples: () => request('GET', '/api/samples', { quiet: true }),
   processSample: (name, force) => request('POST', `/api/samples/${encodeURIComponent(name)}?force=${!!force}`, { quiet: true }),
   compare: (ids) => request('POST', '/api/compare', { body: { ids } }),

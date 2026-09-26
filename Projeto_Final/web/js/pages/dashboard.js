@@ -1,5 +1,5 @@
 import { api } from '../api.js';
-import { crumbs, llmLabel, llmReady, openSettings } from '../app.js';
+import { crumbs, currentProvider, llmLabel, llmReady, openSettings } from '../app.js';
 import { $, empty, esc, icon, loading, moneyShort, pct, shortInsurer, vigencia, vigenciaStatus } from '../ui.js';
 
 export async function render(view) {
@@ -16,11 +16,17 @@ export async function render(view) {
       </div>
     </div>`;
 
-  const llmAlert = llmReady() ? '' : `
+  const offline = currentProvider() === 'offline' ? `
+    <div class="alert info" style="margin-bottom:20px">${icon('info', 18)}
+      <div class="row" style="flex:1"><span style="flex:1;min-width:240px"><strong>Você está no modo offline</strong>: tudo funciona, mas a extração, a análise e as respostas usam regras, sem IA.
+      Para ver a plataforma completa, escolha um provedor (Anthropic, OpenAI ou Google) e cole a sua chave de API; ela fica só neste navegador.</span>
+      <button class="btn btn-sm btn-primary" id="cfgOffline">${icon('sparkles', 14)} Ativar IA</button></div>
+    </div>` : '';
+  const llmAlert = offline || (llmReady() ? '' : `
     <div class="alert warn" style="margin-bottom:20px">${icon('alert', 18)}
       <div class="row" style="flex:1"><span>Nenhuma chave de API configurada para o provedor escolhido. A extração e a análise precisam de um modelo.</span>
       <span class="spacer"></span><button class="btn btn-sm" id="cfgLlm">${icon('settings', 14)} Configurar IA</button></div>
-    </div>`;
+    </div>`);
 
   if (!rows.length) {
     view.innerHTML = head + llmAlert + `<div class="card">${empty({
@@ -31,6 +37,7 @@ export async function render(view) {
         <a class="btn" href="#/enviar?amostras=1">${icon('play', 14)} Usar apólices de exemplo</a></div>`,
     })}</div>`;
     $('#cfgLlm', view)?.addEventListener('click', openSettings);
+    $('#cfgOffline', view)?.addEventListener('click', openSettings);
     return;
   }
 
@@ -87,5 +94,6 @@ export async function render(view) {
     if (tr) location.hash = `#/apolices/${tr.dataset.id}`;
   });
   $('#cfgLlm', view)?.addEventListener('click', openSettings);
+  $('#cfgOffline', view)?.addEventListener('click', openSettings);
   $('#cfgLlm2', view).addEventListener('click', openSettings);
 }

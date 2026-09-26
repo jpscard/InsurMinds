@@ -291,3 +291,15 @@ export function markdown(src = '') {
   }
   return out.join('\n');
 }
+
+/** Etapas concluídas ao vivo (eventos do streaming), com a etapa em andamento no fim. */
+export function liveSteps(steps, { running = true, label = 'Processando…' } = {}) {
+  const rows = steps.map((s) => {
+    const consulta = s.agente === 'Consulta';  // no grafo de consulta, a etapa é o nó
+    const nome = consulta ? s.acao : s.agente;
+    const det = consulta ? s.detalhe : `${s.acao}${s.detalhe ? ` · ${s.detalhe}` : ''}`;
+    return `<div class="live-step done">${icon('check', 14)}<span><b>${esc(nome)}</b> ${esc(det)}</span><em>${Number(s.duracao_s).toLocaleString('pt-BR')} s</em></div>`;
+  }).join('');
+  const now = running ? `<div class="live-step now"><span class="spinner"></span><span>${esc(label)}</span><em></em></div>` : '';
+  return `<div class="live">${rows}${now}</div>`;
+}

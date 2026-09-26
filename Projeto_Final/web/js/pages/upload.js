@@ -1,8 +1,14 @@
 import { api } from '../api.js';
 import { crumbs, llmLabel, llmReady, openSettings, refreshCount, state } from '../app.js';
-import { $, alertBox, bytes, esc, icon, moneyShort, toast, traceSteps } from '../ui.js';
+import { $, alertBox, bytes, esc, icon, liveSteps, moneyShort, toast, traceSteps } from '../ui.js';
 
 const EXT = ['.pdf', '.png', '.jpg', '.jpeg', '.tif', '.tiff', '.bmp', '.webp'];
+// O que está em andamento, a partir da última etapa concluída.
+const PROXIMA = {
+  '': 'Lendo o documento (OCR nas páginas digitalizadas)…', 'Ingestão': 'Triagem: é uma apólice D&O?',
+  'Triagem': 'Extraindo coberturas, limites, franquias e exclusões…', 'Extração': 'Validando os dados…',
+  'Validação': 'Gravando na carteira…', 'Armazenamento': 'Montando o índice do documento…',
+};
 let queue = []; // sobrevive à navegação entre páginas enquanto processa
 let running = false;
 let repaint = () => {};
@@ -88,7 +94,10 @@ export async function render(view, { query }) {
       const ico = { queued: ['clock', ''], running: [null, 'run'], done: ['checkCircle', 'ok'], error: ['alertCircle', 'err'] }[q.status];
       const r = q.result;
       let detail = '';
-      if (q.status === 'running') detail = '<div class="subtle">Lendo, estruturando e validando… pode levar até um minuto com IA.</div>';
+      if (q.status === 'running') {
+        const ultima = q.steps.length ? q.steps[q.steps.length - 1].agente : '';
+        detail = liveSteps(q.steps, { label: PROXIMA[ultima] || 'Processando…' });
+      }
       if (q.status === 'error') detail = `<div class="mt-8">${alertBox('error', esc(q.error))}</div>`;
       if (q.status === 'done') {
         const ap = r.apolice, lmg = ap.limite_maximo_garantia;
@@ -132,9 +141,11 @@ export async function render(view, { query }) {
     const force = () => document.getElementById('force')?.checked;
     let item;
     while ((item = queue.find((q) => q.status === 'queued'))) {
-      item.status = 'running'; repaint();
+      item.status = 'running'; item.steps = []; repaint();
+      const onStep = (st) => { item.steps.push(st); repaint(); };
       try {
-        item.result = item.kind === 'sample' ? await api.processSample(item.name, force()) : await api.upload(item.file, force());
+        item.result = item.kind === 'sample' ? await api.processSampleStream(item.name, force(), onStep)
+          : await api.uploadStream(item.file, force(), onStep);
         item.status = 'done';
         refreshCount();
       } catch (e) {

@@ -205,6 +205,7 @@ export function openSettings() {
     paintChip();
     close();
     toast(`Usando ${llmLabel()}`, 'success');
+    route();  // atualiza avisos de modo offline na página aberta
   });
   paint();
 }
