@@ -355,12 +355,6 @@ def stats():
     return rows
 
 
-@app.get("/api/about")
-def about():
-    doc = ROOT_DIR / "docs" / "ARQUITETURA.md"
-    return {"markdown": doc.read_text(encoding="utf-8") if doc.exists() else ""}
-
-
 @app.get("/api/config")
 def app_config():
     return {"demo_mode": settings.demo_mode, "max_upload_mb": settings.max_upload_mb}

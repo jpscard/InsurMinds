@@ -85,5 +85,4 @@ export const api = {
   ask: (pergunta, ids) => request('POST', '/api/ask', { body: { pergunta, ids } }),
   sqlExamples: () => request('GET', '/api/sql/examples', { quiet: true }),
   sql: (sql) => request('POST', '/api/sql', { body: { sql } }),
-  about: () => request('GET', '/api/about'),
 };
