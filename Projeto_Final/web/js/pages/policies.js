@@ -5,12 +5,15 @@ import { $, $$, dateTime, docTipo, empty, esc, icon, loading, moneyShort, pct, s
 export async function render(view) {
   crumbs([{ label: 'Carteira' }]);
   view.innerHTML = loading();
-  const rows = await api.policies();
+  const todos = await api.policies();
+  // documentos que não são apólices (ex.: condições gerais) ficam numa seção à parte: não têm vigência, LMG nem prêmio
+  const ehRef = (r) => docTipo(r.tipo_documento, r.numero_apolice);
+  const rows = todos.filter((r) => !ehRef(r)), refs = todos.filter(ehRef);
   const selected = new Set();
 
   view.innerHTML = `
     <div class="page-head">
-      <div><h1 class="page-title">Carteira de apólices</h1><p class="page-sub">${rows.length} ${rows.length === 1 ? 'apólice armazenada' : 'apólices armazenadas'}. Clique em uma linha para ver os detalhes.</p></div>
+      <div><h1 class="page-title">Carteira de apólices</h1><p class="page-sub">${rows.length} ${rows.length === 1 ? 'apólice armazenada' : 'apólices armazenadas'}${refs.length ? ` e ${refs.length} ${refs.length === 1 ? 'documento' : 'documentos'} de referência` : ''}. Clique em uma linha para ver os detalhes.</p></div>
       <div class="page-actions">
         <button class="btn" id="cmpBtn" disabled>${icon('columns', 16)} Comparar selecionadas</button>
         <a class="btn btn-primary" href="#/enviar">${icon('upload', 16)} Enviar documentos</a>
@@ -24,7 +27,24 @@ export async function render(view) {
         </div>
       </div>
       <div id="tbl"></div>
-    </div>`;
+    </div>
+    ${refs.length ? `<div class="card" style="margin-top:16px">
+      <div class="card-head"><div><h2 class="card-title">Documentos de referência</h2>
+        <p class="subtle" style="margin:2px 0 0">Condições gerais e outros documentos que não são apólices emitidas. Não entram em comparações, mas servem para consultas sobre as regras do produto.</p></div></div>
+      <div class="table-wrap"><table class="table hover" id="refs">
+        <thead><tr><th>Documento</th><th>Seguradora</th><th>Tipo</th><th class="num">Exclusões</th><th>Processado</th></tr></thead>
+        <tbody>${refs.map((r) => `<tr data-id="${r.id}">
+          <td><div class="cell-title">${esc(r.arquivo)}</div></td>
+          <td>${esc(r.seguradora || '—')}</td>
+          <td><span class="badge amber">${ehRef(r)}</span></td>
+          <td class="num">${r.n_exclusoes}</td>
+          <td><div>${dateTime(r.criado_em)}</div><div class="cell-sub">${esc(r.provedor_llm || '')}</div></td>
+        </tr>`).join('')}</tbody></table></div>
+    </div>` : ''}`;
+  $('#refs', view)?.addEventListener('click', (e) => {
+    const tr = e.target.closest('tr[data-id]');
+    if (tr) location.hash = `#/apolices/${tr.dataset.id}`;
+  });
 
   if (!rows.length) {
     $('#tbl', view).innerHTML = empty({ title: 'Nenhuma apólice ainda', text: 'Envie documentos para começar.',

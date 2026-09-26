@@ -1,6 +1,6 @@
 // Shell da aplicação: roteamento por hash, tema, menu e configuração do modelo de IA.
 import { api, llm } from './api.js';
-import { $, $$, esc, hydrateIcons, icon, overlay, toast } from './ui.js';
+import { $, $$, docTipo, esc, hydrateIcons, icon, overlay, toast } from './ui.js';
 import * as dashboard from './pages/dashboard.js';
 import * as policies from './pages/policies.js';
 import * as policy from './pages/policy.js';
@@ -56,7 +56,7 @@ export function llmLabel() {
 export async function refreshCount() {
   try {
     const rows = await api.policies();
-    $('#navCount').textContent = rows.length || '';
+    $('#navCount').textContent = rows.filter((r) => !docTipo(r.tipo_documento, r.numero_apolice)).length || '';
   } catch { /* contagem é só decorativa */ }
 }
 

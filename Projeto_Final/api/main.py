@@ -459,12 +459,17 @@ def sql(body: SqlIn):
 
 
 # --------------------------------------------------------------------------- painel e docs
+# Condições gerais e outros documentos sem número de apólice não contam como apólices da carteira.
+SO_APOLICES = ("NOT (numero_apolice IS NULL AND "
+               "COALESCE(json_extract(triagem_json, '$.tipo_documento'), 'apolice') <> 'apolice')")
+
+
 @app.get("/api/stats")
 def stats():
     rows = repo.query(
         "SELECT COUNT(*) AS apolices, COUNT(DISTINCT seguradora) AS seguradoras, "
         "SUM(lmg) AS lmg_total, AVG(CASE WHEN lmg > 0 THEN premio * 100.0 / lmg END) AS taxa_media "
-        "FROM apolices")[0]
+        "FROM apolices WHERE " + SO_APOLICES)[0]
     rows["coberturas"] = repo.query("SELECT COUNT(*) AS n FROM coberturas")[0]["n"]
     rows["comparacoes"] = repo.query("SELECT COUNT(*) AS n FROM comparacoes")[0]["n"]
     return rows

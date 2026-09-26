@@ -45,7 +45,7 @@ export async function render(view) {
     <div class="card kpi"><div class="kpi-label"><span class="kpi-icon ${cls}">${icon(ic, 16)}</span>${label}</div>
     <div class="kpi-value">${value}</div><div class="kpi-foot">${foot}</div></div>`;
 
-  const recent = rows.slice(0, 6).map((r) => {
+  const recent = rows.filter((r) => !docTipo(r.tipo_documento, r.numero_apolice)).slice(0, 6).map((r) => {
     const st = vigenciaStatus(r.vigencia_inicio, r.vigencia_fim);
     return `<tr data-id="${r.id}">
       <td><div class="cell-title">${esc(shortInsurer(r.seguradora) || r.arquivo)}</div><div class="cell-sub">${esc(r.numero_apolice || r.arquivo)}</div></td>
